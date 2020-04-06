@@ -23,6 +23,10 @@ fi
 if [[ $(uname -a) =~ "Ubuntu" ]]; then
   export CC="gcc-8"
   export CXX="g++-8"
+
+  sudo apt install -y build-essential git cmake \
+                      libasound2-dev mesa-common-dev libx11-dev libxrandr-dev \
+                      libxi-dev xorg-dev libgl1-mesa-dev libglu1-mesa-dev
 fi
 
 # Add git submodules (from .gitmodules)
