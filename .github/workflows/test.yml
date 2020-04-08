@@ -3,7 +3,7 @@ name: C++ Unit Tests
 on: [push]
 
 jobs:
-  build:
+  test:
 
     runs-on: ubuntu-18.04
 
