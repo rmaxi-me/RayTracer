@@ -31,6 +31,7 @@ add_subdirectory(RayTracer)
 if (RAYTRACER_TESTS)
     set(CMAKE_BUILD_TYPE Debug)
     add_subdirectory(Tests)
+    message(STATUS "====== Unit tests enabled ======")
 endif ()
 
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")

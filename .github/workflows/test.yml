@@ -1,0 +1,26 @@
+name: C++ Cross-Platform Build
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-18.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Configure
+        shell: bash
+        run: ./configure Tests -Werror
+
+      - name: Build
+        shell: bash
+        run: ./CI/compile Tests
+
+      - name: Run tests
+        shell: bash
+        run: ./build/Tests/RayTracerTests --verbose -j1
