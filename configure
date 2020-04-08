@@ -27,10 +27,10 @@ fi
 
 case "$OS" in
 "Linux" | "Darwin")
-  OS_SUDO="sudo -H"
+  OS_PYTHON="sudo -H python3"
   ;;
 *)
-  OS_SUDO=""
+  OS_PYTHON="python"
   ;;
 esac
 
@@ -39,7 +39,7 @@ echo "== Fetching submodules"
 git submodule update --init --recursive
 
 echo "== Installing pip dependencies"
-eval $OS_SUDO python3 -m pip install -r requirements.txt >/dev/null
+eval $OS_PYTHON -m pip install -r requirements.txt >/dev/null
 
 echo "== Setting up OS specific configuration"
 if [[ $(uname -a) =~ "Ubuntu" ]]; then

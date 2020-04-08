@@ -11,3 +11,13 @@ ArgumentParser::ArgumentParser(int ac, char **av)
         : m_argc{ac}, m_argv{av}
 {
 }
+
+int ArgumentParser::getArgc() const noexcept
+{
+    return m_argc;
+}
+
+const char *const *ArgumentParser::getArgv() const noexcept
+{
+    return m_argv;
+}

@@ -13,4 +13,7 @@ private:
     const char *const *const m_argv;
 public:
     ArgumentParser(int ac, char **av);
+
+    [[nodiscard]] int getArgc() const noexcept;
+    [[nodiscard]] const char *const *getArgv() const noexcept;
 };
