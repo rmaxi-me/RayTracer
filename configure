@@ -34,6 +34,14 @@ case "$OS" in
   ;;
 esac
 
+# Add git submodules (from .gitmodules)
+echo "== Fetching submodules"
+git submodule update --init --recursive
+
+echo "== Installing pip dependencies"
+eval $OS_SUDO pip install -r requirements.txt >/dev/null
+
+echo "== Setting up OS specific configuration"
 if [[ $(uname -a) =~ "Ubuntu" ]]; then
   # GitHub Actions uses Ubuntu, needs gcc>=8
   export CC="gcc-8"
@@ -50,13 +58,6 @@ elif [[ $(uname -a) =~ "MINGW64_NT" ]]; then
   ninja -C build
   cd -
 fi
-
-# Add git submodules (from .gitmodules)
-echo "== Fetching submodules"
-git submodule update --init --recursive
-
-echo "== Installing pip dependencies"
-eval $OS_SUDO pip install -r requirements.txt >/dev/null
 
 # Create/Reload build directory
 echo "== Creating build environement"
