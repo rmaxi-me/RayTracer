@@ -1,4 +1,4 @@
-name: C++ Cross-Platform Build
+name: C++ Unit Tests
 
 on: [push]
 
