@@ -9,7 +9,7 @@ set(CMAKE_C_STANDARD_REQUIRED ON 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON 17)
 
 set(OpenGL_GL_PREFERENCE LEGACY)
-add_subdirectory(raylib/projects/CMake)
+add_subdirectory(Dependencies/raylib/projects/CMake)
 
 if (UNIX)
     add_compile_options(-Wall -Wextra -Weffc++)
@@ -27,5 +27,10 @@ endif ()
 
 add_subdirectory(Engine)
 add_subdirectory(RayTracer)
+
+if (RAYTRACER_TESTS)
+    set(CMAKE_BUILD_TYPE Debug)
+    add_subdirectory(Tests)
+endif ()
 
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")

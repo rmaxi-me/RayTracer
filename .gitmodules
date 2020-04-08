@@ -1,0 +1,6 @@
+[submodule "Dependencies/raylib"]
+	path = Dependencies/raylib
+	url = https://github.com/raysan5/raylib
+[submodule "Dependencies/Criterion"]
+	path = Dependencies/Criterion
+	url = https://github.com/Snaipe/Criterion

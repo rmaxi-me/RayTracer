@@ -19,19 +19,44 @@ else
   RAYTRACER_ERROR=""
 fi
 
-# GitHub Actions uses Ubuntu, needs gcc>=8
+if [[ $1 == "Tests" ]]; then
+  RAYTRACER_TESTS="-DRAYTRACER_TESTS=1"
+else
+  RAYTRACER_TESTS=""
+fi
+
+case "$OS" in
+"Linux" | "Darwin")
+  OS_SUDO="sudo -H"
+  ;;
+*)
+  OS_SUDO=""
+  ;;
+esac
+
 if [[ $(uname -a) =~ "Ubuntu" ]]; then
+  # GitHub Actions uses Ubuntu, needs gcc>=8
   export CC="gcc-8"
   export CXX="g++-8"
 
-  sudo apt install -y build-essential git cmake \
-                      libasound2-dev mesa-common-dev libx11-dev libxrandr-dev \
-                      libxi-dev xorg-dev libgl1-mesa-dev libglu1-mesa-dev
+  sudo add-apt-repository ppa:snaipewastaken/ppa
+  sudo apt update
+  sudo apt install -y criterion-dev libasound2-dev mesa-common-dev libx11-dev libxrandr-dev libxi-dev xorg-dev libgl1-mesa-dev libglu1-mesa-dev
+elif [[ $(uname -a) =~ "Darwin" ]]; then
+  brew install snaipe/soft/criterion
+elif [[ $(uname -a) =~ "MINGW64_NT" ]]; then
+  cd Dependencies/Criterion
+  meson build
+  ninja -C build
+  cd -
 fi
 
 # Add git submodules (from .gitmodules)
 echo "== Fetching submodules"
 git submodule update --init --recursive
+
+echo "== Installing pip dependencies"
+eval $OS_SUDO pip install -r requirements.txt >/dev/null
 
 # Create/Reload build directory
 echo "== Creating build environement"
@@ -42,10 +67,10 @@ cd build
 echo "== Running CMake"
 case "$OS" in
 "Linux" | "Darwin")
-  cmake -DCMAKE_BUILD_TYPE="$1" $RAYTRACER_ERROR ..
+  cmake -DCMAKE_BUILD_TYPE="$1" $RAYTRACER_TESTS $RAYTRACER_ERROR ..
   ;;
 *)
-  cmake -DCMAKE_BUILD_TYPE="$1" $RAYTRACER_ERROR -A x64 ..
+  cmake -DCMAKE_BUILD_TYPE="$1" $RAYTRACER_TESTS $RAYTRACER_ERROR -A x64 ..
   ;;
 esac
 
