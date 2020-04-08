@@ -39,6 +39,7 @@ echo "== Fetching submodules"
 git submodule update --init --recursive
 
 echo "== Installing pip dependencies"
+eval $OS_PYTHON -m pip install --upgrade setuptools >/dev/null
 eval $OS_PYTHON -m pip install -r requirements.txt >/dev/null
 
 echo "== Setting up OS specific configuration"
