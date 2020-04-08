@@ -1,2 +1,2 @@
-# RayTracer
-A go game in C++
+# YEP_project1_2019
+RayTracer
