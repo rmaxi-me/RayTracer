@@ -39,22 +39,10 @@ void Application::start()
         ToggleFullscreen();
     }
 
-    auto before = std::chrono::system_clock::now();
-    int frameCount = 0;
-
     while (!WindowShouldClose()) {
         ClearBackground(Color{0, 0, 0, 255});
         BeginDrawing();
+        DrawFPS(0, 0);
         EndDrawing();
-
-        auto now = std::chrono::system_clock::now();
-
-        if (std::chrono::duration_cast<std::chrono::seconds>(now - before) >= 1s) {
-            std::cout << frameCount << " fps" << std::endl;
-            before = now;
-            frameCount = 0;
-        } else {
-            ++frameCount;
-        }
     }
 }
