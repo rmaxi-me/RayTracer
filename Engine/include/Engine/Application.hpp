@@ -17,6 +17,7 @@ public:
     struct Settings {
         std::uint16_t width;
         std::uint16_t height;
+        std::uint16_t fpsMax;
         bool fullscreen;
         std::string filePath;
     };
