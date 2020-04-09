@@ -25,15 +25,6 @@ else
   RAYTRACER_TESTS=""
 fi
 
-case "$OS" in
-"Linux" | "Darwin")
-  OS_PYTHON="sudo -H python3"
-  ;;
-*)
-  OS_PYTHON="python"
-  ;;
-esac
-
 # Add git submodules (from .gitmodules)
 echo "== Fetching submodules"
 git submodule update --init --recursive

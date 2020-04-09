@@ -3,7 +3,7 @@ name: C++ Unit Tests
 on: [push]
 
 jobs:
-  test:
+  tests:
 
     runs-on: ubuntu-18.04
 
@@ -15,7 +15,7 @@ jobs:
 
       - name: Configure
         shell: bash
-        run: ./configure Tests -Werror
+        run: ./configure Tests
 
       - name: Build
         shell: bash

@@ -34,4 +34,6 @@ if (RAYTRACER_TESTS)
     message(STATUS "====== Unit tests enabled ======")
 endif ()
 
+set_target_properties(example PROPERTIES EXCLUDE_FROM_ALL 1 EXCLUDE_FROM_DEFAULT_BUILD 1)
+
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
