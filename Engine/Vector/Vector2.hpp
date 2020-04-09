@@ -1,8 +1,8 @@
 #pragma once
 
-
 #include <raymath.h>
 #include <iostream>
+
 
 #ifndef RAYLIB_H
 #define RAYMATH_STANDALONE

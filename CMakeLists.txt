@@ -25,6 +25,7 @@ elseif (CMAKE_BUILD_TYPE MATCHES Release)
     add_compile_definitions(RAYTRACER_RELEASE=1)
 endif ()
 
+include_directories(Dependencies/raylib/src)
 add_subdirectory(Engine)
 add_subdirectory(RayTracer)
 
