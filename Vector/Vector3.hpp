@@ -30,7 +30,7 @@ namespace maths
 
         inline const Vector_3 &operator+() const { return *this; };
         inline const Vector_3  operator-() const { return Vector_3(-Vector.x, -Vector.y, -Vector.z); }
-        
+
         inline Vector_3 &operator+=(const Vector_3 &Vx);
         inline Vector_3 &operator-=(const Vector_3 &Vx);
         inline Vector_3 &operator*=(const Vector_3 &Vx);
@@ -164,6 +164,10 @@ namespace maths
         return maths::Vector_3(Vz.x, Vz.y, Vz.z);
     }
 
+    inline bool operator==(const maths::Vector_3 Vx, const maths::Vector_3 Vy)
+    {
+        return Vx.x() == Vy.x() && Vx.y() == Vy.y() && Vx.z() == Vy.z();
+    }
     //--------------------------
     //--------------------------
 
