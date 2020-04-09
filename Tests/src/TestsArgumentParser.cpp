@@ -15,11 +15,11 @@ Test(ArgumentParser, Constructors)
     const char *argv[] = {"bin", "--fullscreen", "--width", "1600", "--height", "900"};
     const auto parser = ArgumentParser{6, argv};
 
-    auto fullscreen = parser.getOrDefault<bool>("fullscreen", "f", false, APFuncs::boolean);
-    auto missing = parser.getOrDefault<bool>("missing", "m", false, APFuncs::boolean);
-    auto width = parser.getOrDefault<int>("width", "w", 1920, APFuncs::integer<int>);
-    auto height = parser.getOrDefault<int>("height", "h", 1080, APFuncs::integer<int>);
-    auto depth = parser.getOrDefault<int>("depth", "d", 32, APFuncs::integer<int>);
+    auto fullscreen = parser.getOrDefault<bool>("fullscreen", "f", false, APFuncs::toBool);
+    auto missing = parser.getOrDefault<bool>("missing", "m", false, APFuncs::toBool);
+    auto width = parser.getOrDefault<int>("width", "w", 1920, APFuncs::toInt<int>);
+    auto height = parser.getOrDefault<int>("height", "h", 1080, APFuncs::toInt<int>);
+    auto depth = parser.getOrDefault<int>("depth", "d", 32, APFuncs::toInt<int>);
 
     cr_assert(parser.getBinName() == "bin");
     cr_assert(parser.getArgc() == 6);

@@ -7,17 +7,22 @@
 
 #include "ArgumentParser.hpp"
 
-bool APFuncs::boolean(const std::string &raw)
+std::string APFuncs::toString(const std::string &raw)
+{
+    return raw;
+}
+
+bool APFuncs::toBool(const std::string &raw)
 {
     return raw == "1";
 }
 
-float APFuncs::floating(const std::string &raw)
+float APFuncs::toFloat(const std::string &raw)
 {
     return std::stof(raw);
 }
 
-double APFuncs::double_float(const std::string &raw)
+double APFuncs::toDouble(const std::string &raw)
 {
     return std::stod(raw);
 }
