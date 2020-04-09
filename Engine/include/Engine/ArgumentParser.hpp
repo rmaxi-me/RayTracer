@@ -8,8 +8,9 @@
 #pragma once
 
 #include <map>
-#include <functional>
+#include <string>
 #include <string_view>
+#include <functional>
 
 namespace APFuncs {
     template<typename Int>
