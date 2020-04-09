@@ -1,33 +1,15 @@
+/*
+** RayTracer Copyright (C) 2020 Maxime Houis
+** This program comes with ABSOLUTELY NO WARRANTY.
+** This is free software, and you are welcome to redistribute it
+** under certain conditions; see LICENSE for details.
+*/
 
-#include <raylib.h>
-#include <iostream>
-#include <chrono>
+#include <Engine/Application.hpp>
 
-#include "Main.hpp"
-
-using namespace std::chrono_literals;
-
-int main()
+int main(int ac, char **av)
 {
-    InitWindow(1600, 900, "Raylib tests");
+    Application app(ac, av);
 
-    auto before = std::chrono::system_clock::now();
-    int frameCount = 0;
-
-    while (!WindowShouldClose()) {
-        ClearBackground(Color{0, 0, 0, 255});
-        BeginDrawing();
-        EndDrawing();
-
-        auto now = std::chrono::system_clock::now();
-
-        if (std::chrono::duration_cast<std::chrono::seconds>(now - before) >= 1s) {
-            std::cout << frameCount << " fps" << std::endl;
-            before = now;
-            frameCount = 0;
-        } else {
-            ++frameCount;
-        }
-    }
-    return 0;
+    app.start();
 }

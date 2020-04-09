@@ -14,24 +14,19 @@
 
 namespace APFuncs {
     template<typename Int>
-    Int integer(const std::string &raw)
+    Int toInt(const std::string &raw)
     {
         return static_cast<Int>(std::stoll(raw));
     }
 
-    bool boolean(const std::string &raw);
-    float floating(const std::string &raw);
-    double double_float(const std::string &raw);
+    std::string toString(const std::string &raw);
+    bool toBool(const std::string &raw);
+    float toFloat(const std::string &raw);
+    double toDouble(const std::string &raw);
 }
 
 class ArgumentParser {
-public:
-    enum OptionType : uint8_t {
-        OPTIONAL,
-        MANDATORY
-    };
 private:
-
     const int m_argc;
     const char *const *const m_argv;
     std::string_view m_binName;
