@@ -17,10 +17,6 @@ jobs:
         shell: bash
         run: ./configure Tests
 
-      - name: Build
+      - name: Build, run and print coverage
         shell: bash
-        run: ./CI/compile Tests
-
-      - name: Run tests
-        shell: bash
-        run: ./build/Tests/RayTracerTests --verbose -j1 -S --timeout 30
+        run: make ci
