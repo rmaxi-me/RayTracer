@@ -1,6 +1,6 @@
 #pragma once
 
-#include <raymath.h>
+#include "Raymath.hpp"
 #include <iostream>
 
 
@@ -17,7 +17,7 @@ namespace maths
     class Vector_2
     {
     private:
-        Vector2 Vector = {0};
+        Vector2 Vector{};
 
     public:
         Vector_2() = default;

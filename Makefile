@@ -13,24 +13,31 @@ SRC =		$(shell find Engine -name "*.cpp" 2> /dev/null) $(shell find Tests -name 
 OBJ =		$(SRC:.cpp=.o)
 
 NAME =		unit_tests
-CPPFLAGS =	-I./Engine/include/Engine -Wall -Wextra -Weffc++ -std=c++17
+CXXFLAGS =	-Wall -Wextra -Weffc++ -std=c++17 --coverage
+CPPFLAGS =	-I./Engine/include -I./Engine/include/Engine
+LDFLAGS	=	-lraylib -lcriterion --coverage
 
 all:		$(NAME)
 
-unit_tests:	LDFLAGS		+= -lcriterion --coverage
-unit_tests:	CPPFLAGS	+= --coverage
-unit_tests:	fclean $(OBJ)
-			$(CXX) -o tests_run $(OBJ) $(LDFLAGS)
+ci:			fclean $(NAME) run cov_gen bigclean
+
+run:
+			@echo "::debug ====== TESTS RUN ======"
+			./$(NAME) --verbose -j1 -S --timeout 30
+
+$(NAME):	$(OBJ)
+			$(CXX) -o $(NAME) $(OBJ) $(LDFLAGS)
 
 clean:
 			$(RM) $(OBJ) $(OBJ_UNIT)
 
 fclean:		clean
-			$(RM) $(NAME) tests_run
+			$(RM) $(NAME)
 
 re:			fclean all
 
 cov_gen:
+			@echo "::debug ====== CODE COVERAGE ======"
 			@gcovr -s --exclude tests
 
 cov_clean:
@@ -38,4 +45,4 @@ cov_clean:
 
 bigclean:       fclean cov_clean
 
-.PHONY:		all clean fclean re cov_gen cov_clean unit_tests bigclean
+.PHONY:		all clean fclean re cov_gen cov_clean bigclean ci run

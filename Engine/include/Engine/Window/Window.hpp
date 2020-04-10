@@ -3,14 +3,14 @@
 #include <raylib.h>
 
 #include <string>
-#include "Vector2.hpp"
+#include "Vector/Vector2.hpp"
 
 class Window
 {
 private:
     Color m_color;
 public:
-    Window(int widht, int height, const std::string &title, unsigned int configFlag = 0);
+    Window(int width, int height, const std::string &title, unsigned int configFlag = 0);
     ~Window() = default;
 
     inline bool isOpen();
@@ -88,7 +88,7 @@ inline bool Window::isMinimized()
 
 inline bool Window::isResized()
 {
-    IsWindowResized();
+    return IsWindowResized();
 }
 
 inline void Window::setMinSize(int width, int height)
@@ -123,7 +123,7 @@ inline void Window::hide()
 
 inline bool Window::isHidden()
 {
-    IsWindowHidden();
+    return IsWindowHidden();
 }
 
 // void SetWindowIcon(Image image)

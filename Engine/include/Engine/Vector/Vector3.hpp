@@ -1,6 +1,6 @@
 #pragma once
 
-#include <raymath.h>
+#include "Raymath.hpp"
 
 #ifndef RAYLIB_H
 #define RAYMATH_STANDALONE
@@ -15,7 +15,7 @@ namespace maths
     class Vector_3
     {
     private:
-        Vector3 Vector = {0};
+        Vector3 Vector{};
     public:
         Vector_3() = default;
         Vector_3(float x, float y, float z);
