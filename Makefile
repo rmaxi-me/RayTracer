@@ -19,17 +19,14 @@ LDFLAGS	=	-L. -lraylib -lcriterion --coverage
 
 all:		$(NAME)
 
-ci:			fclean fetch_deps $(NAME) run cov_gen bigclean
+ci:			fetch_deps $(NAME) run cov_gen
 
 fetch_deps:
-			@echo "::debug ====== DOWNLOADING RAYLIB ======"
 			wget https://github.com/raysan5/raylib/releases/download/3.0.0/raylib-3.0.0-Linux-amd64.tar.gz
 			tar xvzf raylib-3.0.0-Linux-amd64.tar.gz
 			sudo cp raylib-3.0.0-Linux-amd64/lib/libraylib.so* /usr/lib/
-			@echo "::debug ====== RAYLIB DOWNLOADED ======"
 
 run:
-			@echo "::debug ====== TESTS RUN ======"
 			./$(NAME) --verbose -j1 -S --timeout 30
 
 $(NAME):	$(OBJ)
@@ -44,7 +41,6 @@ fclean:		clean
 re:			fclean all
 
 cov_gen:
-			@echo "::debug ====== CODE COVERAGE ======"
 			@gcovr -s --exclude tests
 
 cov_clean:
