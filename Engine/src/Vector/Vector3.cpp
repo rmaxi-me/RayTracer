@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Vector3.hpp"
+#include "Vector/Vector3.hpp"
 
 
 namespace maths
