@@ -13,6 +13,8 @@ namespace maths
         Vector.x = Vx.Vector.x;
         Vector.y = Vx.Vector.y;
         Vector.z = Vx.Vector.z;
+
+        return *this;
     }
 
     Vector_3 &Vector_3::operator=(const Vector3 &Vx)
@@ -20,6 +22,8 @@ namespace maths
         Vector.x = Vx.x;
         Vector.y = Vx.y;
         Vector.z = Vx.z;
+
+        return *this;
     }
 
 } // namespace maths

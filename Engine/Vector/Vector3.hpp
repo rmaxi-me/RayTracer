@@ -1,9 +1,10 @@
 #pragma once
 
-#define RAYMATH_STANDALONE
-
 #include <raymath.h>
 
+#ifndef RAYLIB_H
+#define RAYMATH_STANDALONE
+#endif
 
 namespace maths
 {

@@ -11,12 +11,16 @@ namespace maths
     {
         Vector.x = Vx.Vector.x;
         Vector.y = Vx.Vector.y;
+
+        return *this;
     }
 
     Vector_2 &Vector_2::operator=(const Vector2 &Vx)
     {
         Vector.x = Vx.x;
         Vector.y = Vx.y;
+
+        return *this;
     }
 
 } // namespace maths
