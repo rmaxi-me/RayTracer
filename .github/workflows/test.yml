@@ -1,6 +1,6 @@
 name: C++ Unit Tests
 
-on: [push]
+on: push
 
 jobs:
   tests:
@@ -23,4 +23,4 @@ jobs:
 
       - name: Run tests
         shell: bash
-        run: ./build/Tests/RayTracerTests --verbose -j1
+        run: ./build/Tests/RayTracerTests --verbose -j1 -S --timeout 30

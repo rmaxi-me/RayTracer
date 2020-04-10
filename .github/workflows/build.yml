@@ -1,6 +1,6 @@
 name: C++ Cross-Platform Build
 
-on: [push]
+on: push
 
 jobs:
   build:
