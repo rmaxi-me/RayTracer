@@ -3,6 +3,23 @@ name: C++ Cross-Platform Build
 on: push
 
 jobs:
+
+  test:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Configure
+        shell: bash
+        run: ./configure Tests
+
+      - name: Build, run and print coverage
+        shell: bash
+        run: make ci
+
   build:
     strategy:
       fail-fast: false
