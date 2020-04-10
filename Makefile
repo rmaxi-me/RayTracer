@@ -14,7 +14,7 @@ OBJ =		$(SRC:.cpp=.o)
 
 NAME =		unit_tests
 CXXFLAGS =	-Wall -Wextra -Weffc++ -std=c++17 --coverage
-CPPFLAGS =	-I./Engine/include -I./Engine/include/Engine
+CPPFLAGS =	-I./Engine/include -I./Engine/include/Engine -I./Dependencies/raylib/src
 LDFLAGS	=	-lraylib -lcriterion --coverage
 
 all:		$(NAME)
@@ -43,6 +43,6 @@ cov_gen:
 cov_clean:
 			find . \( -name '*.gcda' -o -name '*.gcno' -o -name '*.gcov' \) -delete
 
-bigclean:       fclean cov_clean
+bigclean:	fclean cov_clean
 
 .PHONY:		all clean fclean re cov_gen cov_clean bigclean ci run
