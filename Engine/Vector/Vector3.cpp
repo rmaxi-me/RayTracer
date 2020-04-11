@@ -4,18 +4,18 @@
 
 namespace maths
 {
-    Vector_3::Vector_3(float x, float y, float z) : Vector({x,y,z}) {}
-    Vector_3::Vector_3(const Vector_3 &Vx) : Vector(Vx.Vector) {}
-    Vector_3::Vector_3(const Vector3 &Vx) : Vector(Vx) {}
+    Vector3::Vector3(float x, float y, float z) : Vector({x,y,z}) {}
+    Vector3::Vector3(const Vector3 &Vx) : Vector(Vx.Vector) {}
+    Vector3::Vector3(const ::Vector3 &Vx) : Vector(Vx) {}
     
-    Vector_3 &Vector_3::operator=(const Vector_3 &Vx)
+    Vector3 &Vector3::operator=(const Vector3 &Vx)
     {
         Vector.x = Vx.Vector.x;
         Vector.y = Vx.Vector.y;
         Vector.z = Vx.Vector.z;
     }
 
-    Vector_3 &Vector_3::operator=(const Vector3 &Vx)
+    Vector3 &Vector3::operator=(const ::Vector3 &Vx)
     {
         Vector.x = Vx.x;
         Vector.y = Vx.y;
