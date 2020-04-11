@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Vector2.hpp"
 
-namespace maths
+namespace raymath
 {
     Vector2::Vector2(float x, float y) : Vector({x, y}) {}
     Vector2::Vector2(const Vector2 &Vx) : Vector(Vx.Vector) {}
@@ -19,4 +19,4 @@ namespace maths
         Vector.y = Vx.y;
     }
 
-} // namespace maths
+} // namespace raymath

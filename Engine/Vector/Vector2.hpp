@@ -8,7 +8,7 @@
 #define RAYMATH_STANDALONE
 #endif
 
-namespace maths
+namespace raymath
 {
 
     //--------------------------
@@ -45,7 +45,7 @@ namespace maths
         inline float lenght() const { return Vector2Length({Vector.x, Vector.y}); };
         inline ::Vector2 getRawVector() const { return Vector; }
 
-        friend std::ostream &operator<<(std::ostream &os, const maths::Vector2 &v)
+        friend std::ostream &operator<<(std::ostream &os, const raymath::Vector2 &v)
         {
             os << v.x() << " " << v.y();
             return os;
@@ -97,69 +97,69 @@ namespace maths
         return *this;
     }
 
-    inline maths::Vector2 operator+(const maths::Vector2 &Vx, const maths::Vector2 &Vy)
+    inline raymath::Vector2 operator+(const raymath::Vector2 &Vx, const raymath::Vector2 &Vy)
     {
         ::Vector2 Vz = Vector2Add(Vx.getRawVector(), Vy.getRawVector());
-        return maths::Vector2(Vz.x, Vz.y);
+        return raymath::Vector2(Vz.x, Vz.y);
     }
 
-    inline maths::Vector2 operator-(const maths::Vector2 &Vx, const maths::Vector2 &Vy)
+    inline raymath::Vector2 operator-(const raymath::Vector2 &Vx, const raymath::Vector2 &Vy)
     {
         ::Vector2 Vz = Vector2Subtract(Vx.getRawVector(), Vy.getRawVector());
-        return maths::Vector2(Vz.x, Vz.y);
+        return raymath::Vector2(Vz.x, Vz.y);
     }
 
-    inline maths::Vector2 operator*(const maths::Vector2 &Vx, const maths::Vector2 &Vy)
+    inline raymath::Vector2 operator*(const raymath::Vector2 &Vx, const raymath::Vector2 &Vy)
     {
         ::Vector2 Vz = Vector2MultiplyV(Vx.getRawVector(), Vy.getRawVector());
-        return maths::Vector2(Vz.x, Vz.y);
+        return raymath::Vector2(Vz.x, Vz.y);
     }
 
-    inline maths::Vector2 operator*(const maths::Vector2 &Vx, float Scalar)
+    inline raymath::Vector2 operator*(const raymath::Vector2 &Vx, float Scalar)
     {
         ::Vector2 Vz = Vector2Scale(Vx.getRawVector(), Scalar);
-        return maths::Vector2(Vz.x, Vz.y);
+        return raymath::Vector2(Vz.x, Vz.y);
     }
 
-    inline maths::Vector2 operator*(float Scalar, const maths::Vector2 &Vx)
+    inline raymath::Vector2 operator*(float Scalar, const raymath::Vector2 &Vx)
     {
         ::Vector2 Vz = Vector2Scale(Vx.getRawVector(), Scalar);
-        return maths::Vector2(Vz.x, Vz.y);
+        return raymath::Vector2(Vz.x, Vz.y);
     }
 
-    inline maths::Vector2 operator/(const maths::Vector2 &Vx, const maths::Vector2 &Vy)
+    inline raymath::Vector2 operator/(const raymath::Vector2 &Vx, const raymath::Vector2 &Vy)
     {
         ::Vector2 Vz = Vector2DivideV(Vx.getRawVector(), Vy.getRawVector());
-        return maths::Vector2(Vz.x, Vz.y);
+        return raymath::Vector2(Vz.x, Vz.y);
     }
 
-    inline maths::Vector2 operator/(const maths::Vector2 &Vx, float Scalar)
+    inline raymath::Vector2 operator/(const raymath::Vector2 &Vx, float Scalar)
     {
         ::Vector2 Vz = Vector2Divide(Vx.getRawVector(), Scalar);
-        return maths::Vector2(Vz.x, Vz.y);
+        return raymath::Vector2(Vz.x, Vz.y);
     }
 
-    inline maths::Vector2 operator/(float Scalar, const maths::Vector2 &Vx)
+    inline raymath::Vector2 operator/(float Scalar, const raymath::Vector2 &Vx)
     {
         ::Vector2 Vz = Vector2Divide(Vx.getRawVector(), Scalar);
-        return maths::Vector2(Vz.x, Vz.y);
+        return raymath::Vector2(Vz.x, Vz.y);
     }
 
-    inline float dotProduct(const maths::Vector2 &Vx, const maths::Vector2 &Vy)
+    inline float dotProduct(const raymath::Vector2 &Vx, const raymath::Vector2 &Vy)
     {
         return Vector2DotProduct(Vx.getRawVector(), Vy.getRawVector());
     }
 
-    inline maths::Vector2 normalize(const maths::Vector2 &Vx)
+    inline raymath::Vector2 normalize(const raymath::Vector2 &Vx)
     {
         ::Vector2 Vz = Vector2Normalize(Vx.getRawVector());
-        return maths::Vector2(Vz.x, Vz.y);
+        return raymath::Vector2(Vz.x, Vz.y);
     }
 
-    inline bool operator==(const maths::Vector2 Vx, const maths::Vector2 Vy)
+    inline bool operator==(const raymath::Vector2 Vx, const raymath::Vector2 Vy)
     {
         return Vx.x() == Vy.x() && Vx.y() == Vy.y();
     }
     //--------------------------
     //--------------------------
-} // namespace maths
+} // namespace raymath
