@@ -8,6 +8,6 @@ add_library(
         src/Vector/Vector2.cpp include/Engine/Vector/Vector2.hpp
         src/Vector/Vector3.cpp include/Engine/Vector/Vector3.hpp
         src/Window/Window.cpp include/Engine/Window/Window.hpp
-)
+        src/Assets/Image.cpp include/Engine/Assets/Image.hpp)
 
 target_include_directories(${PROJECT_NAME}Engine PRIVATE include/Engine)
