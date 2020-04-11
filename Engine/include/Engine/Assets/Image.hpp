@@ -198,6 +198,11 @@ namespace raylib {
         // Memory needs to be freed
         [[nodiscard]] Color *extractPalette(int maxPaletteSize, int &extractCount);
 
+        inline Rectangle getAlphaBorder(float threshold)
+        {
+            return GetImageAlphaBorder(m_rayImage, threshold);
+        }
+
         /*
          * GETTERS AND SETTERS
          */
@@ -205,6 +210,11 @@ namespace raylib {
         [[nodiscard]] inline ::Image getRaylibImage() const noexcept
         {
             return m_rayImage;
+        }
+
+        inline static int getPixelDataSize(int width, int height, PixelFormat pixelFormat)
+        {
+            return GetPixelDataSize(width, height, pixelFormat);
         }
     };
 }
