@@ -2,7 +2,7 @@
 #include "Vector/Vector3.hpp"
 
 
-namespace maths
+namespace raymath
 {
     Vector_3::Vector_3(float x, float y, float z) : Vector({x,y,z}) {}
     Vector_3::Vector_3(const Vector_3 &Vx) : Vector(Vx.Vector) {}

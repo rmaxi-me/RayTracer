@@ -6,7 +6,7 @@
 #define RAYMATH_STANDALONE
 #endif
 
-namespace maths
+namespace raymath
 {
 
     //--------------------------
@@ -42,7 +42,7 @@ namespace maths
         inline float lenght() const { return Vector3Length({Vector.x, Vector.y, Vector.z}); };
         inline Vector3 getRawVector() const { return Vector; }
 
-        friend std::ostream &operator<<(std::ostream &os, const maths::Vector_3 &v)
+        friend std::ostream &operator<<(std::ostream &os, const raymath::Vector_3 &v)
         {
             os << v.x() << " " << v.y() << " " << v.z();
             return os;
@@ -100,72 +100,72 @@ namespace maths
         return *this;
     }
 
-    inline maths::Vector_3 operator+(const maths::Vector_3 &Vx, const maths::Vector_3 &Vy)
+    inline raymath::Vector_3 operator+(const raymath::Vector_3 &Vx, const raymath::Vector_3 &Vy)
     {
         Vector3 Vz = Vector3Add(Vx.getRawVector(), Vy.getRawVector());
-        return maths::Vector_3(Vz.x, Vz.y, Vz.z);
+        return raymath::Vector_3(Vz.x, Vz.y, Vz.z);
     }
 
-    inline maths::Vector_3 operator-(const maths::Vector_3 &Vx, const maths::Vector_3 &Vy)
+    inline raymath::Vector_3 operator-(const raymath::Vector_3 &Vx, const raymath::Vector_3 &Vy)
     {
         Vector3 Vz = Vector3Subtract(Vx.getRawVector(), Vy.getRawVector());
-        return maths::Vector_3(Vz.x, Vz.y, Vz.z);
+        return raymath::Vector_3(Vz.x, Vz.y, Vz.z);
     }
 
-    inline maths::Vector_3 operator*(const maths::Vector_3 &Vx, const maths::Vector_3 &Vy)
+    inline raymath::Vector_3 operator*(const raymath::Vector_3 &Vx, const raymath::Vector_3 &Vy)
     {
         Vector3 Vz = Vector3Multiply(Vx.getRawVector(), Vy.getRawVector());
-        return maths::Vector_3(Vz.x, Vz.y, Vz.z);
+        return raymath::Vector_3(Vz.x, Vz.y, Vz.z);
     }
 
-    inline maths::Vector_3 operator*(const maths::Vector_3 &Vx, float Scalar)
+    inline raymath::Vector_3 operator*(const raymath::Vector_3 &Vx, float Scalar)
     {
         Vector3 Vz = Vector3Scale(Vx.getRawVector(), Scalar);
-        return maths::Vector_3(Vz.x, Vz.y, Vz.z);
+        return raymath::Vector_3(Vz.x, Vz.y, Vz.z);
     }
 
-    inline maths::Vector_3 operator*(float Scalar, const maths::Vector_3 &Vx)
+    inline raymath::Vector_3 operator*(float Scalar, const raymath::Vector_3 &Vx)
     {
         Vector3 Vz = Vector3Scale(Vx.getRawVector(), Scalar);
-        return maths::Vector_3(Vz.x, Vz.y, Vz.z);
+        return raymath::Vector_3(Vz.x, Vz.y, Vz.z);
     }
 
-    inline maths::Vector_3 operator/(const maths::Vector_3 &Vx, const maths::Vector_3 &Vy)
+    inline raymath::Vector_3 operator/(const raymath::Vector_3 &Vx, const raymath::Vector_3 &Vy)
     {
         Vector3 Vz = Vector3DivideV(Vx.getRawVector(), Vy.getRawVector());
-        return maths::Vector_3(Vz.x, Vz.y, Vz.z);
+        return raymath::Vector_3(Vz.x, Vz.y, Vz.z);
     }
 
-    inline maths::Vector_3 operator/(const maths::Vector_3 &Vx, float Scalar)
+    inline raymath::Vector_3 operator/(const raymath::Vector_3 &Vx, float Scalar)
     {
         Vector3 Vz = Vector3Divide(Vx.getRawVector(), Scalar);
-        return maths::Vector_3(Vz.x, Vz.y, Vz.z);
+        return raymath::Vector_3(Vz.x, Vz.y, Vz.z);
     }
 
-    inline maths::Vector_3 operator/(float Scalar, const maths::Vector_3 &Vx)
+    inline raymath::Vector_3 operator/(float Scalar, const raymath::Vector_3 &Vx)
     {
         Vector3 Vz = Vector3Divide(Vx.getRawVector(), Scalar);
-        return maths::Vector_3(Vz.x, Vz.y, Vz.z);
+        return raymath::Vector_3(Vz.x, Vz.y, Vz.z);
     }
 
-    inline float dotProduct(const maths::Vector_3 &Vx, const maths::Vector_3 &Vy)
+    inline float dotProduct(const raymath::Vector_3 &Vx, const raymath::Vector_3 &Vy)
     {
         return Vector3DotProduct(Vx.getRawVector(), Vy.getRawVector());
     }
 
-    inline maths::Vector_3 crossProduct(const maths::Vector_3 &Vx, const maths::Vector_3 &Vy)
+    inline raymath::Vector_3 crossProduct(const raymath::Vector_3 &Vx, const raymath::Vector_3 &Vy)
     {
         Vector3 Vz = Vector3CrossProduct(Vx.getRawVector(), Vy.getRawVector());
-        return maths::Vector_3(Vz.x, Vz.y, Vz.z);
+        return raymath::Vector_3(Vz.x, Vz.y, Vz.z);
     }
 
-    inline maths::Vector_3 normalize(const maths::Vector_3 &Vx)
+    inline raymath::Vector_3 normalize(const raymath::Vector_3 &Vx)
     {
         Vector3 Vz = Vector3Normalize(Vx.getRawVector());
-        return maths::Vector_3(Vz.x, Vz.y, Vz.z);
+        return raymath::Vector_3(Vz.x, Vz.y, Vz.z);
     }
 
-    inline bool operator==(const maths::Vector_3 Vx, const maths::Vector_3 Vy)
+    inline bool operator==(const raymath::Vector_3 Vx, const raymath::Vector_3 Vy)
     {
         return Vx.x() == Vy.x() && Vx.y() == Vy.y() && Vx.z() == Vy.z();
     }
