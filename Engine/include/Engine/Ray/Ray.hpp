@@ -8,27 +8,27 @@ namespace raylib
     class Ray
     {
     private:
-        maths::Vector3 origin;
-        maths::Vector3 direction;
+        raymath::Vector3 origin;
+        raymath::Vector3 direction;
     public:
         Ray() = default;
         Ray(Vector3 position, Vector3 direction);
-        Ray(maths::Vector3 position, maths::Vector3 direction);
+        Ray(raymath::Vector3 position, raymath::Vector3 direction);
         Ray &operator=(const Ray &);
         ~Ray() = default;
     public:
-        maths::Vector3 getOrigin() const;
-        maths::Vector3 getDirection() const;
-        maths::Vector3 rayProjection(float f) const;
+        raymath::Vector3 getOrigin() const;
+        raymath::Vector3 getDirection() const;
+        raymath::Vector3 rayProjection(float f) const;
         ::Ray getRawRay() const;
     };
 
-    inline maths::Vector3 Ray::getOrigin() const
+    inline raymath::Vector3 Ray::getOrigin() const
     {
         return origin;
     }
 
-    inline maths::Vector3 Ray::getDirection() const
+    inline raymath::Vector3 Ray::getDirection() const
     {
         return direction;
     }
@@ -38,7 +38,7 @@ namespace raylib
         return ::Ray{origin.getRawVector(), direction.getRawVector()};
     }
 
-    inline maths::Vector3 Ray::rayProjection(float f) const
+    inline raymath::Vector3 Ray::rayProjection(float f) const
     {
         return origin + f * direction;
     }
