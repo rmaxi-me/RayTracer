@@ -1,4 +1,4 @@
-#include "Ray.hpp"
+#include "Ray/Ray.hpp"
 
 namespace raylib
 {
@@ -8,5 +8,6 @@ namespace raylib
     {
         origin = value.origin;
         direction = value.direction;
+        return *this;
     }
 } // namespace raylib

@@ -10,6 +10,7 @@ add_library(
         src/Window/Window.cpp include/Engine/Window/Window.hpp
         src/Assets/Image.cpp include/Engine/Assets/Image.hpp
         src/Assets/Texture.cpp include/Engine/Assets/Texture.hpp
+        src/Ray/Ray.cpp include/Engine/Ray/Ray.hpp
 )
 
 target_include_directories(${PROJECT_NAME}Engine PRIVATE include/Engine)

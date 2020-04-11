@@ -18,7 +18,7 @@ int main(int argc, char const *argv[])
         {
             for (int i = 0; i < nx; i++)
             {
-                maths::Vector_3 col(float(i) / float(nx) * 255.99, float(j) / float(ny) * 255.99, 0.2 * 255.99);
+                raymath::Vector3 col(float(i) / float(nx) * 255.99, float(j) / float(ny) * 255.99, 0.2 * 255.99);
                 // std::cout << (int)col.x() << " " << (int)col.y() << " " << (int)col.z() << std::endl;
                 DrawPixel(i, j, Color{(int)col.x(), (int)col.y(), (int)col.z(), 255});
             }

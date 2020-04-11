@@ -1,10 +1,13 @@
 #pragma once
 
+#include <iostream>
+
 #include "Raymath.hpp"
 
 #ifndef RAYLIB_H
 #define RAYMATH_STANDALONE
 #endif
+
 
 namespace raymath
 {
