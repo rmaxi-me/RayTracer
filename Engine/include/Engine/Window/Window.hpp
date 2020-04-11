@@ -35,7 +35,7 @@ namespace raylib {
 
         int getWidth();
         int getHeight();
-        raymath::Vector_2 getPosition();
+        raymath::Vector2 getPosition();
 
         //Drawing related funtions
         //------------------------
@@ -150,9 +150,9 @@ inline int raylib::Window::getHeight()
     return GetScreenHeight();
 }
 
-inline raymath::Vector_2 raylib::Window::getPosition()
+inline raymath::Vector2 raylib::Window::getPosition()
 {
-    return raymath::Vector_2(GetWindowPosition());
+    return raymath::Vector2(GetWindowPosition());
 }
 
 inline void raylib::Window::startDrawing(void)
