@@ -25,13 +25,17 @@ elseif (CMAKE_BUILD_TYPE MATCHES Release)
     add_compile_definitions(RAYTRACER_RELEASE=1)
 endif ()
 
+include_directories(Dependencies/raylib/src)
 add_subdirectory(Engine)
 add_subdirectory(RayTracer)
 
 if (RAYTRACER_TESTS)
+    message(STATUS "Setting up tests")
     set(CMAKE_BUILD_TYPE Debug)
-    add_subdirectory(Tests)
-    message(STATUS "====== Unit tests enabled ======")
+
+#    add_subdirectory(Tests)
+
+    message(STATUS "Setting up tests - done")
 endif ()
 
 set_target_properties(example PROPERTIES EXCLUDE_FROM_ALL 1 EXCLUDE_FROM_DEFAULT_BUILD 1)

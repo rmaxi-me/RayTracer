@@ -5,11 +5,11 @@
 ** under certain conditions; see LICENSE for details.
 */
 
-#include <Engine/Application.hpp>
+#pragma once
 
-int main(int ac, char **av)
-{
-    Application app(ac, av);
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 
-    app.start();
-}
+#include <raymath.h>
+
+#pragma GCC diagnostic pop
