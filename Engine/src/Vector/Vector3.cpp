@@ -17,7 +17,7 @@ namespace raymath
         return *this;
     }
 
-    Vector3 &Vector3::operator=(const Vector3 &Vx)
+    Vector3 &Vector3::operator=(const ::Vector3 &Vx)
     {
         Vector.x = Vx.x;
         Vector.y = Vx.y;
