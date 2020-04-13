@@ -96,6 +96,10 @@ namespace raylib {
             DrawTextureNPatch(m_raylibTexture, nPatchInfo, destRec, origin, rotation, tint);
         }
 
+        [[nodiscard]] inline const Texture2D &getRaylibTexture() const
+        {
+            return m_raylibTexture;
+        }
     };
 
     class RenderTexture {

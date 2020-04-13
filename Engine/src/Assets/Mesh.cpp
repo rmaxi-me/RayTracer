@@ -31,8 +31,3 @@ std::vector<raylib::Mesh> raylib::Mesh::loadMeshes(const char *filename)
 
     return vec;
 }
-
-const Mesh &raylib::Mesh::getRaylibMesh() const noexcept
-{
-    return m_raylibMesh;
-}

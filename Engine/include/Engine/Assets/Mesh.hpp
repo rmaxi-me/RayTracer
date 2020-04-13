@@ -26,6 +26,9 @@ namespace raylib {
             ExportMesh(m_raylibMesh, filename);
         }
 
-        [[nodiscard]] const ::Mesh &getRaylibMesh() const noexcept;
+        [[nodiscard]] inline const ::Mesh &getRaylibMesh() const noexcept
+        {
+            return m_raylibMesh;
+        }
     };
 }

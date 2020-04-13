@@ -19,5 +19,15 @@ namespace raylib {
         explicit Model(const char *filename);
         explicit Model(const Mesh &mesh);
         ~Model();
+
+        inline void setMeshMaterial(int meshId, int materialId)
+        {
+            SetModelMeshMaterial(&m_raylibModel, meshId, materialId);
+        }
+
+        [[nodiscard]] inline const ::Model &getRaylibModel() const
+        {
+            return m_raylibModel;
+        }
     };
 }

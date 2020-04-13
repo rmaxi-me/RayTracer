@@ -11,6 +11,8 @@
 
 #include <vector>
 
+#include "Texture.hpp"
+
 namespace raylib {
     class Material {
     private:
@@ -21,5 +23,15 @@ namespace raylib {
         ~Material();
 
         static std::vector<Material> loadMaterials(const char *filename);
+
+        inline void setTexture(MaterialMapType type, Texture texture)
+        {
+            SetMaterialTexture(&m_raylibMaterial, type, texture.getRaylibTexture());
+        }
+
+        [[nodiscard]] inline const ::Material &getRaylibMaterial() const
+        {
+            return m_raylibMaterial;
+        }
     };
 }
