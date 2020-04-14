@@ -44,15 +44,19 @@ void Application::start()
 {
     InitWindow(m_settings.width, m_settings.height, "Raylib tests");
 
-    SetTargetFPS(m_settings.fpsMax);
-    if (m_settings.fullscreen) {
+    if (m_settings.fpsMax != 0)
+        SetTargetFPS(m_settings.fpsMax);
+    if (m_settings.fullscreen)
         ToggleFullscreen();
-    }
 
     while (!WindowShouldClose()) {
         ClearBackground(Color{0, 0, 0, 255});
         BeginDrawing();
+        DrawRectangle(100, 100, 100, 100, RAYWHITE);
+
+#if defined(RAYTRACER_DEBUG)
         DrawFPS(0, 0);
+#endif
         EndDrawing();
     }
 }
