@@ -21,7 +21,6 @@ namespace raylib {
         explicit Image(::Image raylibImage);
         explicit Image(const char *filename);
         Image(Color *pixels, int width, int height);
-        Image(void *data, int width, int height, PixelFormat format);
         Image(const char *filename, int width, int height, PixelFormat format, int headerSize);
 
         ~Image();

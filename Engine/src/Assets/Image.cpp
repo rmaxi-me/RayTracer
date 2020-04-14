@@ -22,11 +22,6 @@ raylib::Image::Image(Color *pixels, int width, int height)
 {
 }
 
-raylib::Image::Image(void *data, int width, int height, PixelFormat format)
-        : m_rayImage{LoadImagePro(data, width, height, format)}
-{
-}
-
 raylib::Image::Image(const char *filename, int width, int height, PixelFormat format, int headerSize)
         : m_rayImage{LoadImageRaw(filename, width, height, format, headerSize)}
 {
