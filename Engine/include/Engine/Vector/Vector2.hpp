@@ -111,7 +111,7 @@ namespace raymath
 
     inline raymath::Vector2 operator*(const raymath::Vector2 &Vx, const raymath::Vector2 &Vy)
     {
-        ::Vector2 Vz = ::Vector2MultiplyV(Vx.getRawVector(), Vy.getRawVector());
+        ::Vector2 Vz = ::Vector2Multiply(Vx.getRawVector(), Vy.getRawVector());
         return raymath::Vector2(Vz.x, Vz.y);
     }
 
@@ -129,19 +129,19 @@ namespace raymath
 
     inline raymath::Vector2 operator/(const raymath::Vector2 &Vx, const raymath::Vector2 &Vy)
     {
-        ::Vector2 Vz = ::Vector2DivideV(Vx.getRawVector(), Vy.getRawVector());
+        ::Vector2 Vz = ::Vector2Divide(Vx.getRawVector(), Vy.getRawVector());
         return raymath::Vector2(Vz.x, Vz.y);
     }
 
     inline raymath::Vector2 operator/(const raymath::Vector2 &Vx, float Scalar)
     {
-        ::Vector2 Vz = ::Vector2Divide(Vx.getRawVector(), Scalar);
+        ::Vector2 Vz = ::Vector2Divide(Vx.getRawVector(), {Scalar, Scalar});
         return raymath::Vector2(Vz.x, Vz.y);
     }
 
     inline raymath::Vector2 operator/(float Scalar, const raymath::Vector2 &Vx)
     {
-        ::Vector2 Vz = ::Vector2Divide(Vx.getRawVector(), Scalar);
+        ::Vector2 Vz = ::Vector2Divide(Vx.getRawVector(), {Scalar, Scalar});
         return raymath::Vector2(Vz.x, Vz.y);
     }
 

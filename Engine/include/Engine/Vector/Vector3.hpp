@@ -135,19 +135,19 @@ namespace raymath
 
     inline raymath::Vector3 operator/(const raymath::Vector3 &Vx, const raymath::Vector3 &Vy)
     {
-        ::Vector3 Vz = ::Vector3DivideV(Vx.getRawVector(), Vy.getRawVector());
+        ::Vector3 Vz = ::Vector3Divide(Vx.getRawVector(), Vy.getRawVector());
         return raymath::Vector3(Vz.x, Vz.y, Vz.z);
     }
 
     inline raymath::Vector3 operator/(const raymath::Vector3 &Vx, float Scalar)
     {
-        ::Vector3 Vz = ::Vector3Divide(Vx.getRawVector(), Scalar);
+        ::Vector3 Vz = ::Vector3Divide(Vx.getRawVector(), {Scalar, Scalar, Scalar});
         return raymath::Vector3(Vz.x, Vz.y, Vz.z);
     }
 
     inline raymath::Vector3 operator/(float Scalar, const raymath::Vector3 &Vx)
     {
-        ::Vector3 Vz = ::Vector3Divide(Vx.getRawVector(), Scalar);
+        ::Vector3 Vz = ::Vector3Divide(Vx.getRawVector(), {Scalar, Scalar, Scalar});
         return raymath::Vector3(Vz.x, Vz.y, Vz.z);
     }
 
