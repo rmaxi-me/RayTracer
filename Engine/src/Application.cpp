@@ -17,10 +17,10 @@ using namespace std::chrono_literals;
 Application::Application(int ac, char **av)
         : m_parser{ac, av}, m_settings{}
 {
+    m_settings.fullscreen = m_parser.getOrDefault<bool>("fullscreen", "f", false, APFuncs::toBool);
     m_settings.width = m_parser.getOrDefault<std::uint16_t>("width", "w", 1600, APFuncs::toInt<std::uint16_t>);
     m_settings.height = m_parser.getOrDefault<std::uint16_t>("height", "h", 900, APFuncs::toInt<std::uint16_t>);
     m_settings.fpsMax = m_parser.getOrDefault<std::uint16_t>("fps", "", 240, APFuncs::toInt<std::uint16_t>);
-    m_settings.fullscreen = m_parser.getOrDefault<bool>("fullscreen", "f", false, APFuncs::toBool);
     m_settings.filePath = m_parser.getOrDefault<std::string>("openfile", "o", "", APFuncs::toString);
 
     // TODO: Reset screen dimensions on fullscreen
@@ -29,7 +29,15 @@ Application::Application(int ac, char **av)
         m_settings.height = GetScreenHeight();
     }
 
-    std::cout << "File to open: " << m_settings.filePath << '\n';
+#if defined(RAYTRACER_DEBUG)
+    SetTraceLogLevel(TraceLogType::LOG_ALL);
+#elif defined(RAYTRACER_RELEASE)
+    SetTraceLogLevel(TraceLogType::LOG_WARNING);
+#else
+    SetTraceLogLevel(TraceLogType::LOG_ERROR);
+#endif
+
+    TraceLog(TraceLogType::LOG_DEBUG, "File to open: %s", m_settings.filePath.c_str());
 }
 
 void Application::start()
