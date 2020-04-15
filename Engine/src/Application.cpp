@@ -11,6 +11,7 @@
 
 #include "Application.hpp"
 #include "ArgumentParser.hpp"
+#include "Window/Window.hpp"
 
 using namespace std::chrono_literals;
 
@@ -42,15 +43,17 @@ Application::Application(int ac, char **av)
 
 void Application::start()
 {
-    InitWindow(m_settings.width, m_settings.height, "Raylib tests");
+    raylib::Window window(m_settings.width, m_settings.height, "Raylib tests");
 
     if (m_settings.fpsMax != 0)
-        SetTargetFPS(m_settings.fpsMax);
+        window.setFPS(m_settings.fpsMax);
     if (m_settings.fullscreen)
-        ToggleFullscreen();
+        window.toggleFullscreen();
 
-    while (!WindowShouldClose()) {
-        ClearBackground(Color{0, 0, 0, 255});
+    window.changeClearColor(BLACK);
+
+    while (window.isOpen()) {
+        window.clear();
         BeginDrawing();
         DrawRectangle(100, 100, 100, 100, RAYWHITE);
 
