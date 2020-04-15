@@ -17,6 +17,8 @@ class RayTracerApp : public Application {
 private:
     std::unique_ptr<raylib::Model> m_model{nullptr};
     std::unique_ptr<raylib::Texture> m_texture{nullptr};
+
+    Camera m_camera{};
 public:
     RayTracerApp(int ac, char **av);
 
