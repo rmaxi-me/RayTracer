@@ -1,0 +1,4 @@
+#!/bin/bash -e
+
+../configure "$1"
+./build "$1"
