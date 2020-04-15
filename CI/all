@@ -1,4 +1,9 @@
 #!/bin/bash -e
 
-../configure "$1"
-./build "$1"
+if [ $# != 1 ]; then
+  echo "usage: $0 [Debug/Release/...]"
+  exit 1
+fi
+
+./configure "$1"
+./CI/build "$1"
