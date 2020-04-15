@@ -5,11 +5,14 @@
 ** under certain conditions; see LICENSE for details.
 */
 
-#include "RayTracerApp.hpp"
+#pragma once
 
-int main(int ac, char **av)
-{
-    RayTracerApp app(ac, av);
+#include "Engine/Application.hpp"
 
-    app.start();
-}
+class RayTracerApp : public Application {
+public:
+    RayTracerApp(int ac, char **av);
+
+    void tick(float deltaTime) override;
+    void draw() override;
+};

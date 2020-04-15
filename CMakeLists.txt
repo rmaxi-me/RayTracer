@@ -17,6 +17,8 @@ if (UNIX)
     if (RAYTRACER_ERROR)
         add_compile_options(-Werror)
     endif ()
+elseif (WIN32)
+    add_compile_options(/p:WarningLevel=1)
 endif ()
 
 if (CMAKE_BUILD_TYPE MATCHES Debug)
@@ -33,7 +35,7 @@ if (RAYTRACER_TESTS)
     message(STATUS "Setting up tests")
     set(CMAKE_BUILD_TYPE Debug)
 
-#    add_subdirectory(Tests)
+    #    add_subdirectory(Tests)
 
     message(STATUS "Setting up tests - done")
 endif ()
