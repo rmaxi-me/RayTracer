@@ -12,7 +12,7 @@
 
 #include "ArgumentParser.hpp"
 
-class Application final {
+class Application {
 public:
     struct Settings {
         bool fullscreen;
@@ -21,11 +21,18 @@ public:
         std::uint16_t fpsMax;
         std::string filePath;
     };
-private:
+protected:
     ArgumentParser m_parser;
     Settings m_settings;
+
+    std::uint32_t m_fps{0};
 public:
     Application(int ac, char **av);
+    virtual ~Application() = default;
 
     void start();
+    void drawFps() const;
+
+    virtual void tick(float deltaTime) = 0;
+    virtual void draw() = 0;
 };

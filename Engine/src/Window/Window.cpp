@@ -13,7 +13,7 @@ void raylib::Window::clear()
     ClearBackground(m_color);
 }
 
-void raylib::Window::changeClearColor(Color color)
+void raylib::Window::setClearColor(Color color)
 {
     m_color = color;
 }

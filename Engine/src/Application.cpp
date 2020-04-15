@@ -6,6 +6,8 @@
 */
 
 #include <raylib.h>
+
+#include <sstream>
 #include <iostream>
 #include <chrono>
 
@@ -49,17 +51,35 @@ void Application::start()
         window.setFPS(m_settings.fpsMax);
     if (m_settings.fullscreen)
         window.toggleFullscreen();
+    window.setClearColor(BLACK);
 
-    window.changeClearColor(BLACK);
+    auto frameCount = m_fps;
+    auto previous = std::chrono::high_resolution_clock::now();
+    decltype(previous) now;
 
     while (window.isOpen()) {
         window.clear();
-        BeginDrawing();
-        DrawRectangle(100, 100, 100, 100, RAYWHITE);
 
+        tick(GetFrameTime());
+
+        BeginDrawing();
+        draw();
 #if defined(RAYTRACER_DEBUG)
-        DrawFPS(0, 0);
+        drawFps();
 #endif
         EndDrawing();
+        ++frameCount;
+
+        now = std::chrono::high_resolution_clock::now();
+        if (std::chrono::duration_cast<std::chrono::seconds>(now - previous) >= 1s) {
+            m_fps = frameCount;
+            frameCount = 0;
+            previous = now;
+        }
     }
+}
+
+void Application::drawFps() const
+{
+    DrawText(TextFormat("%u FPS", m_fps), 5, 5, 20, LIME);
 }

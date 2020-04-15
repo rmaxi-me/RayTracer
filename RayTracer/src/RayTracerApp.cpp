@@ -5,11 +5,21 @@
 ** under certain conditions; see LICENSE for details.
 */
 
+#include <raylib.h>
+
 #include "RayTracerApp.hpp"
 
-int main(int ac, char **av)
+RayTracerApp::RayTracerApp(int ac, char **av)
+        : Application(ac, av)
 {
-    RayTracerApp app(ac, av);
+}
 
-    app.start();
+void RayTracerApp::tick(float deltaTime)
+{
+    (void) deltaTime;
+}
+
+void RayTracerApp::draw()
+{
+    DrawRectangle(100, 100, 100, 100, RAYWHITE);
 }
