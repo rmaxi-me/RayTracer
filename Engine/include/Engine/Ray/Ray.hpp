@@ -5,6 +5,15 @@
 
 namespace raylib
 {
+    struct RayHitInfo
+    {
+        bool hit;         // Did the ray hit something?
+        float distance;   // Distance to nearest hit
+        raymath::Vector3 position; // Position of nearest hit
+        raymath::Vector3 normal;
+        ::RayHitInfo getRawInfo() { return ::RayHitInfo{hit, distance, position.getRawVector(), normal.getRawVector()}; }
+    };
+
     class Ray
     {
     private:
