@@ -7,8 +7,6 @@
 
 #include <raylib.h>
 
-#include <unistd.h>
-
 #include "RayTracerApp.hpp"
 
 RayTracerApp::RayTracerApp(int ac, char **av)
