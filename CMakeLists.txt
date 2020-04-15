@@ -17,7 +17,7 @@ if (UNIX)
     if (RAYTRACER_ERROR)
         add_compile_options(-Werror)
     endif ()
-elseif (WINDOWS)
+elseif (WIN32)
     add_compile_options(/p:WarningLevel=1)
 endif ()
 
