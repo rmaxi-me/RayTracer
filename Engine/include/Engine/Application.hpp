@@ -38,7 +38,6 @@ public:
 
     virtual void init() = 0;
     virtual void deinit() = 0;
-
     virtual void tick(float deltaTime) = 0;
     virtual void draw() = 0;
 };

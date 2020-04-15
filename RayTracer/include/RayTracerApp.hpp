@@ -24,7 +24,6 @@ public:
 
     void init() override;
     void deinit() override;
-
     void tick(float deltaTime) override;
     void draw() override;
 };

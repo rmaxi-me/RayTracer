@@ -28,6 +28,11 @@ void RayTracerApp::init()
     m_camera.type = CAMERA_PERSPECTIVE;
 }
 
+void RayTracerApp::deinit()
+{
+
+}
+
 void RayTracerApp::tick(float deltaTime)
 {
     constexpr float SPEED = 50.f;
@@ -54,9 +59,4 @@ void RayTracerApp::draw()
         DrawModel(m_model->getRaylibModel(), {0, 0, -1}, 1, WHITE);
     }
     EndMode3D();
-}
-
-void RayTracerApp::deinit()
-{
-
 }
