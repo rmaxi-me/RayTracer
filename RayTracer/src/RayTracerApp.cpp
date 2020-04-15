@@ -30,9 +30,9 @@ void RayTracerApp::tick(float deltaTime)
 void RayTracerApp::draw()
 {
     Camera camera = {};
-    camera.position = (Vector3) {20.0f, 20.0f, 20.0f};  // Camera position
-    camera.target = (Vector3) {0.0f, 8.0f, 0.0f};       // Camera looking at point
-    camera.up = (Vector3) {0.0f, 1.6f, 0.0f};           // Camera up vector (rotation towards target)
+    camera.position = Vector3{20.0f, 20.0f, 20.0f};  // Camera position
+    camera.target = Vector3{0.0f, 8.0f, 0.0f};       // Camera looking at point
+    camera.up = Vector3{0.0f, 1.6f, 0.0f};           // Camera up vector (rotation towards target)
     camera.fovy = 45.0f;                                // Camera field-of-view Y
     camera.type = CAMERA_PERSPECTIVE;                   // Camera mode type
 
