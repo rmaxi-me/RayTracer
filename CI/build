@@ -24,6 +24,6 @@ case "$OS" in
   cmake --build build --config "$1" -- --no-print-directory
   ;;
 *)
-  cmake --build build --config "$1" -- /p:WarningLevel=1
+  cmake --build build --config "$1" -- "/p:WarningLevel=1"
   ;;
 esac
