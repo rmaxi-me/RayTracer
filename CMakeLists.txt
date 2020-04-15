@@ -42,4 +42,6 @@ endif ()
 
 set_target_properties(example PROPERTIES EXCLUDE_FROM_ALL 1 EXCLUDE_FROM_DEFAULT_BUILD 1)
 
+file(COPY Resources DESTINATION ${CMAKE_BINARY_DIR})
+
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")

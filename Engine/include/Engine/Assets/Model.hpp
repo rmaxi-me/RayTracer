@@ -20,6 +20,11 @@ namespace raylib {
         explicit Model(const Mesh &mesh);
         ~Model();
 
+        inline void attachTexture(Texture texture)
+        {
+            m_raylibModel.materials[0].maps[MAP_DIFFUSE].texture = texture;
+        }
+
         inline void setMeshMaterial(int meshId, int materialId)
         {
             SetModelMeshMaterial(&m_raylibModel, meshId, materialId);

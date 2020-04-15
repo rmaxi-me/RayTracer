@@ -45,20 +45,22 @@ Application::Application(int ac, char **av)
 
 void Application::start()
 {
-    raylib::Window window(m_settings.width, m_settings.height, "Raylib tests");
+    m_window = std::make_unique<raylib::Window>(m_settings.width, m_settings.height, "Raylib tests");
 
     if (m_settings.fpsMax != 0)
-        window.setFPS(m_settings.fpsMax);
+        m_window->setFPS(m_settings.fpsMax);
     if (m_settings.fullscreen)
-        window.toggleFullscreen();
-    window.setClearColor(BLACK);
+        m_window->toggleFullscreen();
+    m_window->setClearColor(BLACK);
 
     auto frameCount = m_fps;
     auto previous = std::chrono::high_resolution_clock::now();
     decltype(previous) now;
 
-    while (window.isOpen()) {
-        window.clear();
+    init();
+
+    while (m_window->isOpen()) {
+        m_window->clear();
 
         tick(GetFrameTime());
 
@@ -77,6 +79,8 @@ void Application::start()
             previous = now;
         }
     }
+
+    deinit();
 }
 
 void Application::drawFps() const
