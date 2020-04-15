@@ -16,4 +16,4 @@ add_library(
         src/Assets/Material.cpp include/Engine/Assets/Material.hpp
 )
 
-target_include_directories(${PROJECT_NAME}Engine PRIVATE include/Engine)
+target_include_directories(${PROJECT_NAME}Engine PRIVATE include/Engine include)
