@@ -35,9 +35,11 @@ if [[ $(uname -a) =~ "Ubuntu" ]]; then
   export CC="gcc-8"
   export CXX="g++-8"
 
-  sudo add-apt-repository ppa:snaipewastaken/ppa
-  sudo apt update
-  sudo apt install -y gcovr criterion-dev libasound2-dev mesa-common-dev libx11-dev libxrandr-dev libxi-dev xorg-dev libgl1-mesa-dev libglu1-mesa-dev
+  if [[ $USER == "runner" ]]; then
+    sudo add-apt-repository ppa:snaipewastaken/ppa
+    sudo apt update
+    sudo apt install -y gcovr criterion-dev libasound2-dev mesa-common-dev libx11-dev libxrandr-dev libxi-dev xorg-dev libgl1-mesa-dev libglu1-mesa-dev
+  fi
 fi
 
 # Create/Reload build directory
