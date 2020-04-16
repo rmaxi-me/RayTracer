@@ -41,7 +41,7 @@ namespace raylib {
         //------------------------
 
         void clear();
-        void changeClearColor(Color color);
+        void setClearColor(Color color);
         inline void startDrawing();
         inline void stopDrawing();
         inline void startMode2D(Camera2D camera);

@@ -35,7 +35,7 @@ int main(int argc, char const *argv[])
 
     raylib::Window window(nx, ny, "Test");
 
-    window.changeClearColor(BLACK);
+    window.setClearColor(BLACK);
 
     raymath::Vector3 l(-2, -1.5, -1);
     raymath::Vector3 h(4, 0, 0);
