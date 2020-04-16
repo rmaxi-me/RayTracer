@@ -11,7 +11,7 @@
 
 #if defined(OS_WINDOWS)
   #pragma warning (push)
-  #pragma warning (disable : 4244, 4267)
+  #pragma warning (disable : 4244 4267)
 
   #include <raylib.h>
 
