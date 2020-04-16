@@ -2,8 +2,10 @@ cmake_minimum_required(VERSION 3.14)
 
 add_executable(
         ${PROJECT_NAME}
+        include/Objects/Object.hpp
+        include/Objects/ObjectList.hpp
         src/Main.cpp include/Main.hpp
-        src/RayTracerApp.cpp include/RayTracerApp.hpp
+        src/Objects/Sphere.cpp include/Objects/Sphere.hpp
 )
 
 if (UNIX)
