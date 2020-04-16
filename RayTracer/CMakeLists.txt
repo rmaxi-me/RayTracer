@@ -6,5 +6,11 @@ add_executable(
         src/RayTracerApp.cpp include/RayTracerApp.hpp
 )
 
+if (UNIX)
+    set(PTHREAD_LIB "pthread")
+else ()
+    set(PTHREAD_LIB "")
+endif ()
+
 target_include_directories(${PROJECT_NAME} PRIVATE include ../Engine/include)
-target_link_libraries(${PROJECT_NAME} RayTracerEngine raylib pthread)
+target_link_libraries(${PROJECT_NAME} RayTracerEngine raylib ${PTHREAD_LIB})
