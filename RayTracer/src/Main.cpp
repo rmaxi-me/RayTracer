@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <limits>
+#include <random>
 
 #include "Engine/Window/Window.hpp"
 #include "Engine/Vector/Vector3.hpp"
@@ -52,22 +53,26 @@ raymath::Vector3 linearInterpolation(raylib::Ray ray, std::shared_ptr<Object> li
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char const *argv[])
 {
-    int nx = 800;
-    int ny = 600;
+    int nx = 1920;
+    int ny = 1080;
 
     raylib::Window window(nx, ny, "Test");
 
     window.setClearColor(BLACK);
 
-    raymath::Vector3 l(-2, -1.5, -1);
+    raymath::Vector3 l(-2, -1.125, -1);
     raymath::Vector3 h(4, 0, 0);
-    raymath::Vector3 v(0, 3, 0);
+    raymath::Vector3 v(0, 2.25, 0);
     raymath::Vector3 o(0, 0, 0);
 
     std::vector<std::shared_ptr<Object>> obj;
     obj.emplace_back(new Sphere(raymath::Vector3(0, 0, -1), 0.5));
-
     std::shared_ptr<Object> list = std::make_shared<ObjectList>(ObjectList(obj));
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+
+    int antialiasing = 4;
 
     while (window.isOpen())
     {
@@ -78,16 +83,26 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char const *argv[])
         {
             for (int i = 0; i < nx; i++)
             {
-                float Vu = (float)i / (float)(nx);
-                float Vv = (float)j / (float)(ny);
+                raymath::Vector3 col;
 
-                //Projection of the ray depending of the size of the screen
-                raylib::Ray ray(o, l + Vu * h + Vv * v);
+//Begin AntiAliasing
+                for (int k = 0; k < antialiasing; k++)
+                {
+                    float Vu = (float)(i + std::generate_canonical<double, 10>(gen)) / (float)(nx);
+                    float Vv = (float)(j + std::generate_canonical<double, 10>(gen)) / (float)(ny);
 
-                raymath::Vector3 col = linearInterpolation(ray, list);
+                    //Projection of the ray depending of the size of the screen
+                    raylib::Ray ray(o, l + Vu * h + Vv * v);
+                    col += linearInterpolation(ray, list);
+                }
+                col /= antialiasing;
+//End AntiAliasing
+
                 DrawPixel(i, j, Color{static_cast<unsigned char>(col.x() * 255), static_cast<unsigned char>(col.y() * 255), static_cast<unsigned char>(col.z() * 255), 255});
             }
+            // std::cout << j << std::endl;
         }
+        DrawFPS(0, 0);
         EndDrawing();
     }
     return 0;
