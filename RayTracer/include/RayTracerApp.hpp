@@ -7,12 +7,23 @@
 
 #pragma once
 
+#include <memory>
+
 #include "Engine/Application.hpp"
+#include "Engine/Assets/Model.hpp"
+#include "Engine/Assets/Texture.hpp"
 
 class RayTracerApp : public Application {
+private:
+    std::unique_ptr<raylib::Model> m_model{nullptr};
+    std::unique_ptr<raylib::Texture> m_texture{nullptr};
+
+    Camera m_camera{};
 public:
     RayTracerApp(int ac, char **av);
 
+    void init() override;
+    void deinit() override;
     void tick(float deltaTime) override;
     void draw() override;
 };

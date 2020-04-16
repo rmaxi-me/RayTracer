@@ -3,7 +3,9 @@
 #include <raylib.h>
 
 #include <string>
-#include "Vector/Vector2.hpp"
+
+#include "Engine/Vector/Vector2.hpp"
+#include "Engine/Vector/Vector3.hpp"
 
 namespace raylib {
     class Window {

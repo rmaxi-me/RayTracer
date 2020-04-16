@@ -9,8 +9,10 @@
 
 #include <cstdint>
 #include <string>
+#include <memory>
 
 #include "ArgumentParser.hpp"
+#include "Window/Window.hpp"
 
 class Application {
 public:
@@ -22,6 +24,7 @@ public:
         std::string filePath;
     };
 protected:
+    std::unique_ptr<raylib::Window> m_window{nullptr};
     ArgumentParser m_parser;
     Settings m_settings;
 
@@ -33,6 +36,8 @@ public:
     void start();
     void drawFps() const;
 
+    virtual void init() = 0;
+    virtual void deinit() = 0;
     virtual void tick(float deltaTime) = 0;
     virtual void draw() = 0;
 };
