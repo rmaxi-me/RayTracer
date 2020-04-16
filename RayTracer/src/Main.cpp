@@ -19,7 +19,7 @@
 //    std::cout << this_id << " done" << std::endl;
 //}
 
-raymath::Vector3 linearInterpolation(raylib::Ray ray, Object *list)
+raymath::Vector3 linearInterpolation(raylib::Ray ray, std::shared_ptr<Object> list)
 {
     raylib::RayHitInfo info;
 
@@ -49,7 +49,7 @@ raymath::Vector3 linearInterpolation(raylib::Ray ray, Object *list)
 //    tp.runAndWait();
 }
 
-int main(int argc, char const *argv[])
+int main([[maybe_unused]] int argc, [[maybe_unused]] char const *argv[])
 {
     int nx = 800;
     int ny = 600;
@@ -63,9 +63,10 @@ int main(int argc, char const *argv[])
     raymath::Vector3 v(0, 3, 0);
     raymath::Vector3 o(0, 0, 0);
 
-    std::vector<Object *> obj;
-    obj.push_back(new Sphere(raymath::Vector3(0, 0, -1), 0.5));
-    Object *list = new ObjectList(obj);
+    std::vector<std::shared_ptr<Object>> obj;
+    obj.emplace_back(new Sphere(raymath::Vector3(0, 0, -1), 0.5));
+
+    std::shared_ptr<Object> list = std::make_shared<ObjectList>(ObjectList(obj));
 
     while (window.isOpen())
     {
@@ -83,7 +84,7 @@ int main(int argc, char const *argv[])
                 raylib::Ray ray(o, l + Vu * h + Vv * v);
 
                 raymath::Vector3 col = linearInterpolation(ray, list);
-                DrawPixel(i, j, Color{(int)(col.x() * 255.99), (int)(col.y() * 255.99), (int)(col.z() * 255), 255});
+                DrawPixel(i, j, Color{static_cast<unsigned char>(col.x() * 255), static_cast<unsigned char>(col.y() * 255), static_cast<unsigned char>(col.z() * 255), 255});
             }
         }
         EndDrawing();
