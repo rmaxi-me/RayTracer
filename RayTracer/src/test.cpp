@@ -1,55 +1,30 @@
 #include <iostream>
 #include <vector>
+
 #include "Window/Window.hpp"
 #include "Vector/Vector3.hpp"
 #include "Ray/Ray.hpp"
 #include "Objects/Sphere.hpp"
-
-class hitable_list : public Object
-{
-public:
-    hitable_list() {}
-    hitable_list(std::vector<Object *> obj) : list(obj) {}
-    virtual bool isHit(const raylib::Ray &r, float t_min, float t_max, raylib::RayHitInfo &rec)
-    {
-        raylib::RayHitInfo temp_rec;
-        bool hit_anything = false;
-        double closest_so_far = t_max;
-        for (int i = 0; i < list.size(); i++)
-        {
-            if (list[i]->isHit(r, t_min, closest_so_far, temp_rec))
-            {
-                // std::cout << list.size() << std::endl;
-
-                hit_anything = true;
-                closest_so_far = temp_rec.distance;
-                rec = temp_rec;
-            }
-        }
-        return hit_anything;
-    }
-    std::vector <Object *> list;
-};
+#include "Objects/ObjectList.hpp"
 
 raymath::Vector3 linearInterpolation(raylib::Ray ray, Object *list)
 {
     raylib::RayHitInfo info;
-    if (list->isHit(ray, 0.0, MAXFLOAT, info))
+
+    //check if any ray hit an object 0 and MAXFLOAT are value to stop the calcul if no object is found or an object is too close
+    //When an obj is hit, RayHitInfo is Fill and the fct return True
+    if (list->isHit(ray, 0.0f, MAXFLOAT, info))
     {
-        raymath::Vector3 plop = 0.5f * raymath::Vector3(info.normal.x() + 1, info.normal.y() + 1, info.normal.z() + 1);
-        plop *= 255.99;
-        // std::cout << (int)plop.x() << " " << (int)plop.y() << " " << (int)plop.z() << std::endl;
-        return  plop;
+        raymath::Vector3 plop = 0.5f * raymath::Vector3(info.normal.x()+1, info.normal.y()+1, info.normal.z()+1);
+        if (plop.z() > 1)
+            return raymath::Vector3(plop.x(), plop.y(), 1.0f);
+        return plop;
     }
     else
     {
         raymath::Vector3 vecteurUnitaire = normalize(ray.getDirection());
         float t = 0.5*(vecteurUnitaire.y() + 1.0);
-        raymath::Vector3 plop = (1.0f - t) * raymath::Vector3(1.0, 1.0, 1.0) + t * raymath::Vector3(0.5, 0.7, 1.0);
-        plop *= 255.99;
-        // std::cout << (int)plop.x() << " " << (int)plop.y() << " " << (int)plop.z() << std::endl;
-        // std::cout << 255 << " " << 255 << " " << 255 << std::endl;
-        return raymath::Vector3(255, 255, 255);
+        return (1.0f - t) * raymath::Vector3(1.0, 1.0, 1.0) + t * raymath::Vector3(0.5, 0.7, 1.0);
     }
 }
 
@@ -69,8 +44,8 @@ int main(int argc, char const *argv[])
 
     std::vector<Object *> obj;
     obj.push_back(new Sphere(raymath::Vector3(0, 0, -1), 0.5));
-    // obj.push_back(new Sphere(raymath::Vector3(0, 1.5, -1), 1));
-    Object *list = new hitable_list(obj);
+    Object *list = new ObjectList(obj);
+    
     while(window.isOpen())
     {
         window.clear();
@@ -87,8 +62,7 @@ int main(int argc, char const *argv[])
                 raylib::Ray ray(o, l+Vu*h+Vv*v);
 
                 raymath::Vector3 col = linearInterpolation(ray, list);
-                DrawRectangle(i, j, 1, 1, Color{(int)(col.x()), (int)(col.y()), (int)(col.z()), 255});
-                // DrawPixel(i, j, Color{(int)(col.x()), (int)(col.y()), (int)(col.z()), 255});
+                DrawPixel(i, j, Color{(int)(col.x()*255.99), (int)(col.y()*255.99), (int)(col.z()*255), 255});
             }
         }
         EndDrawing();

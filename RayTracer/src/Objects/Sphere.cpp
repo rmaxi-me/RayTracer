@@ -12,13 +12,11 @@ bool Sphere::isHit(const raylib::Ray &r, float tmin, float tmax, raylib::RayHitI
 
     if (discriminant > 0)
     {
-
         float sol[2];
         sol[0] = (-b - sqrt(b * b - a * c) / a);
         sol[1] = (-b + sqrt(b * b - a * c) / a);
         for (auto &i : sol)
         {
-            // std::cout << i << "|" << tmin << "|" << tmax << std::endl;
             if (i < tmax && i > tmin)
             {
                 info.distance = i;
