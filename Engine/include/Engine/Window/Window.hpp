@@ -3,7 +3,9 @@
 #include <raylib.h>
 
 #include <string>
+
 #include "Engine/Vector/Vector2.hpp"
+#include "Engine/Vector/Vector3.hpp"
 
 namespace raylib {
     class Window {
@@ -41,7 +43,7 @@ namespace raylib {
         //------------------------
 
         void clear();
-        void changeClearColor(Color color);
+        void setClearColor(Color color);
         inline void startDrawing();
         inline void stopDrawing();
         inline void startMode2D(Camera2D camera);
@@ -195,22 +197,22 @@ inline void raylib::Window::stopTextureMode(void)
     EndTextureMode();
 }
 
-inline void setFPS(int fps)
+inline void raylib::Window::setFPS(int fps)
 {
     SetTargetFPS(fps);
 }
 
-inline int getFPS()
+inline int raylib::Window::getFPS()
 {
     return GetFPS();
 }
 
-inline float getFrameTime()
+inline float raylib::Window::getFrameTime()
 {
     return GetFrameTime();
 }
 
-inline double getTime()
+inline double raylib::Window::getTime()
 {
     return GetTime();
 }

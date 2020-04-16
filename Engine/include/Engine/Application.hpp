@@ -9,23 +9,35 @@
 
 #include <cstdint>
 #include <string>
+#include <memory>
 
 #include "ArgumentParser.hpp"
+#include "Window/Window.hpp"
 
-class Application final {
+class Application {
 public:
     struct Settings {
+        bool fullscreen;
         std::uint16_t width;
         std::uint16_t height;
         std::uint16_t fpsMax;
-        bool fullscreen;
         std::string filePath;
     };
-private:
+protected:
+    std::unique_ptr<raylib::Window> m_window{nullptr};
     ArgumentParser m_parser;
     Settings m_settings;
+
+    std::uint32_t m_fps{0};
 public:
     Application(int ac, char **av);
+    virtual ~Application() = default;
 
     void start();
+    void drawFps() const;
+
+    virtual void init() = 0;
+    virtual void deinit() = 0;
+    virtual void tick(float deltaTime) = 0;
+    virtual void draw() = 0;
 };

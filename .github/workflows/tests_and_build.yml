@@ -41,4 +41,4 @@ jobs:
 
       - name: Build
         shell: bash
-        run: ./CI/compile ${{ matrix.mode }}
+        run: ./CI/build ${{ matrix.mode }}
