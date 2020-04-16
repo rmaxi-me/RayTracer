@@ -28,9 +28,9 @@ int main(int ac, char **av)
 
     ThreadPool<void, int> tp(&do_work);
 
-    for (int i = 0; i < 1000; ++i) {
+    for (int i = 0; i < 100; ++i) {
         tp.queueTask(1);
     }
 
-    tp.run();
+    tp.runAndWait();
 }
