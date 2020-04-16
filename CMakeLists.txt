@@ -18,7 +18,7 @@ if (UNIX)
         add_compile_options(-Werror)
     endif ()
 elseif (WIN32)
-    add_compile_options(/p:WarningLevel=1)
+    add_compile_options(/wd4244 /wd4267)
 endif ()
 
 if (CMAKE_BUILD_TYPE MATCHES Debug)

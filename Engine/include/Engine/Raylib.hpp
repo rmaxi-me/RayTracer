@@ -9,20 +9,15 @@
 
 #include "OS.hpp"
 
-#if defined(OS_LINUX)
-  #pragma GCC diagnostic push
-  #pragma GCC diagnostic ignored "-Wmissing-field-initializers"
-
-  #include <raymath.h>
-
-  #pragma GCC diagnostic pop
-#elif defined(OS_WINDOWS)
+#if defined(OS_WINDOWS)
   #pragma warning (push)
   #pragma warning (disable : 4244 4267)
 
-  #include <raymath.h>
+  #include <raylib.h>
 
   #pragma warning (pop)
 #else
-  #include <raymath.h>
+
+  #include <raylib.h>
+
 #endif

@@ -5,15 +5,15 @@
 ** under certain conditions; see LICENSE for details.
 */
 
-#include <raylib.h>
+#include "Engine/Raylib.hpp"
 
 #include <sstream>
 #include <iostream>
 #include <chrono>
 
-#include "Application.hpp"
-#include "ArgumentParser.hpp"
-#include "Window/Window.hpp"
+#include "Engine/Application.hpp"
+#include "Engine/ArgumentParser.hpp"
+#include "Engine/Window/Window.hpp"
 
 using namespace std::chrono_literals;
 

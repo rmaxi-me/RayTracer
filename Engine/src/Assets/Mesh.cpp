@@ -5,7 +5,7 @@
 ** under certain conditions; see LICENSE for details.
 */
 
-#include "Assets/Mesh.hpp"
+#include "Engine/Assets/Mesh.hpp"
 
 raylib::Mesh::Mesh(::Mesh raylibMesh)
         : m_raylibMesh{raylibMesh}

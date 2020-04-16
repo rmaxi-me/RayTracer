@@ -5,7 +5,7 @@
 ** under certain conditions; see LICENSE for details.
 */
 
-#include "Assets/Material.hpp"
+#include "Engine/Assets/Material.hpp"
 
 raylib::Material::Material()
         : m_raylibMaterial(LoadMaterialDefault())

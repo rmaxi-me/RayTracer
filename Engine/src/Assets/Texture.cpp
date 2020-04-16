@@ -5,7 +5,7 @@
 ** under certain conditions; see LICENSE for details.
 */
 
-#include "Assets/Texture.hpp"
+#include "Engine/Assets/Texture.hpp"
 
 raylib::Texture::Texture(::Texture texture)
         : m_raylibTexture{texture}

@@ -5,7 +5,7 @@
 ** under certain conditions; see LICENSE for details.
 */
 
-#include "Assets/Model.hpp"
+#include "Engine/Assets/Model.hpp"
 
 raylib::Model::Model(const char *filename)
         : m_raylibModel{LoadModel(filename)}

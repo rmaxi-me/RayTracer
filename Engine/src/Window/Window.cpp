@@ -1,5 +1,5 @@
-#include "Window/Window.hpp"
-#include <raylib.h>
+#include "Engine/Window/Window.hpp"
+#include "Engine/Raylib.hpp"
 
 raylib::Window::Window(int width, int height, const std::string &title, unsigned int configFlag)
         : m_color{}

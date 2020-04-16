@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.14)
 
 add_library(
         ${PROJECT_NAME}Engine
-        include/Engine/Raymath.hpp
+        include/Engine/Raylib.hpp include/Engine/Raymath.hpp
         src/Ray/Ray.cpp include/Engine/Ray/Ray.hpp
         src/Application.cpp include/Engine/Application.hpp
         src/ArgumentParser.cpp include/Engine/ArgumentParser.hpp
@@ -14,6 +14,6 @@ add_library(
         src/Assets/Model.cpp include/Engine/Assets/Model.hpp
         src/Assets/Texture.cpp include/Engine/Assets/Texture.hpp
         src/Assets/Material.cpp include/Engine/Assets/Material.hpp
-        include/Engine/ThreadPool.hpp)
+        include/Engine/ThreadPool.hpp include/Engine/OS.hpp)
 
-target_include_directories(${PROJECT_NAME}Engine PRIVATE include/Engine include)
+target_include_directories(${PROJECT_NAME}Engine PRIVATE include)
