@@ -1,0 +1,15 @@
+cmake_minimum_required(VERSION 3.14)
+
+add_executable(
+        ${PROJECT_NAME}
+        include/Objects/Object.hpp
+        src/Main.cpp include/Main.hpp
+<<<<<<< Updated upstream
+=======
+        include/Objects/Object.hpp
+>>>>>>> Stashed changes
+        src/Objects/Sphere.cpp include/Objects/Sphere.hpp
+)
+
+target_include_directories(${PROJECT_NAME} PRIVATE include ../Engine/include)
+target_link_libraries(${PROJECT_NAME} RayTracerEngine raylib)

@@ -37,7 +37,7 @@ namespace raylib {
         int getHeight();
         raymath::Vector2 getPosition();
 
-        //Drawing related funtions
+        //Drawing related functions
         //------------------------
 
         void clear();
