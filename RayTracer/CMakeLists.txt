@@ -7,4 +7,4 @@ add_executable(
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE include ../Engine/include)
-target_link_libraries(${PROJECT_NAME} RayTracerEngine raylib)
+target_link_libraries(${PROJECT_NAME} RayTracerEngine raylib pthread)
