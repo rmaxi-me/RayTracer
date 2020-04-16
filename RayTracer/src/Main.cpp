@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <limits>
 
 #include "Engine/Window/Window.hpp"
 #include "Engine/Vector/Vector3.hpp"
@@ -25,7 +26,7 @@ raymath::Vector3 linearInterpolation(raylib::Ray ray, std::shared_ptr<Object> li
 
     //check if any ray hit an object 0 and MAXFLOAT are value to stop the calcul if no object is found or an object is too close
     //When an obj is hit, RayHitInfo is Fill and the fct return True
-    if (list->isHit(ray, 0.0f, MAXFLOAT, info))
+    if (list->isHit(ray, 0.0f, std::numeric_limits<float>::max(), info))
     {
         raymath::Vector3 plop = 0.5f * raymath::Vector3(info.normal.x() + 1, info.normal.y() + 1, info.normal.z() + 1);
         if (plop.z() > 1)
