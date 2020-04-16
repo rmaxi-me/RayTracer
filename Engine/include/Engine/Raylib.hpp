@@ -10,11 +10,12 @@
 #include "OS.hpp"
 
 #if defined(OS_WINDOWS)
-  #pragma warning disable C4244, C4267
+  #pragma warning (push)
+  #pragma warning (disable : 4244, 4267)
 
   #include <raylib.h>
 
-  #pragma warning restore C4244, C4267
+  #pragma warning (pop)
 #else
 
   #include <raylib.h>

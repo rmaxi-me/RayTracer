@@ -17,11 +17,12 @@
 
   #pragma GCC diagnostic pop
 #elif defined(OS_WINDOWS)
-  #pragma warning disable C4244, C4267
+  #pragma warning (push)
+  #pragma warning (disable : 4244, 4267)
 
   #include <raymath.h>
 
-  #pragma warning restore C4244, C4267
+  #pragma warning (pop)
 #else
   #include <raymath.h>
 #endif
