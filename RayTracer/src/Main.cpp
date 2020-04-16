@@ -7,6 +7,18 @@
 #include "Objects/Sphere.hpp"
 #include "Objects/ObjectList.hpp"
 
+//void do_work(int)
+//{
+//    using namespace std::chrono_literals;
+//
+//    static std::atomic<int> id = 0;
+//    int this_id = ++id;
+//
+//    std::cout << this_id << " starting" << std::endl;
+//    std::this_thread::sleep_for(1s);
+//    std::cout << this_id << " done" << std::endl;
+//}
+
 raymath::Vector3 linearInterpolation(raylib::Ray ray, Object *list)
 {
     raylib::RayHitInfo info;
@@ -26,6 +38,15 @@ raymath::Vector3 linearInterpolation(raylib::Ray ray, Object *list)
         float t = 0.5 * (vecteurUnitaire.y() + 1.0);
         return (1.0f - t) * raymath::Vector3(1.0, 1.0, 1.0) + t * raymath::Vector3(0.5, 0.7, 1.0);
     }
+//     RayTracerApp app(ac, av);
+
+//     app.start();
+
+//    ThreadPool<void, int> tp(&do_work);
+//    for (int i = 0; i < 100; ++i) {
+//        tp.queueTask(1);
+//    }
+//    tp.runAndWait();
 }
 
 int main(int argc, char const *argv[])
