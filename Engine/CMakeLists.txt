@@ -14,6 +14,6 @@ add_library(
         src/Assets/Model.cpp include/Engine/Assets/Model.hpp
         src/Assets/Texture.cpp include/Engine/Assets/Texture.hpp
         src/Assets/Material.cpp include/Engine/Assets/Material.hpp
-)
+        include/Engine/ThreadPool.hpp)
 
 target_include_directories(${PROJECT_NAME}Engine PRIVATE include/Engine include)
