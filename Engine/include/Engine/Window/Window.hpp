@@ -3,7 +3,7 @@
 #include <raylib.h>
 
 #include <string>
-#include "Vector/Vector2.hpp"
+#include "Engine/Vector/Vector2.hpp"
 
 namespace raylib {
     class Window {
@@ -37,7 +37,7 @@ namespace raylib {
         int getHeight();
         raymath::Vector2 getPosition();
 
-        //Drawing related funtions
+        //Drawing related functions
         //------------------------
 
         void clear();

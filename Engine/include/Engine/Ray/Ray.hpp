@@ -1,21 +1,20 @@
 #pragma once
 
 #include <raylib.h>
-#include "Vector/Vector3.hpp"
+#include "Engine/Vector/Vector3.hpp"
 
-namespace raylib
-{
-    struct RayHitInfo
-    {
-        bool hit;         // Did the ray hit something?
-        float distance;   // Distance to nearest hit
-        raymath::Vector3 position; // Position of nearest hit
-        raymath::Vector3 normal;
-        ::RayHitInfo getRawInfo() { return ::RayHitInfo{hit, distance, position.getRawVector(), normal.getRawVector()}; }
+namespace raylib {
+    struct RayHitInfo {
+        bool hit{};         // Did the ray hit something?
+        float distance{};   // Distance to nearest hit
+        raymath::Vector3 position{}; // Position of nearest hit
+        raymath::Vector3 normal{};
+
+        ::RayHitInfo getRawInfo()
+        { return ::RayHitInfo{hit, distance, position.getRawVector(), normal.getRawVector()}; }
     };
 
-    class Ray
-    {
+    class Ray {
     private:
         raymath::Vector3 origin;
         raymath::Vector3 direction;

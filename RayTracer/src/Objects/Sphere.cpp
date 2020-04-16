@@ -1,6 +1,7 @@
 #include "Objects/Sphere.hpp"
 
-Sphere::Sphere(raymath::Vector3 c, float r) : center(c), radius(r) {}
+Sphere::Sphere(const raymath::Vector3 &c, float r) : center(c), radius(r)
+{}
 
 bool Sphere::isHit(const raylib::Ray &r, float tmin, float tmax, raylib::RayHitInfo &info)
 {
