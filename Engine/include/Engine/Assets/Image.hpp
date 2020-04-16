@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include <raylib.h>
+#include "Engine/Raylib.hpp"
 
 namespace raylib {
     class Image {
