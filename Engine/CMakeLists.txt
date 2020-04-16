@@ -16,4 +16,4 @@ add_library(
         src/Assets/Material.cpp include/Engine/Assets/Material.hpp
         include/Engine/ThreadPool.hpp)
 
-target_include_directories(${PROJECT_NAME}Engine PRIVATE include/Engine include)
+target_include_directories(${PROJECT_NAME}Engine PRIVATE include)

@@ -5,7 +5,7 @@
 ** under certain conditions; see LICENSE for details.
 */
 
-#include "Assets/Image.hpp"
+#include "Engine/Assets/Image.hpp"
 
 raylib::Image::Image(::Image raylibImage)
         : m_rayImage{raylibImage}
