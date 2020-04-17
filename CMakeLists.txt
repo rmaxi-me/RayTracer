@@ -35,7 +35,7 @@ if (RAYTRACER_TESTS)
     message(STATUS "Setting up tests")
     set(CMAKE_BUILD_TYPE Debug)
 
-    #    add_subdirectory(Tests)
+    add_subdirectory(Tests)
 
     message(STATUS "Setting up tests - done")
 endif ()
