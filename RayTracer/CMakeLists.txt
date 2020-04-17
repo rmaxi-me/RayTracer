@@ -7,6 +7,7 @@ add_executable(
         src/Main.cpp include/Main.hpp
         src/RayTracerApp.cpp include/RayTracerApp.hpp
         src/Objects/Sphere.cpp include/Objects/Sphere.hpp
+        src/RayTracerApp.cpp include/RayTracerApp.hpp
 )
 
 if (UNIX)

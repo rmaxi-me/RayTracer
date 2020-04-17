@@ -57,24 +57,36 @@ void RayTracerApp::draw()
 {
     static const int nx = m_window->getWidth();
     static const int ny = m_window->getHeight();
-    static const raymath::Vector3 l(-2, -1.5, -1);
+    static const raymath::Vector3 l(-2, -1, -1);
     static const raymath::Vector3 h(4, 0, 0);
     static const raymath::Vector3 v(0, 3, 0);
     static const raymath::Vector3 o(0, 0, 0);
 
-    for (int j = ny - 1; j >= 0; j--) {
-        for (int i = 0; i < nx; i++) {
-            float Vu = (float) i / (float) (nx);
-            float Vv = (float) j / (float) (ny);
+    std::random_device rd;
+    std::mt19937 gen(rd());
 
-            //Projection of the ray depending of the size of the screen
-            raylib::Ray ray(o, l + Vu * h + Vv * v);
+    m_window->clear();
+    BeginDrawing();
+    for (int j = ny - 1; j >= 0; j--)
+    {
+        for (int i = 0; i < nx; i++)
+        {
+            raymath::Vector3 col;
+            //Begin AntiAliasing
+            for (int k = 0; k < anti_aliasing; k++)
+            {
+                float Vu = (float)(i + std::generate_canonical<double, 10>(gen)) / (float)(nx);
+                float Vv = (float)(j + std::generate_canonical<double, 10>(gen)) / (float)(ny);
 
-            raymath::Vector3 col = linearInterpolation(ray, m_list);
-            DrawPixel(i, j, Color{static_cast<unsigned char>(col.x() * 255),
-                                  static_cast<unsigned char>(col.y() * 255),
-                                  static_cast<unsigned char>(col.z() * 255),
-                                  255});
+                //Projection of the ray depending of the size of the screen
+                raylib::Ray ray(o, l + Vu * h + Vv * v);
+                col += linearInterpolation(ray, m_list);
+            }
+            col /= anti_aliasing;
+            //End AntiAliasing
+            DrawPixel(i, j, Color{static_cast<unsigned char>(col.x() * 255), static_cast<unsigned char>(col.y() * 255), static_cast<unsigned char>(col.z() * 255), 255});
         }
     }
+    drawFps();
+    EndDrawing();
 }
