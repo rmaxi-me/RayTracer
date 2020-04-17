@@ -6,8 +6,11 @@
 */
 
 #include <raylib.h>
+#include <random>
 
 #include "RayTracerApp.hpp"
+#include "Objects/ObjectList.hpp"
+#include "Objects/Sphere.hpp"
 
 RayTracerApp::RayTracerApp(int ac, char **av)
         : Application(ac, av)
@@ -16,47 +19,76 @@ RayTracerApp::RayTracerApp(int ac, char **av)
 
 void RayTracerApp::init()
 {
-    m_model = std::make_unique<raylib::Model>("Resources/church.obj");
-    m_texture = std::make_unique<raylib::Texture>("Resources/church_diffuse.png");
+    std::vector<std::shared_ptr<Object>> obj;
+    obj.push_back(std::make_shared<Sphere>(raymath::Vector3(0, 0, -1), 0.5));
 
-    m_model->attachTexture(m_texture->getRaylibTexture());
-
-    m_camera.position = Vector3{20.0f, 20.0f, 20.0f};
-    m_camera.target = Vector3{0.0f, 8.0f, 0.0f};
-    m_camera.up = Vector3{0.0f, 1.f, 0.0f};
-    m_camera.fovy = 45.0f;
-    m_camera.type = CAMERA_PERSPECTIVE;
+    m_list = std::make_shared<ObjectList>(ObjectList(obj));
 }
 
 void RayTracerApp::deinit()
 {
-
 }
 
 void RayTracerApp::tick(float deltaTime)
 {
-    constexpr float SPEED = 50.f;
+    (void)deltaTime;
+}
 
-    if (IsKeyDown(KEY_W))
-        m_camera.position.z += SPEED * deltaTime;
-    if (IsKeyDown(KEY_A))
-        m_camera.position.x -= SPEED * deltaTime;
-    if (IsKeyDown(KEY_S))
-        m_camera.position.z -= SPEED * deltaTime;
-    if (IsKeyDown(KEY_D))
-        m_camera.position.x += SPEED * deltaTime;
-    if (IsKeyDown(KEY_SPACE))
-        m_camera.position.y += SPEED * deltaTime;
-    if (IsKeyDown(KEY_C))
-        m_camera.position.y -= SPEED * deltaTime;
+raymath::Vector3 linearInterpolation(const raylib::Ray &ray, const std::shared_ptr<Object> &list)
+{
+    raylib::RayHitInfo info;
+
+    //check if any ray hit an object 0 and MAXFLOAT are value to stop the calcul if no object is found or an object is too close
+    //When an obj is hit, RayHitInfo is Fill and the fct return True
+    if (list->isHit(ray, 0.0f, std::numeric_limits<float>::max(), info))
+    {
+        raymath::Vector3 plop = 0.5f * raymath::Vector3(info.normal.x() + 1, info.normal.y() + 1, info.normal.z() + 1);
+        if (plop.z() > 1)
+            return raymath::Vector3(plop.x(), plop.y(), 1.0f);
+        return plop;
+    }
+    else
+    {
+        raymath::Vector3 vecteurUnitaire = normalize(ray.getDirection());
+        float t = 0.5f * (vecteurUnitaire.y() + 1.0f);
+        return (1.0f - t) * raymath::Vector3(1.0, 1.0, 1.0) + t * raymath::Vector3(0.5, 0.7, 1.0);
+    }
 }
 
 void RayTracerApp::draw()
 {
-    BeginMode3D(m_camera);
+    static const int nx = m_window->getWidth();
+    static const int ny = m_window->getHeight();
+    static const raymath::Vector3 l(-2, -1, -1);
+    static const raymath::Vector3 h(4, 0, 0);
+    static const raymath::Vector3 v(0, 3, 0);
+    static const raymath::Vector3 o(0, 0, 0);
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+
+    m_window->clear();
+    BeginDrawing();
+    for (int j = ny - 1; j >= 0; j--)
     {
-        DrawPlane({0, 0, 0}, {100, 100}, DARKGREEN);
-        DrawModel(m_model->getRaylibModel(), {0, 0, -1}, 1, WHITE);
+        for (int i = 0; i < nx; i++)
+        {
+            raymath::Vector3 col;
+            //Begin AntiAliasing
+            for (int k = 0; k < anti_aliasing; k++)
+            {
+                float Vu = (float)(i + std::generate_canonical<double, 10>(gen)) / (float)(nx);
+                float Vv = (float)(j + std::generate_canonical<double, 10>(gen)) / (float)(ny);
+
+                //Projection of the ray depending of the size of the screen
+                raylib::Ray ray(o, l + Vu * h + Vv * v);
+                col += linearInterpolation(ray, m_list);
+            }
+            col /= anti_aliasing;
+            //End AntiAliasing
+            DrawPixel(i, j, Color{static_cast<unsigned char>(col.x() * 255), static_cast<unsigned char>(col.y() * 255), static_cast<unsigned char>(col.z() * 255), 255});
+        }
     }
-    EndMode3D();
+    drawFps();
+    EndDrawing();
 }

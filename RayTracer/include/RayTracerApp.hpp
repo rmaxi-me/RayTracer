@@ -12,13 +12,13 @@
 #include "Engine/Application.hpp"
 #include "Engine/Assets/Model.hpp"
 #include "Engine/Assets/Texture.hpp"
+#include "Objects/Object.hpp"
 
 class RayTracerApp : public Application {
 private:
-    std::unique_ptr<raylib::Model> m_model{nullptr};
-    std::unique_ptr<raylib::Texture> m_texture{nullptr};
+    std::shared_ptr<Object> m_list{};
 
-    Camera m_camera{};
+    int anti_aliasing = 2;
 public:
     RayTracerApp(int ac, char **av);
 
