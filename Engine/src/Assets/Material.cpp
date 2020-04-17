@@ -24,7 +24,7 @@ raylib::Material::~Material()
 
 std::vector<raylib::Material> raylib::Material::loadMaterials(const char *filename)
 {
-    decltype(loadMaterials("")) vec;
+    std::vector<raylib::Material> vec;
     int count = 0;
     auto materials = LoadMaterials(filename, &count);
 

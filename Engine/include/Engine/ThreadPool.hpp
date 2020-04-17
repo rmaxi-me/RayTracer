@@ -13,6 +13,7 @@
 #include <mutex>
 #include <atomic>
 #include <thread>
+#include <functional>
 
 template<typename Ret, typename... Args>
 class ThreadPool {
@@ -37,9 +38,8 @@ public:
             : m_worker{worker}, m_maxConcurrent{maxConcurrent}
     {
         if (maxConcurrent > MaxHardwareConcurrent) {
-            std::cerr << "WARNING: ThreadPool: " << maxConcurrent << '/' << MaxHardwareConcurrent << " threads scheduled\n";
-        } else {
-            std::cerr << "Creating a pool of " << m_maxConcurrent << " threads\n";
+            std::cerr << "WARNING: ThreadPool: "
+                      << maxConcurrent << '/' << MaxHardwareConcurrent << " threads scheduled\n";
         }
     }
 
