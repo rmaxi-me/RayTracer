@@ -18,7 +18,7 @@ class RayTracerApp : public Application {
 private:
     std::shared_ptr<Object> m_list{};
 
-    int anti_aliasing = 2;
+    int anti_aliasing = 100;
 public:
     RayTracerApp(int ac, char **av);
 
