@@ -84,13 +84,13 @@ void RayTracerApp::draw()
                 col += linearInterpolation(ray, m_list);
             }
             col /= anti_aliasing;
-            col*=255;
-            std::cout << (int)col.x() << " " << (int)col.y() << " " << (int)col.z() << std::endl;
+            // col*=255;
+            // std::cout << (int)col.x() << " " << (int)col.y() << " " << (int)col.z() << std::endl;
             //End AntiAliasing
-            // DrawPixel(i, ny-j, Color{static_cast<unsigned char>(col.x() * 255), static_cast<unsigned char>(col.y() * 255), static_cast<unsigned char>(col.z() * 255), 255});
+            DrawPixel(i, ny-j, Color{static_cast<unsigned char>(col.x() * 255), static_cast<unsigned char>(col.y() * 255), static_cast<unsigned char>(col.z() * 255), 255});
         }
     }
-    throw;
+    // throw;
     drawFps();
     EndDrawing();
 }
