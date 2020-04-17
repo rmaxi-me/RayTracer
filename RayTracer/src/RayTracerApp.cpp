@@ -5,6 +5,8 @@
 ** under certain conditions; see LICENSE for details.
 */
 
+#include <random>
+
 #include "Engine/Raylib.hpp"
 #include "Engine/Ray/Ray.hpp"
 
