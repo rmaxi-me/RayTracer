@@ -24,6 +24,7 @@ void RayTracerApp::init()
 {
     std::vector<std::shared_ptr<Object>> obj;
     obj.push_back(std::make_shared<Sphere>(raymath::Vector3(0, 0, -1), 0.5));
+    obj.push_back(std::make_shared<Sphere>(raymath::Vector3(0, -100.5, -1), 100));
 
     m_list = std::make_shared<ObjectList>(ObjectList(obj));
 }
@@ -43,11 +44,9 @@ raymath::Vector3 linearInterpolation(const raylib::Ray &ray, const std::shared_p
 
     //check if any ray hit an object 0 and MAXFLOAT are value to stop the calcul if no object is found or an object is too close
     //When an obj is hit, RayHitInfo is Fill and the fct return True
-    if (list->isHit(ray, 0.0f, std::numeric_limits<float>::max(), info)) {
-        raymath::Vector3 plop = 0.5f * raymath::Vector3(info.normal.x() + 1, info.normal.y() + 1, info.normal.z() + 1);
-        if (plop.z() > 1)
-            return raymath::Vector3(plop.x(), plop.y(), 1.0f);
-        return plop;
+    if (list->isHit(ray, 0.001f, std::numeric_limits<float>::max(), info)) {
+        raymath::Vector3 color = info.position + info.normal + Sphere::getRandomPoint();
+        return 0.5 * linearInterpolation(raylib::Ray(info.position, color - info.position), list);
     } else {
         raymath::Vector3 vecteurUnitaire = normalize(ray.getDirection());
         float t = 0.5f * (vecteurUnitaire.y() + 1.0f);
@@ -85,10 +84,13 @@ void RayTracerApp::draw()
                 col += linearInterpolation(ray, m_list);
             }
             col /= anti_aliasing;
+            col*=255;
+            std::cout << (int)col.x() << " " << (int)col.y() << " " << (int)col.z() << std::endl;
             //End AntiAliasing
-            DrawPixel(i, j, Color{static_cast<unsigned char>(col.x() * 255), static_cast<unsigned char>(col.y() * 255), static_cast<unsigned char>(col.z() * 255), 255});
+            // DrawPixel(i, ny-j, Color{static_cast<unsigned char>(col.x() * 255), static_cast<unsigned char>(col.y() * 255), static_cast<unsigned char>(col.z() * 255), 255});
         }
     }
+    throw;
     drawFps();
     EndDrawing();
 }
