@@ -55,15 +55,13 @@ raymath::Vector3 linearInterpolation(const raylib::Ray &ray, const std::shared_p
 
 void RayTracerApp::draw()
 {
-    const int nx = m_window->getWidth();
-    const int ny = m_window->getHeight();
-    const raymath::Vector3 l(-2, -1.5, -1);
-    const raymath::Vector3 h(4, 0, 0);
-    const raymath::Vector3 v(0, 3, 0);
-    const raymath::Vector3 o(0, 0, 0);
+    static const int nx = m_window->getWidth();
+    static const int ny = m_window->getHeight();
+    static const raymath::Vector3 l(-2, -1.5, -1);
+    static const raymath::Vector3 h(4, 0, 0);
+    static const raymath::Vector3 v(0, 3, 0);
+    static const raymath::Vector3 o(0, 0, 0);
 
-    m_window->clear();
-    BeginDrawing();
     for (int j = ny - 1; j >= 0; j--) {
         for (int i = 0; i < nx; i++) {
             float Vu = (float) i / (float) (nx);
@@ -79,5 +77,4 @@ void RayTracerApp::draw()
                                   255});
         }
     }
-    EndDrawing();
 }

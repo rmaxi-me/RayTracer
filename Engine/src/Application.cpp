@@ -60,12 +60,17 @@ void Application::start()
     init();
 
     while (m_window->isOpen()) {
+        m_window->clear();
+
         tick(GetFrameTime());
 
+        BeginDrawing();
         draw();
 #if defined(RAYTRACER_DEBUG)
         drawFps();
 #endif
+        EndDrawing();
+
         ++frameCount;
 
         now = std::chrono::high_resolution_clock::now();
@@ -81,7 +86,5 @@ void Application::start()
 
 void Application::drawFps() const
 {
-    BeginDrawing();
     DrawText(TextFormat("%u FPS", m_fps), 5, 5, 20, LIME);
-    EndDrawing();
 }
