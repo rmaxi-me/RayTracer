@@ -11,7 +11,7 @@
 #include "Engine/Raylib.hpp"
 #include "Scene/Scene.hpp"
 
-const std::regex Scene::REGEX{rgx_raw, std::regex_constants::ECMAScript | std::regex_constants::icase};
+const std::regex Scene::REGEX{REGEX_STRING, std::regex_constants::ECMAScript | std::regex_constants::icase};
 
 Scene::Scene()
 = default;
@@ -33,6 +33,7 @@ std::vector<std::shared_ptr<Object>> Scene::rawListToObjList(const std::vector<R
 
     for (const auto &raw : rawList) {
         std::shared_ptr<Object> obj = getObject(raw);
+        objs.push_back(obj);
     }
 
     return objs;

@@ -22,7 +22,7 @@ private:
         std::string params;
     };
 
-    static constexpr auto rgx_raw = R"(^(\w+) pos=([\d \.-]+) color=(\w+) material=(\w+) params=([\d \.-]+)$)";
+    static constexpr auto REGEX_STRING = R"(^(\w+) pos=([\d \.-]+) color=(\w+) material=(\w+) params=([\d \.-]+)$)";
     static const std::regex REGEX;
 
     std::shared_ptr<ObjectList> m_objectList{nullptr};
