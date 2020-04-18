@@ -26,5 +26,15 @@ namespace raymath
         return *this;
     }
 
+    Vector3 Vector3::fromString(const char *source)
+    {
+        char *end_ptr = const_cast<char *>(source);
+        float x = std::strtof(end_ptr, &end_ptr);
+        float y = std::strtof(end_ptr, &end_ptr);
+        float z = std::strtof(end_ptr, &end_ptr);
+
+        return Vector3(x, y, z);
+    }
+
 } // namespace maths
 

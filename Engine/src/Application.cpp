@@ -24,7 +24,7 @@ Application::Application(int ac, char **av)
     m_settings.width = m_parser.getOrDefault<std::uint16_t>("width", "w", 800, APFuncs::toInt<std::uint16_t>);
     m_settings.height = m_parser.getOrDefault<std::uint16_t>("height", "h", 600, APFuncs::toInt<std::uint16_t>);
     m_settings.fpsMax = m_parser.getOrDefault<std::uint16_t>("fps", "", 240, APFuncs::toInt<std::uint16_t>);
-    m_settings.filePath = m_parser.getOrDefault<std::string>("openfile", "o", "", APFuncs::toString);
+    m_settings.filePath = m_parser.getOrDefault<std::string>("file", "f", "", APFuncs::toString);
 
     // TODO: Reset screen dimensions on fullscreen
     if (m_settings.fullscreen) {
@@ -40,7 +40,8 @@ Application::Application(int ac, char **av)
     SetTraceLogLevel(TraceLogType::LOG_ERROR);
 #endif
 
-    TraceLog(TraceLogType::LOG_DEBUG, "File to open: %s", m_settings.filePath.c_str());
+    if (!m_settings.filePath.empty())
+        TraceLog(TraceLogType::LOG_DEBUG, "File to open: %s", m_settings.filePath.c_str());
 }
 
 void Application::start()

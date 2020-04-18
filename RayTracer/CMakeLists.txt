@@ -2,15 +2,18 @@ cmake_minimum_required(VERSION 3.14)
 
 add_executable(
         ${PROJECT_NAME}
-        include/Objects/Object.hpp
-        include/Objects/ObjectList.hpp
+        src/Scene/Scene.cpp include/Scene/Scene.hpp
         src/Main.cpp include/Main.hpp
         src/RayTracerApp.cpp include/RayTracerApp.hpp
+        include/Objects/ObjectList.hpp
+        src/Objects/Object.cpp include/Objects/Object.hpp
         src/Objects/Sphere.cpp include/Objects/Sphere.hpp
         src/RayTracerApp.cpp include/RayTracerApp.hpp
         src/Materials/IMaterial.cpp include/Materials/IMaterial.hpp
         src/Materials/Glass.cpp include/Materials/Glass.hpp
-        src/Materials/VentaBlack.cpp include/Materials/VentaBlack.hpp)
+        src/Materials/VentaBlack.cpp include/Materials/VentaBlack.hpp
+        src/Materials/Normal.cpp include/Materials/Normal.hpp
+)
 
 if (UNIX)
     set(PTHREAD_LIB "pthread")

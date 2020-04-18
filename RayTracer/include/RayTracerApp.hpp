@@ -12,11 +12,11 @@
 #include "Engine/Application.hpp"
 #include "Engine/Assets/Model.hpp"
 #include "Engine/Assets/Texture.hpp"
-#include "Objects/Object.hpp"
+#include "Objects/ObjectList.hpp"
 
 class RayTracerApp : public Application {
 private:
-    std::shared_ptr<Object> m_list{};
+    std::shared_ptr<ObjectList> m_list{};
 
     int anti_aliasing = 4;
 public:

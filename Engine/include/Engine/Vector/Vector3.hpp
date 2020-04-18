@@ -28,6 +28,8 @@ namespace raymath
         Vector3 &operator=(const ::Vector3 &);     // Operator d'affectation depuis RayMath vector
         ~Vector3() = default;
     public:
+        static Vector3 fromString(const char *source);
+
         inline float x() const { return Vector.x; };
         inline float y() const { return Vector.y; };
         inline float z() const { return Vector.z; };
