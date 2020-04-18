@@ -62,8 +62,8 @@ void RayTracerApp::draw()
     static const raymath::Vector3 v(0, 3, 0);
     static const raymath::Vector3 o(0, 0, 0);
 
-    std::random_device rd;
-    std::mt19937 gen(rd());
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
 
     m_window->clear();
 
@@ -87,9 +87,12 @@ void RayTracerApp::draw()
             // col*=255;
             // std::cout << (int)col.x() << " " << (int)col.y() << " " << (int)col.z() << std::endl;
             //End AntiAliasing
-            DrawPixel(i, ny-j, Color{static_cast<unsigned char>(col.x() * 255), static_cast<unsigned char>(col.y() * 255), static_cast<unsigned char>(col.z() * 255), 255});
+            DrawPixel(i, ny-j, Color{static_cast<unsigned char>(col.x() * 255),
+                                     static_cast<unsigned char>(col.y() * 255),
+                                     static_cast<unsigned char>(col.z() * 255), 255});
         }
     }
     // throw;
     EndDrawing();
+    std::cout << "draw()" << std::endl;
 }
