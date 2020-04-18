@@ -10,7 +10,7 @@ add_executable(
         src/RayTracerApp.cpp include/RayTracerApp.hpp
         src/Materials/IMaterial.cpp include/Materials/IMaterial.hpp
         src/Materials/Glass.cpp include/Materials/Glass.hpp
-        src/Materials/VentaBlack.cpp src/Materials/VentaBlack.hpp)
+        src/Materials/VentaBlack.cpp include/Materials/VentaBlack.hpp)
 
 if (UNIX)
     set(PTHREAD_LIB "pthread")
