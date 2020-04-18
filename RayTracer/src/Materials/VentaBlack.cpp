@@ -5,9 +5,9 @@
 ** under certain conditions; see LICENSE for details.
 */
 
-#include "VentaBlack.hpp"
+#include "Materials/VentaBlack.hpp"
 
-Vector3 VentaBlack::compute(const Ray &ray) const noexcept
+Vector3 VentaBlack::compute(const Ray &) const noexcept
 {
     return Vector3();
 }

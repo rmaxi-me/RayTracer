@@ -7,7 +7,7 @@
 
 #include "Materials/Glass.hpp"
 
-Vector3 Glass::compute(const Ray &ray) const noexcept
+Vector3 Glass::compute(const Ray &) const noexcept
 {
     return Vector3();
 }

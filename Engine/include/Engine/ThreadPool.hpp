@@ -7,13 +7,15 @@
 
 #pragma once
 
+#include <iostream>
+#include <functional>
+
 #include <queue>
 #include <vector>
 
 #include <mutex>
 #include <atomic>
 #include <thread>
-#include <functional>
 
 template<typename Ret, typename... Args>
 class ThreadPool {
@@ -24,12 +26,12 @@ private:
     std::uint32_t m_maxConcurrent;
 
     std::vector<std::thread> m_threads{};
-    std::queue<Args...> m_queue{};
+    std::queue<std::tuple<Args...>> m_queue{};
     std::atomic_uint32_t m_running{0};
 
-    void runTask(Args &&...args)
+    void runTask(const std::tuple<Args...> &args)
     {
-        m_worker(args...);
+        m_worker(args);
         --m_running;
     }
 
@@ -50,10 +52,7 @@ public:
 
     void runAndWait()
     {
-        while (true) {
-            if (m_queue.empty())
-                break;
-
+        while (!m_queue.empty()) {
             while (m_running >= m_maxConcurrent) {
                 std::this_thread::yield();
             }
