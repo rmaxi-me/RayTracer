@@ -68,16 +68,13 @@ void RayTracerApp::draw()
     m_window->clear();
 
     BeginDrawing();
-    for (int j = ny - 1; j >= 0; j--)
-    {
-        for (int i = 0; i < nx; i++)
-        {
+    for (int j = ny - 1; j >= 0; j--) {
+        for (int i = 0; i < nx; i++) {
             raymath::Vector3 col;
             //Begin AntiAliasing
-            for (int k = 0; k < anti_aliasing; k++)
-            {
-                float Vu = (float)(i + std::generate_canonical<double, 10>(gen)) / (float)(nx);
-                float Vv = (float)(j + std::generate_canonical<double, 10>(gen)) / (float)(ny);
+            for (int k = 0; k < anti_aliasing; k++) {
+                float Vu = (float) (i + std::generate_canonical<double, 10>(gen)) / (float) (nx);
+                float Vv = (float) (j + std::generate_canonical<double, 10>(gen)) / (float) (ny);
 
                 //Projection of the ray depending of the size of the screen
                 raylib::Ray ray(o, l + Vu * h + Vv * v);
@@ -87,9 +84,9 @@ void RayTracerApp::draw()
             // col*=255;
             // std::cout << (int)col.x() << " " << (int)col.y() << " " << (int)col.z() << std::endl;
             //End AntiAliasing
-            DrawPixel(i, ny-j, Color{static_cast<unsigned char>(col.x() * 255),
-                                     static_cast<unsigned char>(col.y() * 255),
-                                     static_cast<unsigned char>(col.z() * 255), 255});
+            DrawPixel(i, ny - j, Color{static_cast<unsigned char>(col.x() * 255),
+                                       static_cast<unsigned char>(col.y() * 255),
+                                       static_cast<unsigned char>(col.z() * 255), 255});
         }
     }
     // throw;
