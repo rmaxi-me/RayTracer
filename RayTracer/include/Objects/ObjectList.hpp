@@ -36,4 +36,22 @@ public:
         }
         return hasHit;
     }
+
+    bool isHit(const raylib::Ray &r, float t_min, float t_max, raylib::RayHitInfo &info, std::shared_ptr<IMaterial> &material) override
+    {
+        raylib::RayHitInfo tmpInfo;
+        bool hasHit = false;
+        float closestObj = t_max;
+
+        for (auto &i : list)
+        {
+            if (i->isHit(r, t_min, closestObj, tmpInfo, material))
+            {
+                hasHit = true;
+                closestObj = tmpInfo.distance;
+                info = tmpInfo;
+            }
+        }
+        return hasHit;
+    }
 };

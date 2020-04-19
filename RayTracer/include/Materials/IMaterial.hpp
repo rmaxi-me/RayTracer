@@ -7,13 +7,16 @@
 
 #pragma once
 
+#include <optional>
+
 #include "Engine/Vector/Vector3.hpp"
+#include "Engine/Ray/Ray.hpp"
 
 class IMaterial {
 public:
     virtual ~IMaterial();
 
-    [[nodiscard]] virtual Vector3 compute(const Ray &ray) const noexcept = 0;
+    [[nodiscard]] virtual std::optional<std::pair<const raylib::Ray, raymath::Vector3>> compute(const raylib::Ray &ray, raylib::RayHitInfo &info) const noexcept = 0;
 
     [[nodiscard]] virtual bool isOpaque() const noexcept = 0;
     [[nodiscard]] virtual float getGammaCorrection() const noexcept = 0;

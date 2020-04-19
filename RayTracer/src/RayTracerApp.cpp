@@ -11,6 +11,7 @@
 #include "Engine/Ray/Ray.hpp"
 
 #include "RayTracerApp.hpp"
+#include "Materials/IMaterial.hpp"
 #include "Objects/Object.hpp"
 #include "Objects/ObjectList.hpp"
 #include "Objects/Sphere.hpp"
@@ -37,15 +38,23 @@ void RayTracerApp::tick(float deltaTime)
     (void) deltaTime;
 }
 
-raymath::Vector3 linearInterpolation(const raylib::Ray &ray, const std::shared_ptr<ObjectList> &list)
+raymath::Vector3 colorize(const raylib::Ray &ray, const std::shared_ptr<ObjectList> &list)
 {
     raylib::RayHitInfo info;
+    std::shared_ptr<IMaterial> currentMaterial{nullptr};
 
     //check if any ray hit an object 0 and MAXFLOAT are value to stop the calcul if no object is found or an object is too close
     //When an obj is hit, RayHitInfo is Fill and the fct return True
-    if (list->isHit(ray, 0.001f, std::numeric_limits<float>::max(), info)) {
-        raymath::Vector3 color = info.position + info.normal + Sphere::getRandomPoint();
-        return 0.5 * linearInterpolation(raylib::Ray(info.position, color - info.position), list);
+    
+    if (list->isHit(ray, 0.001f, std::numeric_limits<float>::max(), info, currentMaterial))
+    {
+        // if (currentMaterial == nullptr)
+            // exit (1);
+        auto reflectedRay = currentMaterial->compute(ray, info);
+        if (reflectedRay.has_value())
+            return reflectedRay->second * colorize(reflectedRay->first, list);
+        else
+            return raymath::Vector3();
     } else {
         raymath::Vector3 vecteurUnitaire = normalize(ray.getDirection());
         float t = 0.5f * (vecteurUnitaire.y() + 1.0f);
@@ -78,7 +87,7 @@ void RayTracerApp::draw()
 
                 //Projection of the ray depending of the size of the screen
                 raylib::Ray ray(o, l + Vu * h + Vv * v);
-                col += linearInterpolation(ray, m_list);
+                col += colorize(ray, m_list);
             }
             col /= (float) anti_aliasing;
             // col*=255;

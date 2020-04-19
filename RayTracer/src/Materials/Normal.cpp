@@ -6,10 +6,14 @@
 */
 
 #include "Materials/Normal.hpp"
+#include "Objects/Sphere.hpp"
 
-Vector3 Normal::compute(const Ray &) const noexcept
+std::optional<std::pair<const raylib::Ray, raymath::Vector3>> Normal::compute(const raylib::Ray &, raylib::RayHitInfo &info) const noexcept
 {
-    return Vector3();
+    raymath::Vector3 color = info.position + info.normal + Sphere::getRandomPoint();
+    raylib::Ray reflection{info.position, color - info.position};
+
+    return std::pair{reflection, m_attenuation};
 }
 
 float Normal::getGammaCorrection() const noexcept

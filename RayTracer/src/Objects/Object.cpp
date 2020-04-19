@@ -7,12 +7,17 @@
 
 #include "Objects/Object.hpp"
 
-Object::Object(const IMaterial *material)
+Object::Object(IMaterial *material)
         : m_material(material)
 {
 }
 
-void Object::attachMaterial(const IMaterial *material)
+void Object::attachMaterial(IMaterial *material)
+{
+    m_material.reset(material);
+}
+
+void Object::attachMaterial(std::shared_ptr<IMaterial> material)
 {
     m_material = material;
 }
