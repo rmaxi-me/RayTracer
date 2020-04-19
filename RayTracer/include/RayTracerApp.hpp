@@ -15,10 +15,10 @@
 #include "Objects/ObjectList.hpp"
 
 class RayTracerApp : public Application {
+public:
+    static constexpr int m_anti_aliasing = 4;
 private:
     std::shared_ptr<ObjectList> m_list{};
-
-    int anti_aliasing = 4;
 public:
     RayTracerApp(int ac, char **av);
 

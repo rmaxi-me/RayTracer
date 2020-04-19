@@ -5,13 +5,12 @@
 ** under certain conditions; see LICENSE for details.
 */
 
-#include <random>
-
 #include "Engine/Raylib.hpp"
 #include "Engine/Ray/Ray.hpp"
+#include "Engine/Utils/Random.hpp"
+#include "Engine/Utils/ThreadPool.hpp"
 
 #include "RayTracerApp.hpp"
-#include "Objects/Object.hpp"
 #include "Objects/ObjectList.hpp"
 #include "Objects/Sphere.hpp"
 #include "Scene/Scene.hpp"
@@ -62,9 +61,6 @@ void RayTracerApp::draw()
     static const raymath::Vector3 v(0, 3, 0);
     static const raymath::Vector3 o(0, 0, 0);
 
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
-
     m_window->clear();
 
     BeginDrawing();
@@ -72,15 +68,15 @@ void RayTracerApp::draw()
         for (int i = 0; i < nx; i++) {
             raymath::Vector3 col;
             //Begin AntiAliasing
-            for (int k = 0; k < anti_aliasing; k++) {
-                float Vu = (float) (i + std::generate_canonical<double, 10>(gen)) / (float) (nx);
-                float Vv = (float) (j + std::generate_canonical<double, 10>(gen)) / (float) (ny);
+            for (int k = 0; k < m_anti_aliasing; k++) {
+                float Vu = (float) (i + std::generate_canonical<double, 10>(Random::getGenerator())) / (float) (nx);
+                float Vv = (float) (j + std::generate_canonical<double, 10>(Random::getGenerator())) / (float) (ny);
 
                 //Projection of the ray depending of the size of the screen
                 raylib::Ray ray(o, l + Vu * h + Vv * v);
                 col += linearInterpolation(ray, m_list);
             }
-            col /= (float) anti_aliasing;
+            col /= (float) m_anti_aliasing;
             // col*=255;
             // std::cout << (int)col.x() << " " << (int)col.y() << " " << (int)col.z() << std::endl;
             //End AntiAliasing
@@ -91,5 +87,6 @@ void RayTracerApp::draw()
     }
     // throw;
     EndDrawing();
-    std::cout << "draw()" << std::endl;
+
+    std::cout << "draw() frame time = " << GetFrameTime() << std::endl;
 }
