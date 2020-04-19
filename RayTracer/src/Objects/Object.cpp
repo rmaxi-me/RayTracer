@@ -5,19 +5,21 @@
 ** under certain conditions; see LICENSE for details.
 */
 
+#include <utility>
+
 #include "Objects/Object.hpp"
 
-Object::Object(IMaterial *material)
-        : m_material(material)
+Object::Object(std::shared_ptr<IMaterial> material)
+        : m_material(std::move(material))
 {
-}
-
-void Object::attachMaterial(IMaterial *material)
-{
-    m_material.reset(material);
 }
 
 void Object::attachMaterial(std::shared_ptr<IMaterial> material)
 {
-    m_material = material;
+    m_material = std::move(material);
+}
+
+void Object::setColor(const raymath::Vector3 &color)
+{
+    m_color = color;
 }

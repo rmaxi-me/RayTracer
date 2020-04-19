@@ -14,14 +14,10 @@ class Object
 {
 protected:
     std::shared_ptr<IMaterial> m_material{nullptr};
+    raymath::Vector3 m_color{};
 public:
-    enum class Type {
-        Cube,
-        Sphere,
-//        Cylinder
-    };
     Object() = default;
-    explicit Object(IMaterial *material);
+    explicit Object(std::shared_ptr<IMaterial> material);
     virtual ~Object() = default;
 
     Object(const Object &rhs) = default;
@@ -29,6 +25,6 @@ public:
 
     virtual bool isHit(const raylib::Ray &, float, float, raylib::RayHitInfo &info) = 0;
     virtual bool isHit(const raylib::Ray &, float, float, raylib::RayHitInfo &info, std::shared_ptr<IMaterial> &ptr) = 0;
-    virtual void attachMaterial(IMaterial *material) final;
     virtual void attachMaterial(std::shared_ptr<IMaterial> material) final;
+    virtual void setColor(const raymath::Vector3 &color) final;
 };
