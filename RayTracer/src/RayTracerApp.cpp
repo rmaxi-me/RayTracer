@@ -14,6 +14,7 @@
 #include "Objects/Object.hpp"
 #include "Objects/ObjectList.hpp"
 #include "Objects/Sphere.hpp"
+#include "Scene/Scene.hpp"
 
 RayTracerApp::RayTracerApp(int ac, char **av)
         : Application(ac, av)
@@ -22,11 +23,9 @@ RayTracerApp::RayTracerApp(int ac, char **av)
 
 void RayTracerApp::init()
 {
-    std::vector<std::shared_ptr<Object>> obj;
-    obj.push_back(std::make_shared<Sphere>(raymath::Vector3(0, 0, -1), 0.5));
-    obj.push_back(std::make_shared<Sphere>(raymath::Vector3(0, -100.5, -1), 100));
+    auto scene = Scene::fromFile(m_settings.filePath.c_str());
 
-    m_list = std::make_shared<ObjectList>(ObjectList(obj));
+    m_list = scene.getObjectList();
 }
 
 void RayTracerApp::deinit()
@@ -38,7 +37,7 @@ void RayTracerApp::tick(float deltaTime)
     (void) deltaTime;
 }
 
-raymath::Vector3 linearInterpolation(const raylib::Ray &ray, const std::shared_ptr<Object> &list)
+raymath::Vector3 linearInterpolation(const raylib::Ray &ray, const std::shared_ptr<ObjectList> &list)
 {
     raylib::RayHitInfo info;
 
@@ -63,34 +62,34 @@ void RayTracerApp::draw()
     static const raymath::Vector3 v(0, 3, 0);
     static const raymath::Vector3 o(0, 0, 0);
 
-    std::random_device rd;
-    std::mt19937 gen(rd());
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
 
     m_window->clear();
+
     BeginDrawing();
-    for (int j = ny - 1; j >= 0; j--)
-    {
-        for (int i = 0; i < nx; i++)
-        {
+    for (int j = ny - 1; j >= 0; j--) {
+        for (int i = 0; i < nx; i++) {
             raymath::Vector3 col;
             //Begin AntiAliasing
-            for (int k = 0; k < anti_aliasing; k++)
-            {
-                float Vu = (float)(i + std::generate_canonical<double, 10>(gen)) / (float)(nx);
-                float Vv = (float)(j + std::generate_canonical<double, 10>(gen)) / (float)(ny);
+            for (int k = 0; k < anti_aliasing; k++) {
+                float Vu = (float) (i + std::generate_canonical<double, 10>(gen)) / (float) (nx);
+                float Vv = (float) (j + std::generate_canonical<double, 10>(gen)) / (float) (ny);
 
                 //Projection of the ray depending of the size of the screen
                 raylib::Ray ray(o, l + Vu * h + Vv * v);
                 col += linearInterpolation(ray, m_list);
             }
-            col /= anti_aliasing;
+            col /= (float) anti_aliasing;
             // col*=255;
             // std::cout << (int)col.x() << " " << (int)col.y() << " " << (int)col.z() << std::endl;
             //End AntiAliasing
-            DrawPixel(i, ny-j, Color{static_cast<unsigned char>(col.x() * 255), static_cast<unsigned char>(col.y() * 255), static_cast<unsigned char>(col.z() * 255), 255});
+            DrawPixel(i, ny - j, Color{static_cast<unsigned char>(col.x() * 255),
+                                       static_cast<unsigned char>(col.y() * 255),
+                                       static_cast<unsigned char>(col.z() * 255), 255});
         }
     }
     // throw;
-    drawFps();
     EndDrawing();
+    std::cout << "draw()" << std::endl;
 }

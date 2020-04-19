@@ -6,17 +6,18 @@
 
 class Sphere : public Object {
 private:
-    raymath::Vector3 center;
+    raymath::Vector3 center{};
     float radius{};
 public:
     Sphere() = default;
     Sphere(const raymath::Vector3 &, float);
-    virtual ~Sphere() = default;
+    ~Sphere() override = default;
 public:
-    virtual bool isHit(const raylib::Ray &, float, float, raylib::RayHitInfo &info);
+    bool isHit(const raylib::Ray &, float, float, raylib::RayHitInfo &info) override;
+
     static raymath::Vector3 getRandomPoint() {
-        std::random_device rd;
-        std::mt19937 gen(rd());
+        static std::random_device rd;
+        static std::mt19937 gen(rd());
         raymath::Vector3 point;
 
         do
