@@ -52,6 +52,15 @@ namespace raymath
             os << v.x() << " " << v.y() << " " << v.z();
             return os;
         }
+
+        [[nodiscard]] inline Color toColor() const noexcept
+        {
+            return Color{static_cast<unsigned char>(x() * 255),
+                         static_cast<unsigned char>(y() * 255),
+                         static_cast<unsigned char>(z() * 255),
+                         255
+            };
+        }
     };
 
     //--------------------------

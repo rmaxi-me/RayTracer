@@ -17,8 +17,35 @@
 class RayTracerApp : public Application {
 public:
     static constexpr int m_anti_aliasing = 4;
+
+    struct Pixel {
+        int x;
+        int y;
+        raymath::Vector3 color;
+    };
+
+    struct FrameBuffer {
+        int width;
+        int height;
+        std::vector<Pixel> pixels{};
+
+        inline Pixel &operator[](const std::size_t &index)
+        {
+            return pixels[index];
+        }
+
+        inline const Pixel &operator[](const std::size_t &index) const
+        {
+            return pixels[index];
+        }
+    };
+
 private:
     std::shared_ptr<ObjectList> m_list{};
+    FrameBuffer m_frameBuffer{};
+
+    void computePixelColor(Pixel &pixel);
+    void computePixelRange(std::vector<Pixel> &pixels, size_t begin, size_t end);
 public:
     RayTracerApp(int ac, char **av);
 
