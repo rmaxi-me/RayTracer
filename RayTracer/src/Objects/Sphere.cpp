@@ -30,7 +30,7 @@ bool Sphere::isHit(const raylib::Ray &r, float tmin, float tmax, raylib::RayHitI
     return false;
 }
 
-bool Sphere::isHit(const raylib::Ray &r, float tmin, float tmax, raylib::RayHitInfo &info, std::shared_ptr<IMaterial> &material)
+bool Sphere::isHit(const raylib::Ray &r, float tmin, float tmax, raylib::RayHitInfo &info, std::shared_ptr<AMaterial> &material)
 {
     raymath::Vector3 oc = r.getOrigin() - center;
     float a = raymath::dotProduct(r.getDirection(), r.getDirection());

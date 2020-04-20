@@ -30,7 +30,7 @@ std::shared_ptr<Object> Scene::getObject(const RawObject &raw)
     throw std::runtime_error("Invalid object");
 }
 
-std::shared_ptr<IMaterial> Scene::getMaterial(const Scene::RawObject &raw)
+std::shared_ptr<AMaterial> Scene::getMaterial(const Scene::RawObject &raw)
 {
     if (raw.material == "glass")
         return std::make_shared<Glass>();
@@ -53,9 +53,11 @@ std::vector<std::shared_ptr<Object>> Scene::rawListToObjList(const std::vector<R
     std::vector<std::shared_ptr<Object>> objs{};
 
     for (const auto &raw : rawList) {
-        std::shared_ptr<Object> obj = getObject(raw);
-        obj->attachMaterial(getMaterial(raw));
-        obj->setColor(getColor(raw));
+        auto obj = getObject(raw);
+        auto mat = getMaterial(raw);
+
+        mat->setAttenuation(getColor(raw));
+        obj->attachMaterial(mat);
 
         objs.push_back(obj);
     }

@@ -7,9 +7,9 @@
 
 #pragma once
 
-#include "Materials/IMaterial.hpp"
+#include "Materials/AMaterial.hpp"
 
-class VentaBlack : public IMaterial {
+class VentaBlack : public AMaterial {
 public:
     [[nodiscard]] std::optional<std::pair<const raylib::Ray, raymath::Vector3>> compute(const raylib::Ray &ray, raylib::RayHitInfo &info) const noexcept override;
     [[nodiscard]] bool isOpaque() const noexcept override;

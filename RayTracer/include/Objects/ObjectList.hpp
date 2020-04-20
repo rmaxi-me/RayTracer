@@ -37,7 +37,7 @@ public:
         return hasHit;
     }
 
-    bool isHit(const raylib::Ray &r, float t_min, float t_max, raylib::RayHitInfo &info, std::shared_ptr<IMaterial> &material) override
+    bool isHit(const raylib::Ray &r, float t_min, float t_max, raylib::RayHitInfo &info, std::shared_ptr<AMaterial> &material) override
     {
         raylib::RayHitInfo tmpInfo;
         bool hasHit = false;

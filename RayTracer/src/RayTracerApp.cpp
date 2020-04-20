@@ -11,7 +11,7 @@
 #include "Engine/Ray/Ray.hpp"
 
 #include "RayTracerApp.hpp"
-#include "Materials/IMaterial.hpp"
+#include "Materials/AMaterial.hpp"
 #include "Objects/Object.hpp"
 #include "Objects/ObjectList.hpp"
 #include "Objects/Sphere.hpp"
@@ -41,7 +41,7 @@ void RayTracerApp::tick(float deltaTime)
 raymath::Vector3 colorize(const raylib::Ray &ray, const std::shared_ptr<ObjectList> &list)
 {
     raylib::RayHitInfo info;
-    std::shared_ptr<IMaterial> currentMaterial{nullptr};
+    std::shared_ptr<AMaterial> currentMaterial{nullptr};
 
     //check if any ray hit an object 0 and MAXFLOAT are value to stop the calcul if no object is found or an object is too close
     //When an obj is hit, RayHitInfo is Fill and the fct return True

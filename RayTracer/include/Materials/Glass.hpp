@@ -7,9 +7,9 @@
 
 #pragma once
 
-#include "IMaterial.hpp"
+#include "AMaterial.hpp"
 
-class Glass : public IMaterial {
+class Glass : public AMaterial {
 public:
     [[nodiscard]] std::optional<std::pair<const raylib::Ray, raymath::Vector3>> compute(const raylib::Ray &ray, raylib::RayHitInfo &info) const noexcept override;
     [[nodiscard]] float getGammaCorrection() const noexcept override;

@@ -30,7 +30,7 @@ private:
     Scene();
 
     static std::shared_ptr<Object> getObject(const RawObject &raw);
-    static std::shared_ptr<IMaterial> getMaterial(const RawObject &raw);
+    static std::shared_ptr<AMaterial> getMaterial(const RawObject &raw);
     static raymath::Vector3 getColor(const RawObject &raw);
     static std::vector<std::shared_ptr<Object>> rawListToObjList(const std::vector<RawObject> &rawList);
 public:

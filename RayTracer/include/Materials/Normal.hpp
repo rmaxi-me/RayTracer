@@ -7,14 +7,12 @@
 
 #pragma once
 
-#include "IMaterial.hpp"
+#include "AMaterial.hpp"
 
-class Normal : public IMaterial {
-private:
-    raymath::Vector3 m_attenuation{0.8, 0.8, 0.0};
+class Normal : public AMaterial {
 public:
     Normal() = default;
-    explicit Normal(const raymath::Vector3 &fac) : m_attenuation(fac)
+    explicit Normal(const raymath::Vector3 &fac) : AMaterial(fac)
     {};
 
     [[nodiscard]] std::optional<std::pair<const raylib::Ray, raymath::Vector3>> compute(const raylib::Ray &ray, raylib::RayHitInfo &info) const noexcept override;

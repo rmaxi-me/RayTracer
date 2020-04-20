@@ -9,17 +9,17 @@
 
 #include "Objects/Object.hpp"
 
-Object::Object(std::shared_ptr<IMaterial> material)
+Object::Object(std::shared_ptr<AMaterial> material)
         : m_material(std::move(material))
 {
 }
 
-void Object::attachMaterial(std::shared_ptr<IMaterial> material)
+void Object::attachMaterial(std::shared_ptr<AMaterial> material)
 {
     m_material = std::move(material);
 }
 
-void Object::setColor(const raymath::Vector3 &color)
+const std::shared_ptr<AMaterial> &Object::getMaterial() const noexcept
 {
-    m_color = color;
+    return m_material;
 }

@@ -9,7 +9,7 @@ add_executable(
         src/Objects/Object.cpp include/Objects/Object.hpp
         src/Objects/Sphere.cpp include/Objects/Sphere.hpp
         src/RayTracerApp.cpp include/RayTracerApp.hpp
-        src/Materials/IMaterial.cpp include/Materials/IMaterial.hpp
+        src/Materials/AMaterial.cpp include/Materials/AMaterial.hpp
         src/Materials/Glass.cpp include/Materials/Glass.hpp
         src/Materials/VentaBlack.cpp include/Materials/VentaBlack.hpp
         src/Materials/Normal.cpp include/Materials/Normal.hpp
