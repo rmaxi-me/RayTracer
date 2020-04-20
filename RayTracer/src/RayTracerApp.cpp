@@ -99,13 +99,14 @@ void RayTracerApp::draw()
 //    m_window->clear();
 
     static const auto maxThreads = std::thread::hardware_concurrency();
+    static const auto threadCount = maxThreads > 1 ? maxThreads - 1 : 1; // '- 1' because manager thread counts as one
     static const std::size_t pixelCount = m_frameBuffer.pixels.size();
-    static const std::size_t splitSize = pixelCount / maxThreads;
+    static const std::size_t splitSize = pixelCount / threadCount;
 
     std::size_t offset = 0;
     std::vector<std::thread> threads{};
 
-    for (std::size_t i = 0; i < maxThreads; ++i) {
+    for (std::size_t i = 0; i < threadCount; ++i) {
         threads.emplace_back(&RayTracerApp::computePixelRange, this,
                              std::ref(m_frameBuffer.pixels), offset, offset + splitSize);
         offset += splitSize;
@@ -120,5 +121,5 @@ void RayTracerApp::draw()
     }
     EndDrawing();
 
-//    std::cout << "draw() frame time = " << GetFrameTime() << '\n';
+    std::cout << "draw() frame time = " << GetFrameTime() << '\n';
 }
