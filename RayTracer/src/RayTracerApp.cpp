@@ -121,5 +121,5 @@ void RayTracerApp::draw()
     }
     EndDrawing();
 
-    std::cout << "draw() frame time = " << GetFrameTime() << '\n';
+    std::cout << "draw() frame time = " << GetFrameTime() << "\tfps = " << m_fps << '\n';
 }
