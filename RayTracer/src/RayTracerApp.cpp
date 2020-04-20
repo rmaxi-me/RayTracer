@@ -5,13 +5,13 @@
 ** under certain conditions; see LICENSE for details.
 */
 
-#include <random>
+#include <thread>
 
 #include "Engine/Raylib.hpp"
 #include "Engine/Ray/Ray.hpp"
+#include "Engine/Utils/Random.hpp"
 
 #include "RayTracerApp.hpp"
-#include "Objects/Object.hpp"
 #include "Objects/ObjectList.hpp"
 #include "Objects/Sphere.hpp"
 #include "Scene/Scene.hpp"
@@ -26,6 +26,16 @@ void RayTracerApp::init()
     auto scene = Scene::fromFile(m_settings.filePath.c_str());
 
     m_list = scene.getObjectList();
+
+    m_frameBuffer.width = m_settings.width;
+    m_frameBuffer.height = m_settings.height;
+    m_frameBuffer.pixels.reserve(m_settings.width * m_settings.height);
+
+    for (int y = 0; y < m_frameBuffer.height; ++y) {
+        for (int x = 0; x < m_frameBuffer.width; ++x) {
+            m_frameBuffer.pixels.push_back({x, y, {}});
+        }
+    }
 }
 
 void RayTracerApp::deinit()
@@ -53,43 +63,63 @@ raymath::Vector3 linearInterpolation(const raylib::Ray &ray, const std::shared_p
     }
 }
 
-void RayTracerApp::draw()
+void RayTracerApp::computePixelColor(RayTracerApp::Pixel &pixel)
 {
-    static const int nx = m_window->getWidth();
-    static const int ny = m_window->getHeight();
     static const raymath::Vector3 l(-2, -1, -1);
     static const raymath::Vector3 h(4, 0, 0);
     static const raymath::Vector3 v(0, 3, 0);
     static const raymath::Vector3 o(0, 0, 0);
+    raymath::Vector3 col;
 
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
+    //Begin AntiAliasing
+    for (int k = 0; k < m_anti_aliasing; k++) {
+        float Vu = (float) (pixel.x + std::generate_canonical<double, 10>(Random::getGenerator())) / (float) (m_frameBuffer.width);
+        float Vv = (float) (pixel.y + std::generate_canonical<double, 10>(Random::getGenerator())) / (float) (m_frameBuffer.height);
 
-    m_window->clear();
+        //Projection of the ray depending of the size of the screen
+        raylib::Ray ray(o, l + Vu * h + Vv * v);
+        col += linearInterpolation(ray, m_list);
+    }
+    col /= (float) m_anti_aliasing;
+    // col*=255;
+    // std::cout << (int)col.x() << " " << (int)col.y() << " " << (int)col.z() << std::endl;
+    //End AntiAliasing
+
+    pixel.color = col;
+}
+
+void RayTracerApp::computePixelRange(std::vector<Pixel> &pixels, size_t begin, size_t end)
+{
+    for (auto i = begin; i < end; ++i)
+        computePixelColor(pixels[i]);
+}
+
+void RayTracerApp::draw()
+{
+//    m_window->clear();
+
+    static const auto maxThreads = std::thread::hardware_concurrency();
+    static const auto threadCount = maxThreads > 1 ? maxThreads - 1 : 1; // '- 1' because manager thread counts as one
+    static const std::size_t pixelCount = m_frameBuffer.pixels.size();
+    static const std::size_t splitSize = pixelCount / threadCount;
+
+    std::size_t offset = 0;
+    std::vector<std::thread> threads{};
+
+    for (std::size_t i = 0; i < threadCount; ++i) {
+        threads.emplace_back(&RayTracerApp::computePixelRange, this,
+                             std::ref(m_frameBuffer.pixels), offset, offset + splitSize);
+        offset += splitSize;
+    }
+
+    for (auto &thread : threads)
+        thread.join();
 
     BeginDrawing();
-    for (int j = ny - 1; j >= 0; j--) {
-        for (int i = 0; i < nx; i++) {
-            raymath::Vector3 col;
-            //Begin AntiAliasing
-            for (int k = 0; k < anti_aliasing; k++) {
-                float Vu = (float) (i + std::generate_canonical<double, 10>(gen)) / (float) (nx);
-                float Vv = (float) (j + std::generate_canonical<double, 10>(gen)) / (float) (ny);
-
-                //Projection of the ray depending of the size of the screen
-                raylib::Ray ray(o, l + Vu * h + Vv * v);
-                col += linearInterpolation(ray, m_list);
-            }
-            col /= (float) anti_aliasing;
-            // col*=255;
-            // std::cout << (int)col.x() << " " << (int)col.y() << " " << (int)col.z() << std::endl;
-            //End AntiAliasing
-            DrawPixel(i, ny - j, Color{static_cast<unsigned char>(col.x() * 255),
-                                       static_cast<unsigned char>(col.y() * 255),
-                                       static_cast<unsigned char>(col.z() * 255), 255});
-        }
+    for (const auto &pixel : m_frameBuffer.pixels) {
+        DrawPixel(pixel.x, m_frameBuffer.height - pixel.y, pixel.color.toColor());
     }
-    // throw;
     EndDrawing();
-    std::cout << "draw()" << std::endl;
+
+    std::cout << "draw() frame time = " << GetFrameTime() << "\tfps = " << m_fps << '\n';
 }

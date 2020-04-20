@@ -10,8 +10,8 @@
 #include <iostream>
 #include <functional>
 
+#include <map>
 #include <queue>
-#include <vector>
 
 #include <mutex>
 #include <atomic>
@@ -22,7 +22,7 @@ class ThreadPool {
 public:
     static std::uint32_t MaxHardwareConcurrent;
 private:
-    std::function<Ret(Args...)> m_worker;
+    std::function<Ret(const std::tuple<Args...> &)> m_worker;
     std::uint32_t m_maxConcurrent;
 
     std::vector<std::thread> m_threads{};
@@ -36,7 +36,7 @@ private:
     }
 
 public:
-    explicit ThreadPool(std::function<Ret(Args...)> worker, std::uint32_t maxConcurrent = MaxHardwareConcurrent)
+    explicit ThreadPool(decltype(m_worker) worker, std::uint32_t maxConcurrent = MaxHardwareConcurrent)
             : m_worker{worker}, m_maxConcurrent{maxConcurrent}
     {
         if (maxConcurrent > MaxHardwareConcurrent) {
@@ -45,9 +45,9 @@ public:
         }
     }
 
-    void queueTask(Args &&...args)
+    void queueTask(const std::tuple<Args...> &args)
     {
-        m_queue.push(std::forward<Args>(args)...);
+        m_queue.push(args);
     }
 
     void runAndWait()

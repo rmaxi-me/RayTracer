@@ -8,7 +8,7 @@
 #include <criterion/criterion.h>
 #include <iostream>
 
-#include "Engine/ArgumentParser.hpp"
+#include "Engine/Utils/ArgumentParser.hpp"
 
 Test(ArgumentParser, Constructors)
 {
