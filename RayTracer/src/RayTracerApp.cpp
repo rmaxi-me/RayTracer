@@ -17,7 +17,7 @@
 #include "Scene/Scene.hpp"
 
 RayTracerApp::RayTracerApp(int ac, char **av)
-        : Application(ac, av)
+        : Application(ac, av, 800, 600)
 {
 }
 
@@ -40,11 +40,6 @@ void RayTracerApp::init()
 
 void RayTracerApp::deinit()
 {
-}
-
-void RayTracerApp::tick(float deltaTime)
-{
-    (void) deltaTime;
 }
 
 raymath::Vector3 linearInterpolation(const raylib::Ray &ray, const std::shared_ptr<ObjectList> &list)
@@ -94,10 +89,8 @@ void RayTracerApp::computePixelRange(std::vector<Pixel> &pixels, size_t begin, s
         computePixelColor(pixels[i]);
 }
 
-void RayTracerApp::draw()
+void RayTracerApp::tick(float)
 {
-//    m_window->clear();
-
     static const auto maxThreads = std::thread::hardware_concurrency();
     static const auto threadCount = maxThreads > 1 ? maxThreads - 1 : 1; // '- 1' because manager thread counts as one
     static const std::size_t pixelCount = m_frameBuffer.pixels.size();
@@ -114,12 +107,11 @@ void RayTracerApp::draw()
 
     for (auto &thread : threads)
         thread.join();
+}
 
-    BeginDrawing();
+void RayTracerApp::draw()
+{
     for (const auto &pixel : m_frameBuffer.pixels) {
         DrawPixel(pixel.x, m_frameBuffer.height - pixel.y, pixel.color.toColor());
     }
-    EndDrawing();
-
-    std::cout << "draw() frame time = " << GetFrameTime() << "\tfps = " << m_fps << '\n';
 }
