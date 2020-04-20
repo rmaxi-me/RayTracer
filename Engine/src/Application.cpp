@@ -21,8 +21,8 @@ Application::Application(int ac, char **av, int width, int height)
         : m_parser{ac, av}, m_settings{}
 {
     m_settings.fullscreen = m_parser.getOrDefault<bool>("fullscreen", "f", false, APFuncs::toBool);
-    m_settings.width = m_parser.getOrDefault<std::uint16_t>("width", "w", width, APFuncs::toInt<std::uint16_t>);
-    m_settings.height = m_parser.getOrDefault<std::uint16_t>("height", "h", height, APFuncs::toInt<std::uint16_t>);
+    m_settings.width = m_parser.getOrDefault<std::uint16_t>("width", "w", width, APFuncs::toInt<int>);
+    m_settings.height = m_parser.getOrDefault<std::uint16_t>("height", "h", height, APFuncs::toInt<int>);
     m_settings.fpsMax = m_parser.getOrDefault<std::uint16_t>("fps", "", 0, APFuncs::toInt<std::uint16_t>);
     m_settings.filePath = m_parser.getOrDefault<std::string>("file", "f", "", APFuncs::toString);
 
