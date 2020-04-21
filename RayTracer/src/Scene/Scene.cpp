@@ -46,6 +46,8 @@ std::shared_ptr<AMaterial> Scene::getMaterial(const Json &json)
         mat = std::make_shared<Glass>();
     else if (type == "ventablack")
         mat = std::make_shared<VentaBlack>();
+    else if (type == "metal")
+        mat = std::make_shared<Metal>();
     else {
         TraceLog(LOG_ERROR, "%s: unknown material", type.c_str());
         throw std::runtime_error("unknown material");

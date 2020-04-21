@@ -7,7 +7,7 @@
 
 #include "Materials/Glass.hpp"
 
-std::optional<std::pair<const raylib::Ray, raymath::Vector3>> Glass::compute(const raylib::Ray &, raylib::RayHitInfo &info) const noexcept
+std::optional<std::pair<const raylib::Ray, raymath::Vector3>> Glass::compute(const raylib::Ray &, raylib::RayHitInfo &) const noexcept
 {
     return {};
 }
