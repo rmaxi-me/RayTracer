@@ -30,6 +30,7 @@ endif ()
 include_directories(Dependencies/raylib/src)
 add_subdirectory(Engine)
 add_subdirectory(RayTracer)
+add_subdirectory(SceneEditor)
 
 if (RAYTRACER_TESTS)
     message(STATUS "Setting up tests")
@@ -41,5 +42,6 @@ if (RAYTRACER_TESTS)
 endif ()
 
 file(COPY Resources DESTINATION ${CMAKE_BINARY_DIR})
+message(STATUS "Resources files copied to ${CMAKE_BINARY_DIR}")
 
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")

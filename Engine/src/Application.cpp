@@ -23,7 +23,7 @@ Application::Application(int ac, char **av, int width, int height)
     m_settings.fullscreen = m_parser.getOrDefault<bool>("fullscreen", "f", false, APFuncs::toBool);
     m_settings.width = m_parser.getOrDefault<int>("width", "w", std::forward<int>(width), APFuncs::toInt<int>);
     m_settings.height = m_parser.getOrDefault<int>("height", "h", std::forward<int>(height), APFuncs::toInt<int>);
-    m_settings.fpsMax = m_parser.getOrDefault<std::uint16_t>("fps", "", 0, APFuncs::toInt<std::uint16_t>);
+    m_settings.fpsMax = m_parser.getOrDefault<std::uint16_t>("fps", "", 60, APFuncs::toInt<std::uint16_t>);
     m_settings.filePath = m_parser.getOrDefault<std::string>("file", "f", "", APFuncs::toString);
 
     // TODO: Reset screen dimensions on fullscreen
