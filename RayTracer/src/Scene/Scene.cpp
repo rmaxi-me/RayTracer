@@ -13,6 +13,7 @@
 #include "Materials/Glass.hpp"
 #include "Materials/Normal.hpp"
 #include "Materials/VentaBlack.hpp"
+#include "Materials/Metal.hpp"
 
 const std::regex Scene::REGEX{REGEX_STR, std::regex_constants::ECMAScript | std::regex_constants::icase};
 
@@ -38,6 +39,8 @@ std::shared_ptr<AMaterial> Scene::getMaterial(const Scene::RawObject &raw)
         return std::make_shared<Normal>();
     if (raw.material == "ventablack")
         return std::make_shared<VentaBlack>();
+    if (raw.material == "metal")
+        return std::make_shared<Metal>();
 
     TraceLog(TraceLogType::LOG_ERROR, "%s: invalid material.", raw.material.c_str());
     throw std::runtime_error("Invalid material");
