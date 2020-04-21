@@ -16,6 +16,7 @@
 #include "Materials/Glass.hpp"
 #include "Materials/Normal.hpp"
 #include "Materials/VentaBlack.hpp"
+#include "Materials/Metal.hpp"
 
 Scene::Scene()
 = default;

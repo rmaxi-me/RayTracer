@@ -13,6 +13,7 @@ add_executable(
         src/Materials/Glass.cpp include/Materials/Glass.hpp
         src/Materials/VentaBlack.cpp include/Materials/VentaBlack.hpp
         src/Materials/Normal.cpp include/Materials/Normal.hpp
+        src/Materials/Metal.cpp include/Materials/Metal.hpp
 )
 
 if (UNIX)

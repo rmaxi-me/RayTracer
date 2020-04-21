@@ -7,15 +7,15 @@ bool Sphere::isHit(const raylib::Ray &r, float tmin, float tmax, raylib::RayHitI
 {
     raymath::Vector3 oc = r.getOrigin() - center;
     float a = raymath::dotProduct(r.getDirection(), r.getDirection());
-    float b = 2.0f * raymath::dotProduct(oc, r.getDirection());
+    float b = raymath::dotProduct(oc, r.getDirection());
     float c = raymath::dotProduct(oc, oc) - radius * radius;
-    float discriminant = b * b - 4 * a * c;
+    float discriminant = b * b - a * c;
 
     if (discriminant > 0)
     {
-        float sol[2];
-        sol[0] = (-b - sqrt(b * b - a * c) / a);
-        sol[1] = (-b + sqrt(b * b - a * c) / a);
+        std::vector<float> sol;
+        sol.push_back((-b - sqrt(discriminant)) / a);
+        sol.push_back((-b + sqrt(discriminant)) / a);
         for (auto &i : sol)
         {
             if (i < tmax && i > tmin)
@@ -34,15 +34,15 @@ bool Sphere::isHit(const raylib::Ray &r, float tmin, float tmax, raylib::RayHitI
 {
     raymath::Vector3 oc = r.getOrigin() - center;
     float a = raymath::dotProduct(r.getDirection(), r.getDirection());
-    float b = 2.0f * raymath::dotProduct(oc, r.getDirection());
+    float b = raymath::dotProduct(oc, r.getDirection());
     float c = raymath::dotProduct(oc, oc) - radius * radius;
-    float discriminant = b * b - 4 * a * c;
+    float discriminant = b * b - a * c;
 
     if (discriminant > 0)
     {
-        float sol[2];
-        sol[0] = (-b - sqrt(b * b - a * c) / a);
-        sol[1] = (-b + sqrt(b * b - a * c) / a);
+        std::vector<float> sol;
+        sol.push_back((-b - sqrt(discriminant)) / a);
+        sol.push_back((-b + sqrt(discriminant)) / a);
         for (auto &i : sol)
         {
             if (i < tmax && i > tmin)

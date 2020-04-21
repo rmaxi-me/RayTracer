@@ -16,6 +16,7 @@ add_library(
         src/Assets/Material.cpp include/Engine/Assets/Material.hpp
         include/Engine/Utils/ThreadPool.hpp include/Engine/Utils/OS.hpp
         src/Utils/Random.cpp include/Engine/Utils/Random.hpp
+        include/Engine/Utils/Calcul.hpp
 )
 
 target_include_directories(${PROJECT_NAME}Engine PRIVATE include)
