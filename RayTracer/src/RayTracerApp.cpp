@@ -44,11 +44,6 @@ void RayTracerApp::deinit()
 {
 }
 
-void RayTracerApp::tick(float deltaTime)
-{
-    (void) deltaTime;
-}
-
 raymath::Vector3 colorize(const raylib::Ray &ray, const std::shared_ptr<ObjectList> &list)
 {
     raylib::RayHitInfo info;
