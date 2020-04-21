@@ -49,21 +49,22 @@ void RayTracerApp::tick(float deltaTime)
     (void) deltaTime;
 }
 
-raymath::Vector3 colorize(const raylib::Ray &ray, const std::shared_ptr<ObjectList> &list)
+raymath::Vector3 colorize(const raylib::Ray &ray, const std::shared_ptr<ObjectList> &list, int depth)
 {
     raylib::RayHitInfo info;
     std::shared_ptr<AMaterial> currentMaterial{nullptr};
+
+    if (depth <= 0)
+        return raymath::Vector3();
 
     //check if any ray hit an object 0 and MAXFLOAT are value to stop the calcul if no object is found or an object is too close
     //When an obj is hit, RayHitInfo is Fill and the fct return True
     
     if (list->isHit(ray, 0.001f, std::numeric_limits<float>::max(), info, currentMaterial))
     {
-        // if (currentMaterial == nullptr)
-            // exit (1);
         auto reflectedRay = currentMaterial->compute(ray, info);
         if (reflectedRay.has_value())
-            return reflectedRay->second * colorize(reflectedRay->first, list);
+            return reflectedRay->second * colorize(reflectedRay->first, list, depth-1);
         else
             return raymath::Vector3();
     } else {
@@ -88,11 +89,9 @@ void RayTracerApp::computePixelColor(RayTracerApp::Pixel &pixel)
 
         //Projection of the ray depending of the size of the screen
         raylib::Ray ray(o, l + Vu * h + Vv * v);
-        col += colorize(ray, m_list);
+        col += colorize(ray, m_list, 50);
     }
     col /= (float) m_anti_aliasing;
-    // col*=255;
-    // std::cout << (int)col.x() << " " << (int)col.y() << " " << (int)col.z() << std::endl;
     //End AntiAliasing
 
     pixel.color = col;
@@ -106,8 +105,6 @@ void RayTracerApp::computePixelRange(std::vector<Pixel> &pixels, size_t begin, s
 
 void RayTracerApp::draw()
 {
-//    m_window->clear();
-
     static const auto maxThreads = std::thread::hardware_concurrency();
     static const auto threadCount = maxThreads > 1 ? maxThreads - 1 : 1; // '- 1' because manager thread counts as one
     static const std::size_t pixelCount = m_frameBuffer.pixels.size();
@@ -125,11 +122,8 @@ void RayTracerApp::draw()
     for (auto &thread : threads)
         thread.join();
 
-    BeginDrawing();
     for (const auto &pixel : m_frameBuffer.pixels) {
         DrawPixel(pixel.x, m_frameBuffer.height - pixel.y, pixel.color.toColor());
     }
-    EndDrawing();
-
     std::cout << "draw() frame time = " << GetFrameTime() << "\tfps = " << m_fps << '\n';
 }
