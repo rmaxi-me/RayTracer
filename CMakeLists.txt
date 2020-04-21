@@ -30,7 +30,10 @@ endif ()
 include_directories(Dependencies/raylib/src)
 add_subdirectory(Engine)
 add_subdirectory(RayTracer)
-add_subdirectory(SceneEditor)
+
+if (NOT APPLE)
+    add_subdirectory(SceneEditor)
+endif ()
 
 if (RAYTRACER_TESTS)
     message(STATUS "Setting up tests")
