@@ -30,7 +30,7 @@ protected:
 
     std::uint32_t m_fps{0};
 public:
-    Application(int ac, char **av);
+    Application(int ac, char **av, int width, int height);
     virtual ~Application() = default;
 
     void start();

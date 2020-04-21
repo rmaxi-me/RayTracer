@@ -9,8 +9,13 @@
 
 int main(int ac, char **av)
 {
-    RayTracerApp app(ac, av);
+    try {
+        RayTracerApp app(ac, av);
 
-    app.start();
+        app.start();
+    } catch (const std::exception &e) {
+        std::cerr << "error: " << e.what() << '\n';
+        return 84;
+    }
     return 0;
 }
