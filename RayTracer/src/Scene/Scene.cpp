@@ -7,11 +7,14 @@
 
 #include <fstream>
 
+#include "Scene/Scene.hpp"
 #include "Objects/Sphere.hpp"
 #include "Engine/Raylib.hpp"
-#include "Scene/Scene.hpp"
+#include "Materials/Glass.hpp"
+#include "Materials/Normal.hpp"
+#include "Materials/VentaBlack.hpp"
 
-const std::regex Scene::REGEX{REGEX_STRING, std::regex_constants::ECMAScript | std::regex_constants::icase};
+const std::regex Scene::REGEX{REGEX_STR, std::regex_constants::ECMAScript | std::regex_constants::icase};
 
 Scene::Scene()
 = default;
@@ -27,12 +30,35 @@ std::shared_ptr<Object> Scene::getObject(const RawObject &raw)
     throw std::runtime_error("Invalid object");
 }
 
+std::shared_ptr<AMaterial> Scene::getMaterial(const Scene::RawObject &raw)
+{
+    if (raw.material == "glass")
+        return std::make_shared<Glass>();
+    if (raw.material == "normal")
+        return std::make_shared<Normal>();
+    if (raw.material == "ventablack")
+        return std::make_shared<VentaBlack>();
+
+    TraceLog(TraceLogType::LOG_ERROR, "%s: invalid material.", raw.material.c_str());
+    throw std::runtime_error("Invalid material");
+}
+
+raymath::Vector3 Scene::getColor(const Scene::RawObject &raw)
+{
+    return raymath::Vector3::fromString(raw.color.c_str());
+}
+
 std::vector<std::shared_ptr<Object>> Scene::rawListToObjList(const std::vector<RawObject> &rawList)
 {
     std::vector<std::shared_ptr<Object>> objs{};
 
     for (const auto &raw : rawList) {
-        std::shared_ptr<Object> obj = getObject(raw);
+        auto obj = getObject(raw);
+        auto mat = getMaterial(raw);
+
+        mat->setAttenuation(getColor(raw));
+        obj->attachMaterial(mat);
+
         objs.push_back(obj);
     }
 

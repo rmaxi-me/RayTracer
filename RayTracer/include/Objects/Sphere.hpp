@@ -13,6 +13,7 @@ public:
     ~Sphere() override = default;
 public:
     bool isHit(const raylib::Ray &, float, float, raylib::RayHitInfo &info) override;
+    bool isHit(const raylib::Ray &, float, float, raylib::RayHitInfo &info, std::shared_ptr<AMaterial> &ptr) override;
 
     static raymath::Vector3 getRandomPoint()
     {
@@ -26,4 +27,5 @@ public:
         } while (point.lenght() * point.lenght() >= 1.0f);
         return point;
     };
+
 };

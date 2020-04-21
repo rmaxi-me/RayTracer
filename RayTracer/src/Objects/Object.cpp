@@ -5,14 +5,21 @@
 ** under certain conditions; see LICENSE for details.
 */
 
+#include <utility>
+
 #include "Objects/Object.hpp"
 
-Object::Object(const IMaterial *material)
-        : m_material(material)
+Object::Object(std::shared_ptr<AMaterial> material)
+        : m_material(std::move(material))
 {
 }
 
-void Object::attachMaterial(const IMaterial *material)
+void Object::attachMaterial(std::shared_ptr<AMaterial> material)
 {
-    m_material = material;
+    m_material = std::move(material);
+}
+
+const std::shared_ptr<AMaterial> &Object::getMaterial() const noexcept
+{
+    return m_material;
 }

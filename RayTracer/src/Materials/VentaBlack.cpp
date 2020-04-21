@@ -7,9 +7,9 @@
 
 #include "Materials/VentaBlack.hpp"
 
-Vector3 VentaBlack::compute(const Ray &) const noexcept
+std::optional<std::pair<const raylib::Ray, raymath::Vector3>> VentaBlack::compute(const raylib::Ray &, raylib::RayHitInfo &) const noexcept
 {
-    return Vector3();
+    return {};
 }
 
 bool VentaBlack::isOpaque() const noexcept
