@@ -58,8 +58,13 @@ Scene Scene::fromFile(const char *filepath)
 {
     Scene scene;
     std::ifstream file(filepath);
-    Json json;
 
+    if (!file) {
+        std::cerr << "Could not open scene file " << filepath << std::endl;
+        throw std::runtime_error("Failed to open file");
+    }
+
+    Json json;
     file >> json;
 
     std::vector<std::shared_ptr<Object>> vec;
