@@ -7,12 +7,16 @@
 
 #include <fstream>
 
+#include "json.hpp"
+
 #include "Scene/Scene.hpp"
 #include "Objects/Sphere.hpp"
 #include "Engine/Raylib.hpp"
 #include "Materials/Glass.hpp"
 #include "Materials/Normal.hpp"
 #include "Materials/VentaBlack.hpp"
+
+using json = nlohmann::json;
 
 const std::regex Scene::REGEX{REGEX_STR, std::regex_constants::ECMAScript | std::regex_constants::icase};
 
