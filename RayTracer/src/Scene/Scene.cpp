@@ -23,9 +23,9 @@ Scene::Scene()
 
 std::shared_ptr<Object> Scene::getObject(const Json &json)
 {
-    auto type = json["type"].get<std::string>();
-    auto position = json["position"].get<std::string>();
-    auto params = json["params"];
+    const auto type = json["type"].get<std::string>();
+    const auto position = json["position"].get<std::string>();
+    const auto params = json["params"];
 
     if (type == "sphere")
         return std::make_shared<Sphere>(raymath::Vector3::fromString(position.c_str()), params["radius"].get<float>());
@@ -36,24 +36,24 @@ std::shared_ptr<Object> Scene::getObject(const Json &json)
 
 std::shared_ptr<AMaterial> Scene::getMaterial(const Json &json)
 {
-    auto type = json["type"].get<std::string>();
-    auto color = json["color"].get<std::string>();
+    const auto type = json["type"].get<std::string>();
+    const auto color = json["color"].get<std::string>();
+    const auto colorVec = raymath::Vector3::fromString(color.c_str());
     std::shared_ptr<AMaterial> mat{nullptr};
 
     if (type == "normal")
-        mat = std::make_shared<Normal>();
+        mat = std::make_shared<Normal>(colorVec);
     else if (type == "glass")
-        mat = std::make_shared<Glass>();
+        mat = std::make_shared<Glass>(colorVec);
     else if (type == "ventablack")
         mat = std::make_shared<VentaBlack>();
     else if (type == "metal")
-        mat = std::make_shared<Metal>();
+        mat = std::make_shared<Metal>(colorVec);
     else {
         TraceLog(LOG_ERROR, "%s: unknown material", type.c_str());
         throw std::runtime_error("unknown material");
     }
 
-    mat->setAttenuation(raymath::Vector3::fromString(color.c_str()));
     return mat;
 }
 

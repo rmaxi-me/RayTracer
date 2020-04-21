@@ -11,13 +11,7 @@
 
 class Normal : public AMaterial {
 public:
-    Normal() = default;
-    explicit Normal(const raymath::Vector3 &fac) : AMaterial(fac)
-    {};
+    explicit Normal(const raymath::Vector3 &fac);
 
     [[nodiscard]] std::optional<std::pair<const raylib::Ray, raymath::Vector3>> compute(const raylib::Ray &ray, raylib::RayHitInfo &info) const noexcept override;
-    [[nodiscard]] float getGammaCorrection() const noexcept override;
-    [[nodiscard]] bool isOpaque() const noexcept override;
-    [[nodiscard]] float getReflectionFactor() const noexcept override;
-    [[nodiscard]] float getRefractionFactor() const noexcept override;
 };
