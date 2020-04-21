@@ -7,16 +7,26 @@
 
 #pragma once
 
+#include <optional>
+
 #include "Engine/Vector/Vector3.hpp"
+#include "Engine/Ray/Ray.hpp"
 
-class IMaterial {
+class AMaterial {
+protected:
+    raymath::Vector3 m_attenuation{};
 public:
-    virtual ~IMaterial();
+    AMaterial();
+    explicit AMaterial(const raymath::Vector3 &attenuation);
+    virtual ~AMaterial();
 
-    [[nodiscard]] virtual Vector3 compute(const Ray &ray) const noexcept = 0;
+    [[nodiscard]] virtual std::optional<std::pair<const raylib::Ray, raymath::Vector3>> compute(const raylib::Ray &ray, raylib::RayHitInfo &info) const noexcept = 0;
 
     [[nodiscard]] virtual bool isOpaque() const noexcept = 0;
     [[nodiscard]] virtual float getGammaCorrection() const noexcept = 0;
     [[nodiscard]] virtual float getReflectionFactor() const noexcept = 0;
     [[nodiscard]] virtual float getRefractionFactor() const noexcept = 0;
+
+    virtual void setAttenuation(const raymath::Vector3 &attenuation) noexcept final;
+    [[nodiscard]] virtual raymath::Vector3 getAttenuation() const noexcept final;
 };

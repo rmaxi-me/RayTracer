@@ -12,6 +12,8 @@
 #include "Engine/Utils/Random.hpp"
 
 #include "RayTracerApp.hpp"
+#include "Materials/AMaterial.hpp"
+#include "Objects/Object.hpp"
 #include "Objects/ObjectList.hpp"
 #include "Objects/Sphere.hpp"
 #include "Scene/Scene.hpp"
@@ -42,15 +44,28 @@ void RayTracerApp::deinit()
 {
 }
 
-raymath::Vector3 linearInterpolation(const raylib::Ray &ray, const std::shared_ptr<ObjectList> &list)
+void RayTracerApp::tick(float deltaTime)
+{
+    (void) deltaTime;
+}
+
+raymath::Vector3 colorize(const raylib::Ray &ray, const std::shared_ptr<ObjectList> &list)
 {
     raylib::RayHitInfo info;
+    std::shared_ptr<AMaterial> currentMaterial{nullptr};
 
     //check if any ray hit an object 0 and MAXFLOAT are value to stop the calcul if no object is found or an object is too close
     //When an obj is hit, RayHitInfo is Fill and the fct return True
-    if (list->isHit(ray, 0.001f, std::numeric_limits<float>::max(), info)) {
-        raymath::Vector3 color = info.position + info.normal + Sphere::getRandomPoint();
-        return 0.5 * linearInterpolation(raylib::Ray(info.position, color - info.position), list);
+    
+    if (list->isHit(ray, 0.001f, std::numeric_limits<float>::max(), info, currentMaterial))
+    {
+        // if (currentMaterial == nullptr)
+            // exit (1);
+        auto reflectedRay = currentMaterial->compute(ray, info);
+        if (reflectedRay.has_value())
+            return reflectedRay->second * colorize(reflectedRay->first, list);
+        else
+            return raymath::Vector3();
     } else {
         raymath::Vector3 vecteurUnitaire = normalize(ray.getDirection());
         float t = 0.5f * (vecteurUnitaire.y() + 1.0f);
@@ -73,7 +88,7 @@ void RayTracerApp::computePixelColor(RayTracerApp::Pixel &pixel)
 
         //Projection of the ray depending of the size of the screen
         raylib::Ray ray(o, l + Vu * h + Vv * v);
-        col += linearInterpolation(ray, m_list);
+        col += colorize(ray, m_list);
     }
     col /= (float) m_anti_aliasing;
     // col*=255;
@@ -91,6 +106,8 @@ void RayTracerApp::computePixelRange(std::vector<Pixel> &pixels, size_t begin, s
 
 void RayTracerApp::tick(float)
 {
+//    m_window->clear();
+
     static const auto maxThreads = std::thread::hardware_concurrency();
     static const auto threadCount = maxThreads > 1 ? maxThreads - 1 : 1; // '- 1' because manager thread counts as one
     static const std::size_t pixelCount = m_frameBuffer.pixels.size();

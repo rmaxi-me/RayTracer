@@ -7,9 +7,9 @@
 
 #include "Materials/Glass.hpp"
 
-Vector3 Glass::compute(const Ray &) const noexcept
+std::optional<std::pair<const raylib::Ray, raymath::Vector3>> Glass::compute(const raylib::Ray &, raylib::RayHitInfo &info) const noexcept
 {
-    return Vector3();
+    return {};
 }
 
 bool Glass::isOpaque() const noexcept
