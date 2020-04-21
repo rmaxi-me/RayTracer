@@ -4,8 +4,11 @@
       "type": "sphere",
       "position": "0 0 -1",
       "material": {
-        "type": "normal",
-        "color": "0.2 0.2 0.2"
+        "type": "metal",
+        "color": "0.2 0.2 0.2",
+        "gamma_correction": 0.0,
+        "reflection_factor": 0,
+        "refraction_factor": 0
       },
       "params": {
         "radius": 0.5

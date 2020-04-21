@@ -54,6 +54,12 @@ std::shared_ptr<AMaterial> Scene::getMaterial(const Json &json)
         throw std::runtime_error("unknown material");
     }
 
+    if (json.contains("gamma_correction"))
+        mat->setGammaCorrection(json["gamma_correction"].get<float>());
+    if (json.contains("reflection_factor"))
+        mat->setReflectionFactor(json["reflection_factor"].get<float>());
+    if (json.contains("refraction_factor"))
+        mat->setRefractionFactor(json["refraction_factor"].get<float>());
     return mat;
 }
 
