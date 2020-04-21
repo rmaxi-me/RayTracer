@@ -7,32 +7,20 @@
 
 #pragma once
 
-#include <regex>
+#include <json.hpp>
 
 #include "Objects/ObjectList.hpp"
 
+using Json = nlohmann::json;
+
 class Scene {
 private:
-    struct RawObject {
-        std::string line;
-        std::string type;
-        std::string position;
-        std::string color;
-        std::string material;
-        std::string params;
-    };
-
-    static constexpr auto REGEX_STR = R"(^(\w+) pos=([\d \.-]+) color=([\d \.-]+) material=(\w+) params=([\d \.-]+)$)";
-    static const std::regex REGEX;
-
     std::shared_ptr<ObjectList> m_objectList{nullptr};
 
     Scene();
 
-    static std::shared_ptr<Object> getObject(const RawObject &raw);
-    static std::shared_ptr<AMaterial> getMaterial(const RawObject &raw);
-    static raymath::Vector3 getColor(const RawObject &raw);
-    static std::vector<std::shared_ptr<Object>> rawListToObjList(const std::vector<RawObject> &rawList);
+    static std::shared_ptr<Object> getObject(const Json &json);
+    static std::shared_ptr<AMaterial> getMaterial(const Json &json);
 public:
     static Scene fromFile(const char *filepath);
 

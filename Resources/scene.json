@@ -1,0 +1,26 @@
+{
+  "objects": [
+    {
+      "type": "sphere",
+      "position": "0 0 -1",
+      "material": {
+        "type": "normal",
+        "color": "0.2 0.2 0.2"
+      },
+      "params": {
+        "radius": 0.5
+      }
+    },
+    {
+      "type": "sphere",
+      "position": "0 -100.5 -1",
+      "material": {
+        "type": "normal",
+        "color": "0.0 0.0 0.9"
+      },
+      "params": {
+        "radius": 100
+      }
+    }
+  ]
+}
