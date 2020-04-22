@@ -24,7 +24,7 @@ public:
                                             std::generate_canonical<double, 10>(Random::getGenerator()),
                                             std::generate_canonical<double, 10>(Random::getGenerator()))
                     - raymath::Vector3(1, 1, 1);
-        } while (point.lenght() * point.lenght() >= 1.0f);
+        } while (point.length() * point.length() >= 1.0f);
         return point;
     };
 
