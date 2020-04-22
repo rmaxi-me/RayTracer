@@ -5,111 +5,86 @@
 ** under certain conditions; see LICENSE for details.
 */
 
+#include <json.hpp>
+
 #include <fstream>
 
 #include "Scene/Scene.hpp"
 #include "Objects/Sphere.hpp"
 #include "Engine/Raylib.hpp"
+
 #include "Materials/Glass.hpp"
 #include "Materials/Normal.hpp"
 #include "Materials/VentaBlack.hpp"
 #include "Materials/Metal.hpp"
 
-const std::regex Scene::REGEX{REGEX_STR, std::regex_constants::ECMAScript | std::regex_constants::icase};
-
 Scene::Scene()
 = default;
 
-std::shared_ptr<Object> Scene::getObject(const RawObject &raw)
+std::shared_ptr<Object> Scene::getObject(const Json &json)
 {
-    auto pos = raymath::Vector3::fromString(raw.position.c_str());
+    const auto type = json["type"].get<std::string>();
+    const auto position = json["position"].get<std::string>();
+    const auto params = json["params"];
 
-    if (raw.type == "sphere")
-        return std::make_shared<Sphere>(pos, std::stof(raw.params));
+    if (type == "sphere")
+        return std::make_shared<Sphere>(raymath::Vector3::fromString(position.c_str()), params["radius"].get<float>());
 
-    TraceLog(TraceLogType::LOG_ERROR, "%s: invalid object.", raw.type.c_str());
-    throw std::runtime_error("Invalid object");
+    TraceLog(LOG_ERROR, "%s: unknown object", type.c_str());
+    throw std::runtime_error("unknown object");
 }
 
-std::shared_ptr<AMaterial> Scene::getMaterial(const Scene::RawObject &raw)
+std::shared_ptr<AMaterial> Scene::getMaterial(const Json &json)
 {
-    if (raw.material == "glass")
-        return std::make_shared<Glass>();
-    if (raw.material == "normal")
-        return std::make_shared<Normal>();
-    if (raw.material == "ventablack")
-        return std::make_shared<VentaBlack>();
-    if (raw.material == "metal")
-        return std::make_shared<Metal>();
+    const auto type = json["type"].get<std::string>();
+    const auto color = json["color"].get<std::string>();
+    const auto colorVec = raymath::Vector3::fromString(color.c_str());
+    std::shared_ptr<AMaterial> mat{nullptr};
 
-    TraceLog(TraceLogType::LOG_ERROR, "%s: invalid material.", raw.material.c_str());
-    throw std::runtime_error("Invalid material");
-}
-
-raymath::Vector3 Scene::getColor(const Scene::RawObject &raw)
-{
-    return raymath::Vector3::fromString(raw.color.c_str());
-}
-
-std::vector<std::shared_ptr<Object>> Scene::rawListToObjList(const std::vector<RawObject> &rawList)
-{
-    std::vector<std::shared_ptr<Object>> objs{};
-
-    for (const auto &raw : rawList) {
-        auto obj = getObject(raw);
-        auto mat = getMaterial(raw);
-
-        mat->setAttenuation(getColor(raw));
-        obj->attachMaterial(mat);
-
-        objs.push_back(obj);
+    if (type == "normal")
+        mat = std::make_shared<Normal>(colorVec);
+    else if (type == "glass")
+        mat = std::make_shared<Glass>(colorVec);
+    else if (type == "ventablack")
+        mat = std::make_shared<VentaBlack>();
+    else if (type == "metal")
+        mat = std::make_shared<Metal>(colorVec);
+    else {
+        TraceLog(LOG_ERROR, "%s: unknown material", type.c_str());
+        throw std::runtime_error("unknown material");
     }
 
-    return objs;
+    if (json.contains("gamma_correction"))
+        mat->setGammaCorrection(json["gamma_correction"].get<float>());
+    if (json.contains("reflection_factor"))
+        mat->setReflectionFactor(json["reflection_factor"].get<float>());
+    if (json.contains("refraction_factor"))
+        mat->setRefractionFactor(json["refraction_factor"].get<float>());
+    return mat;
 }
 
 Scene Scene::fromFile(const char *filepath)
 {
     Scene scene;
     std::ifstream file(filepath);
-    std::string line;
-    std::size_t lineCount = 0;
-    std::vector<RawObject> rawObjects{};
 
     if (!file) {
-        TraceLog(TraceLogType::LOG_ERROR, "%s: Could not open file.", filepath);
-        throw std::runtime_error("Invalid file");
-    }
-    while (std::getline(file, line)) {
-        ++lineCount;
-        if (line[0] == '#')
-            continue;
-        std::transform(line.begin(), line.end(), line.begin(), ::tolower);
-
-        auto line_match = std::sregex_iterator(line.begin(), line.end(), REGEX);
-        auto rgx_end = std::sregex_iterator();
-        auto matchCount = std::distance(line_match, rgx_end);
-
-        if (matchCount != 1) {
-            TraceLog(TraceLogType::LOG_ERROR, "%s:%u: Invalid line format.", filepath, lineCount);
-            throw std::runtime_error("Invalid line");
-        }
-
-        auto match = *line_match;
-
-        if (match.size() != 6) {
-            TraceLog(TraceLogType::LOG_ERROR, "%s:%u: Invalid line format.", filepath, lineCount);
-            throw std::runtime_error("Invalid object");
-        }
-        rawObjects.push_back({*(match.cbegin() + 0),
-                              *(match.cbegin() + 1),
-                              *(match.cbegin() + 2),
-                              *(match.cbegin() + 3),
-                              *(match.cbegin() + 4),
-                              *(match.cbegin() + 5)});
+        std::cerr << "Could not open scene file " << filepath << std::endl;
+        throw std::runtime_error("Failed to open file");
     }
 
-    scene.m_objectList = std::make_shared<ObjectList>(rawListToObjList(rawObjects));
+    Json json;
+    file >> json;
+
+    std::vector<std::shared_ptr<Object>> vec;
+    for (const auto &elem : json["objects"]) {
+        auto obj = getObject(elem);
+        auto mat = getMaterial(elem["material"]);
+
+        obj->attachMaterial(mat);
+        vec.push_back(std::move(obj));
+    }
+    scene.m_objectList = std::make_shared<ObjectList>(vec);
     return scene;
 }
 
