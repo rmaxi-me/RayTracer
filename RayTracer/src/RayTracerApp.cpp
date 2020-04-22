@@ -13,9 +13,7 @@
 
 #include "RayTracerApp.hpp"
 #include "Materials/AMaterial.hpp"
-#include "Objects/Object.hpp"
 #include "Objects/ObjectList.hpp"
-#include "Objects/Sphere.hpp"
 #include "Scene/Scene.hpp"
 
 RayTracerApp::RayTracerApp(int ac, char **av)
@@ -29,19 +27,31 @@ void RayTracerApp::init()
 
     m_list = scene.getObjectList();
 
+    m_pixelCount = m_settings.width * m_settings.height;
     m_frameBuffer.width = m_settings.width;
     m_frameBuffer.height = m_settings.height;
-    m_frameBuffer.pixels.reserve(m_settings.width * m_settings.height);
+    m_frameBuffer.raw.reserve(m_pixelCount);
+    m_frameBuffer.pixels.reserve(m_pixelCount);
 
-    for (int y = 0; y < m_frameBuffer.height; ++y) {
+    for (int y = m_frameBuffer.height - 1; y >= 0; --y) {
         for (int x = 0; x < m_frameBuffer.width; ++x) {
-            m_frameBuffer.pixels.push_back({x, y, {}});
+            m_frameBuffer.pixels.push_back({x, y, {}, {}});
         }
     }
+
+    multithreadTask(&RayTracerApp::computePixelRange, false);
 }
 
 void RayTracerApp::deinit()
 {
+    for (auto &thread : m_threads)
+        thread.join();
+    m_threads.clear();
+
+    if (m_loaded) {
+        UnloadTexture(m_texture);
+        UnloadImage(m_image);
+    }
 }
 
 raymath::Vector3 colorize(const raylib::Ray &ray, const std::shared_ptr<ObjectList> &list, int depth)
@@ -54,12 +64,11 @@ raymath::Vector3 colorize(const raylib::Ray &ray, const std::shared_ptr<ObjectLi
 
     //check if any ray hit an object 0 and MAXFLOAT are value to stop the calcul if no object is found or an object is too close
     //When an obj is hit, RayHitInfo is Fill and the fct return True
-    
-    if (list->isHit(ray, 0.001f, std::numeric_limits<float>::max(), info, currentMaterial))
-    {
+
+    if (list->isHit(ray, 0.001f, std::numeric_limits<float>::max(), info, currentMaterial)) {
         auto reflectedRay = currentMaterial->compute(ray, info);
         if (reflectedRay.has_value())
-            return reflectedRay->second * colorize(reflectedRay->first, list, depth-1);
+            return reflectedRay->second * colorize(reflectedRay->first, list, depth - 1);
         else
             return raymath::Vector3();
     } else {
@@ -90,15 +99,22 @@ void RayTracerApp::computePixelColor(RayTracerApp::Pixel &pixel)
     //End AntiAliasing
 
     pixel.color = col;
+    pixel.raw = col.toColor();
+
+    ++m_progress;
 }
 
-void RayTracerApp::computePixelRange(std::vector<Pixel> &pixels, size_t begin, size_t end)
+void RayTracerApp::computePixelRange(size_t begin, size_t end)
 {
-    for (auto i = begin; i < end; ++i)
-        computePixelColor(pixels[i]);
+    for (auto i = begin; i < end; ++i) {
+        if (m_abort)
+            return;
+        computePixelColor(m_frameBuffer[i]);
+        m_frameBuffer.raw[i] = m_frameBuffer[i].raw;
+    }
 }
 
-void RayTracerApp::tick(float)
+void RayTracerApp::multithreadTask(void (RayTracerApp::*func)(size_t, size_t), bool join)
 {
     static const auto maxThreads = std::thread::hardware_concurrency();
     static const auto threadCount = maxThreads > 1 ? maxThreads - 1 : 1; // '- 1' because manager thread counts as one
@@ -106,21 +122,36 @@ void RayTracerApp::tick(float)
     static const std::size_t splitSize = pixelCount / threadCount;
 
     std::size_t offset = 0;
-    std::vector<std::thread> threads{};
 
+    m_threads.clear();
     for (std::size_t i = 0; i < threadCount; ++i) {
-        threads.emplace_back(&RayTracerApp::computePixelRange, this,
-                             std::ref(m_frameBuffer.pixels), offset, offset + splitSize);
+        m_threads.emplace_back(func, this, offset, offset + splitSize);
         offset += splitSize;
     }
 
-    for (auto &thread : threads)
-        thread.join();
+    if (join) {
+        for (auto &thread : m_threads)
+            thread.join();
+    }
+}
+
+void RayTracerApp::tick(float)
+{
+    if (!m_loaded && m_progress == m_pixelCount) {
+        m_image = LoadImageEx(m_frameBuffer.raw.data(), m_settings.width, m_settings.height);
+        m_texture = LoadTextureFromImage(m_image);
+        m_loaded = true;
+    }
 }
 
 void RayTracerApp::draw()
 {
-    for (const auto &pixel : m_frameBuffer.pixels) {
-        DrawPixel(pixel.x, m_frameBuffer.height - pixel.y, pixel.color.toColor());
+    if (m_progress < m_pixelCount) {
+        for (const auto &pixel : m_frameBuffer.pixels) {
+            DrawPixel(pixel.x, m_frameBuffer.height - pixel.y, pixel.raw);
+        }
+    } else {
+        if (m_loaded)
+            DrawTexture(m_texture, 0, 0, WHITE);
     }
 }
