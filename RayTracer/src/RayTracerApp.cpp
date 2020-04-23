@@ -19,6 +19,13 @@
 RayTracerApp::RayTracerApp(int ac, char **av)
         : Application(ac, av, 800, 600)
 {
+    m_anti_aliasing = m_parser.getOrDefault<int>("aa", "a", 128, APFuncs::toInt<int>);
+
+    if (m_anti_aliasing <= 0) {
+        TraceLog(LOG_ERROR, "Anti aliasing must be higher than 0. (Got %d)", m_anti_aliasing);
+        throw std::runtime_error("Anti aliasing must be higher than 0.");
+    }
+    TraceLog(LOG_DEBUG, "Anti Aliasing: x%d", m_anti_aliasing);
 }
 
 void RayTracerApp::init()
@@ -48,7 +55,7 @@ void RayTracerApp::deinit()
     m_taskMutex.lock();
     decltype(m_tasks)().swap(m_tasks);
     m_taskMutex.unlock();
-    
+
     for (auto &thread : m_threads)
         thread.join();
     m_threads.clear();
@@ -77,8 +84,8 @@ raymath::Vector3 colorize(const raylib::Ray &ray, const std::shared_ptr<ObjectLi
         else
             return raymath::Vector3();
     } else {
-        raymath::Vector3 vecteurUnitaire = normalize(ray.getDirection());
-        float t = 0.5f * (vecteurUnitaire.y() + 1.0f);
+        raymath::Vector3 unit = normalize(ray.getDirection());
+        float t = 0.5f * (unit.y() + 1.0f);
         return (1.0f - t) * raymath::Vector3(1.0, 1.0, 1.0) + t * raymath::Vector3(0.5, 0.7, 1.0);
     }
 }
@@ -120,7 +127,8 @@ void RayTracerApp::computePixelRange()
 
             if (m_abort || m_tasks.empty())
                 return;
-            auto &task = m_tasks.front();
+
+            const auto &task = m_tasks.front();
             begin = task.first;
             end = task.second;
             m_tasks.pop();

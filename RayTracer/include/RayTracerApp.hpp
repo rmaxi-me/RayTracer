@@ -21,8 +21,6 @@
 
 class RayTracerApp : public Application {
 public:
-    static constexpr int m_anti_aliasing = 128;
-
     struct Pixel {
         int x;
         int y;
@@ -46,8 +44,9 @@ public:
             return pixels[index];
         }
     };
-
 private:
+    int m_anti_aliasing{};
+
     std::shared_ptr<ObjectList> m_list{};
     FrameBuffer m_frameBuffer{};
     std::vector<std::thread> m_threads{};
