@@ -44,9 +44,9 @@ Application::Application(int ac, char **av, int width, int height)
         TraceLog(TraceLogType::LOG_DEBUG, "File to open: %s", m_settings.filePath.c_str());
 }
 
-void Application::start()
+void Application::start(const char *title)
 {
-    m_window = std::make_unique<raylib::Window>(m_settings.width, m_settings.height, "Raylib tests");
+    m_window = std::make_unique<raylib::Window>(m_settings.width, m_settings.height, title);
 
     if (m_settings.fpsMax != 0)
         m_window->setFPS(m_settings.fpsMax);

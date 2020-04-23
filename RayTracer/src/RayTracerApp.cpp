@@ -39,11 +39,16 @@ void RayTracerApp::init()
         }
     }
 
+    m_tpBegin = std::chrono::high_resolution_clock::now();
     multithreadTask(&RayTracerApp::computePixelRange, false);
 }
 
 void RayTracerApp::deinit()
 {
+    m_taskMutex.lock();
+    decltype(m_tasks)().swap(m_tasks);
+    m_taskMutex.unlock();
+    
     for (auto &thread : m_threads)
         thread.join();
     m_threads.clear();
@@ -104,29 +109,46 @@ void RayTracerApp::computePixelColor(RayTracerApp::Pixel &pixel)
     ++m_progress;
 }
 
-void RayTracerApp::computePixelRange(size_t begin, size_t end)
+void RayTracerApp::computePixelRange()
 {
-    for (auto i = begin; i < end; ++i) {
-        if (m_abort)
-            return;
-        computePixelColor(m_frameBuffer[i]);
-        m_frameBuffer.raw[i] = m_frameBuffer[i].raw;
+    size_t begin;
+    size_t end;
+
+    while (!m_loaded) {
+        {
+            std::lock_guard<std::mutex> guard(m_taskMutex);
+
+            if (m_abort || m_tasks.empty())
+                return;
+            auto &task = m_tasks.front();
+            begin = task.first;
+            end = task.second;
+            m_tasks.pop();
+        }
+        for (auto i = begin; i < end; ++i) {
+            if (m_abort)
+                return;
+            computePixelColor(m_frameBuffer[i]);
+            m_frameBuffer.raw[i] = m_frameBuffer[i].raw;
+        }
     }
 }
 
-void RayTracerApp::multithreadTask(void (RayTracerApp::*func)(size_t, size_t), bool join)
+void RayTracerApp::multithreadTask(void (RayTracerApp::*func)(), bool join)
 {
-    static const auto maxThreads = std::thread::hardware_concurrency();
-    static const auto threadCount = maxThreads > 1 ? maxThreads - 1 : 1; // '- 1' because manager thread counts as one
-    static const std::size_t pixelCount = m_frameBuffer.pixels.size();
-    static const std::size_t splitSize = pixelCount / threadCount;
+    const auto maxThreads = std::thread::hardware_concurrency();
+    const auto threadCount = maxThreads > 1 ? maxThreads - 1 : 1; // '- 1' because manager thread counts as one
+    const std::size_t splitSize = m_pixelCount / m_frameBuffer.height;
 
     std::size_t offset = 0;
 
     m_threads.clear();
-    for (std::size_t i = 0; i < threadCount; ++i) {
-        m_threads.emplace_back(func, this, offset, offset + splitSize);
+    for (int y = 0; y < m_frameBuffer.height; y++) {
+        m_tasks.emplace(offset, offset + splitSize);
         offset += splitSize;
+    }
+    for (std::size_t i = 0; i < threadCount; ++i) {
+        m_threads.emplace_back(func, this);
     }
 
     if (join) {
@@ -138,6 +160,10 @@ void RayTracerApp::multithreadTask(void (RayTracerApp::*func)(size_t, size_t), b
 void RayTracerApp::tick(float)
 {
     if (!m_loaded && m_progress == m_pixelCount) {
+        auto end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> duration = end - m_tpBegin;
+        std::cout << "Image generation done in " << duration.count() << " seconds" << std::endl;
+
         m_image = LoadImageEx(m_frameBuffer.raw.data(), m_settings.width, m_settings.height);
         m_texture = LoadTextureFromImage(m_image);
         m_loaded = true;

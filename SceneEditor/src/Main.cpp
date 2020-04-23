@@ -12,7 +12,7 @@ int main(int ac, char **av)
     try {
         SceneEditorApp app(ac, av);
 
-        app.start();
+        app.start("Scene Editor");
     } catch (const std::exception &e) {
         std::cerr << "error: " << e.what() << '\n';
         return 84;

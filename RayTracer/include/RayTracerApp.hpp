@@ -7,9 +7,11 @@
 
 #pragma once
 
-#include <memory>
+#include <mutex>
+#include <queue>
 #include <thread>
 #include <atomic>
+#include <memory>
 
 #include "Engine/Application.hpp"
 #include "Engine/Assets/Model.hpp"
@@ -58,10 +60,16 @@ private:
     bool m_loaded{false};
     bool m_abort{false};
 
-    void computePixelColor(Pixel &pixel);
-    void computePixelRange(size_t begin, size_t end);
+    using Range = std::pair<size_t, size_t>;
+    std::queue<Range> m_tasks{};
+    std::mutex m_taskMutex{};
 
-    void multithreadTask(void (RayTracerApp::*func)(size_t, size_t), bool join);
+    decltype(std::chrono::high_resolution_clock::now()) m_tpBegin{};
+
+    void computePixelColor(Pixel &pixel);
+    void computePixelRange();
+
+    void multithreadTask(void (RayTracerApp::*func)(), bool join);
 public:
     RayTracerApp(int ac, char **av);
 

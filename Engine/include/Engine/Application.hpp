@@ -33,7 +33,7 @@ public:
     Application(int ac, char **av, int width, int height);
     virtual ~Application() = default;
 
-    void start();
+    void start(const char *title);
     void drawFps() const;
 
     virtual void init() = 0;
