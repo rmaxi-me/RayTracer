@@ -44,7 +44,7 @@ namespace raymath
         inline Vector3 &operator/=(const Vector3 &Vx);
         inline Vector3 &operator/=(const float div);
 
-        inline float lenght() const { return ::Vector3Length({Vector.x, Vector.y, Vector.z}); };
+        inline float length() const { return ::Vector3Length({Vector.x, Vector.y, Vector.z}); };
         inline ::Vector3 getRawVector() const { return Vector; }
 
         friend std::ostream &operator<<(std::ostream &os, const raymath::Vector3 &v)
@@ -55,10 +55,10 @@ namespace raymath
 
         [[nodiscard]] inline Color toColor() const noexcept
         {
-            return Color{static_cast<unsigned char>(x() * 255),
-                         static_cast<unsigned char>(y() * 255),
-                         static_cast<unsigned char>(z() * 255),
-                         255
+            return {static_cast<unsigned char>(x() * 255),
+                    static_cast<unsigned char>(y() * 255),
+                    static_cast<unsigned char>(z() * 255),
+                    255
             };
         }
     };
