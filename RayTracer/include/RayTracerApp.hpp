@@ -16,7 +16,7 @@
 
 class RayTracerApp : public Application {
 public:
-    static constexpr int m_anti_aliasing = 16;
+    static constexpr int m_anti_aliasing = 100;
 
     struct Pixel {
         int x;

@@ -17,6 +17,7 @@
 #include "Objects/ObjectList.hpp"
 #include "Objects/Sphere.hpp"
 #include "Scene/Scene.hpp"
+#include "Camera/Camera.hpp"
 
 RayTracerApp::RayTracerApp(int ac, char **av)
         : Application(ac, av, 800, 600)
@@ -71,10 +72,18 @@ raymath::Vector3 colorize(const raylib::Ray &ray, const std::shared_ptr<ObjectLi
 
 void RayTracerApp::computePixelColor(RayTracerApp::Pixel &pixel)
 {
-    static const raymath::Vector3 l(-2, -1, -1);
-    static const raymath::Vector3 h(4, 0, 0);
-    static const raymath::Vector3 v(0, 3, 0);
-    static const raymath::Vector3 o(0, 0, 0);
+    static RCamera cam;
+
+    cam.setOrigin({10, 10, 10});
+    cam.setLookAt({0, 0, 0});
+    cam.setVUp({0,1,0});
+
+    cam.setFov(45);
+    cam.setAperture(0.1);
+    cam.setFocusDistance(10.0);
+    cam.setAspectRatio(800/600);
+    cam.compute();
+
     raymath::Vector3 col;
 
     //Begin AntiAliasing
@@ -83,7 +92,7 @@ void RayTracerApp::computePixelColor(RayTracerApp::Pixel &pixel)
         float Vv = (float) (pixel.y + std::generate_canonical<double, 10>(Random::getGenerator())) / (float) (m_frameBuffer.height);
 
         //Projection of the ray depending of the size of the screen
-        raylib::Ray ray(o, l + Vu * h + Vv * v);
+        raylib::Ray ray = cam.getRay(Vu, Vv);
         col += colorize(ray, m_list, 50);
     }
     col /= (float) m_anti_aliasing;
