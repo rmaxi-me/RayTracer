@@ -55,7 +55,7 @@ public:
             }
         }
 
-        return defaultValue;
+        return std::forward<Type>(defaultValue);
     }
 
     [[nodiscard]] std::string_view getBinName() const noexcept;

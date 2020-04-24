@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cmath>
+
 #include "Engine/Vector/Vector3.hpp"
 
 namespace raymath {
