@@ -4,7 +4,7 @@ add_library(
         ${PROJECT_NAME}Engine
         include/Engine/Raylib.hpp include/Engine/Raymath.hpp
         include/Engine/Utils/ThreadPool.hpp include/Engine/Utils/OS.hpp
-        include/Engine/Utils/Calcul.hpp
+        include/Engine/Utils/Operations.hpp
         src/Ray/Ray.cpp include/Engine/Ray/Ray.hpp
         src/Application.cpp include/Engine/Application.hpp
         src/Window/Window.cpp include/Engine/Window/Window.hpp
@@ -17,6 +17,6 @@ add_library(
         src/Assets/Material.cpp include/Engine/Assets/Material.hpp
         src/Utils/ArgumentParser.cpp include/Engine/Utils/ArgumentParser.hpp
         src/Utils/Random.cpp include/Engine/Utils/Random.hpp
-)
+        src/Utils/Operations.cpp)
 
 target_include_directories(${PROJECT_NAME}Engine PRIVATE include)

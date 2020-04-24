@@ -4,11 +4,22 @@
       "type": "sphere",
       "position": "0 0 -1",
       "material": {
-        "type": "normal",
-        "color": "0.2 0.2 0.2"
+        "type": "glass",
+        "color": "0.8 0.8 0.8"
       },
       "params": {
         "radius": 0.42
+      }
+    },
+    {
+      "type": "sphere",
+      "position": "0 0 -2",
+      "material": {
+        "type": "normal",
+        "color": "0.8 0.1 0.1"
+      },
+      "params": {
+        "radius": 0.5
       }
     },
     {
@@ -38,7 +49,8 @@
       "position": "-1.5 0 -1",
       "material": {
         "type": "metal",
-        "color": "0.42 0.42 0.42"
+        "color": "0.42 0.42 0.42",
+        "reflection_factor": 0.33
       },
       "params": {
         "radius": 1

@@ -6,12 +6,8 @@
 */
 
 #include "Materials/Glass.hpp"
+#include "Engine/Utils/Operations.hpp"
 
 Glass::Glass(const raymath::Vector3 &attenuation)
         : AMaterial(attenuation, false, .0f, .25f, 1.5f)
 {}
-
-std::optional<std::pair<const raylib::Ray, raymath::Vector3>> Glass::compute(const raylib::Ray &, raylib::RayHitInfo &) const noexcept
-{
-    return {};
-}

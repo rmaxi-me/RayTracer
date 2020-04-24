@@ -13,5 +13,5 @@ class Normal : public AMaterial {
 public:
     explicit Normal(const raymath::Vector3 &fac);
 
-    [[nodiscard]] std::optional<std::pair<const raylib::Ray, raymath::Vector3>> compute(const raylib::Ray &ray, raylib::RayHitInfo &info) const noexcept override;
+    [[nodiscard]] RayTraceOpt reflect(const raylib::Ray &ray, raylib::RayHitInfo &info) const noexcept override;
 };

@@ -12,7 +12,12 @@ VentaBlack::VentaBlack()
 {
 }
 
-std::optional<std::pair<const raylib::Ray, raymath::Vector3>> VentaBlack::compute(const raylib::Ray &, raylib::RayHitInfo &) const noexcept
+RayTraceOpt VentaBlack::reflect(const raylib::Ray &, raylib::RayHitInfo &) const noexcept
 {
-    return {};
+    return std::nullopt;
+}
+
+RayTraceOpt VentaBlack::refract(const raylib::Ray &, raylib::RayHitInfo &) const noexcept
+{
+    return std::nullopt;
 }

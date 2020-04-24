@@ -12,6 +12,8 @@
 #include "Engine/Vector/Vector3.hpp"
 #include "Engine/Ray/Ray.hpp"
 
+using RayTraceOpt = std::optional<std::pair<const raylib::Ray, raymath::Vector3>>;
+
 class AMaterial {
 protected:
     raymath::Vector3 m_attenuation{};
@@ -24,7 +26,8 @@ public:
     AMaterial(const raymath::Vector3 &attenuation, bool opaque, float gammaCorrection, float reflectionFactor, float refractionFactor);
     virtual ~AMaterial();
 
-    [[nodiscard]] virtual std::optional<std::pair<const raylib::Ray, raymath::Vector3>> compute(const raylib::Ray &ray, raylib::RayHitInfo &info) const noexcept = 0;
+    [[nodiscard]] virtual RayTraceOpt reflect(const raylib::Ray &ray, raylib::RayHitInfo &info) const noexcept;
+    [[nodiscard]] virtual RayTraceOpt refract(const raylib::Ray &ray, raylib::RayHitInfo &info) const noexcept;
 
     virtual void setOpaque(bool opaque) noexcept final;
     virtual void setGammaCorrection(float gammaCorrection) noexcept final;
