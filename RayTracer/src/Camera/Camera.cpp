@@ -3,7 +3,7 @@
 
 void RCamera::compute()
 {
-    float theta = m_fov * M_PI / 180;
+    float theta = m_fov * DEG2RAD;
 
     auto half_height = tan(theta / 2);
     auto half_width = m_aspectRatio * half_height;
