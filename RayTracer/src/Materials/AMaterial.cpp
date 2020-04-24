@@ -34,12 +34,10 @@ RayTraceOpt AMaterial::refract(const raylib::Ray &ray, raylib::RayHitInfo &info)
     if (isOpaque())
         return std::nullopt;
 
-    raymath::Vector3 refracted = raymath::refract(raymath::normalize(ray.getDirection()), info.normal, 1.f, getRefractionFactor());
+    raymath::Vector3 refracted = raymath::refract(raymath::normalize(ray.getDirection()), info.normal, getRefractionFactor(), 1.f);
     raylib::Ray scattered(info.position, refracted);
 
-    if (raymath::dotProduct(scattered.getDirection(), info.normal) > 0)
-        return std::pair{scattered, m_attenuation};
-    return std::nullopt;
+    return std::pair{scattered, m_attenuation};
 }
 
 bool AMaterial::isOpaque() const noexcept

@@ -13,7 +13,7 @@
     },
     {
       "type": "sphere",
-      "position": "0 0 -2",
+      "position": "0.75 0 -2",
       "material": {
         "type": "normal",
         "color": "0.8 0.1 0.1"

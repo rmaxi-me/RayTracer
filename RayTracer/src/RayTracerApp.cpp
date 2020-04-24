@@ -79,26 +79,30 @@ raymath::Vector3 colorize(const raylib::Ray &ray, const std::shared_ptr<ObjectLi
 
     if (list->isHit(ray, 0.001f, std::numeric_limits<float>::max(), info, currentMaterial)) {
         auto reflectedRay = currentMaterial->reflect(ray, info);
-        auto refractedRay = currentMaterial->refract(ray, info);
         raymath::Vector3 reflectedVec;
-        raymath::Vector3 refractedVec;
 
         if (reflectedRay.has_value())
             reflectedVec = reflectedRay->second * colorize(reflectedRay->first, list, depth - 1);
         else
             reflectedVec = raymath::Vector3();
 
-        if (refractedRay.has_value())
-            refractedVec = refractedRay->second * colorize(refractedRay->first, list, depth - 1);
-        else
-            refractedVec = raymath::Vector3();
+        if (!currentMaterial->isOpaque()) {
+            auto refractedRay = currentMaterial->refract(ray, info);
+            raymath::Vector3 refractedVec;
 
-        return refractedVec + reflectedVec;
-    } else {
-        raymath::Vector3 unit = normalize(ray.getDirection());
-        float t = 0.5f * (unit.y() + 1.0f);
-        return (1.0f - t) * raymath::Vector3(1.0, 1.0, 1.0) + t * raymath::Vector3(0.5, 0.7, 1.0);
+            if (refractedRay.has_value())
+                refractedVec = refractedRay->second * colorize(refractedRay->first, list, depth - 1);
+            else
+                refractedVec = raymath::Vector3();
+
+            return reflectedVec * refractedVec;
+        }
+
+        return reflectedVec;
     }
+    raymath::Vector3 unit = normalize(ray.getDirection());
+    float t = 0.5f * (unit.y() + 1.0f);
+    return (1.0f - t) * raymath::Vector3(1.0, 1.0, 1.0) + t * raymath::Vector3(0.5, 0.7, 1.0);
 }
 
 void RayTracerApp::computePixelColor(RayTracerApp::Pixel &pixel)
