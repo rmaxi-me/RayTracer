@@ -20,7 +20,7 @@ using namespace std::chrono_literals;
 Application::Application(int ac, char **av, int width, int height)
         : m_parser{ac, av}, m_settings{}
 {
-    m_settings.fullscreen = m_parser.getOrDefault<bool>("fullscreen", "f", false, APFuncs::toBool);
+    m_settings.fullscreen = m_parser.getOrDefault<bool>("fullscreen", "", false, APFuncs::toBool);
     m_settings.width = m_parser.getOrDefault<int>("width", "w", std::forward<int>(width), APFuncs::toInt<int>);
     m_settings.height = m_parser.getOrDefault<int>("height", "h", std::forward<int>(height), APFuncs::toInt<int>);
     m_settings.fpsMax = m_parser.getOrDefault<std::uint16_t>("fps", "", 60, APFuncs::toInt<std::uint16_t>);
@@ -44,9 +44,9 @@ Application::Application(int ac, char **av, int width, int height)
         TraceLog(TraceLogType::LOG_DEBUG, "File to open: %s", m_settings.filePath.c_str());
 }
 
-void Application::start()
+void Application::start(const char *title)
 {
-    m_window = std::make_unique<raylib::Window>(m_settings.width, m_settings.height, "Raylib tests");
+    m_window = std::make_unique<raylib::Window>(m_settings.width, m_settings.height, title);
 
     if (m_settings.fpsMax != 0)
         m_window->setFPS(m_settings.fpsMax);

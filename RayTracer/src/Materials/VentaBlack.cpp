@@ -7,27 +7,12 @@
 
 #include "Materials/VentaBlack.hpp"
 
+VentaBlack::VentaBlack()
+    : AMaterial({0, 0, 0}, true, 0.f, (1.0f - 0.99965f), 0.f)
+{
+}
+
 std::optional<std::pair<const raylib::Ray, raymath::Vector3>> VentaBlack::compute(const raylib::Ray &, raylib::RayHitInfo &) const noexcept
 {
     return {};
-}
-
-bool VentaBlack::isOpaque() const noexcept
-{
-    return true;
-}
-
-float VentaBlack::getGammaCorrection() const noexcept
-{
-    return 0.f;
-}
-
-float VentaBlack::getReflectionFactor() const noexcept
-{
-    return (1.0f - 0.99965f);
-}
-
-float VentaBlack::getRefractionFactor() const noexcept
-{
-    return 0.f;
 }

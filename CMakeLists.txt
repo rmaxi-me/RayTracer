@@ -8,6 +8,15 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED ON 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON 17)
 
+set(JSON_URL https://github.com/nlohmann/json/releases/download/v3.7.3/json.hpp)
+set(JSON_TARGET ${CMAKE_CURRENT_SOURCE_DIR}/Dependencies/json/json.hpp)
+
+if (NOT EXISTS ${JSON_TARGET})
+    message(STATUS "Downloading JSON dependency")
+    file(DOWNLOAD ${JSON_URL} ${JSON_TARGET})
+    message(STATUS "Downloading JSON dependency - done")
+endif ()
+
 set(OpenGL_GL_PREFERENCE LEGACY)
 include(Dependencies/raygui/cmake/FindRaylib.cmake)
 
@@ -17,7 +26,7 @@ if (UNIX)
     if (RAYTRACER_ERROR)
         add_compile_options(-Werror)
     endif ()
-elseif (WIN32)
+elseif (WIN32 OR WIN64)
     add_compile_options(/wd4244 /wd4267)
 endif ()
 
@@ -27,6 +36,7 @@ elseif (CMAKE_BUILD_TYPE MATCHES Release)
     add_compile_definitions(RAYTRACER_RELEASE=1)
 endif ()
 
+include_directories(Dependencies/json)
 include_directories(Dependencies/raylib/src)
 add_subdirectory(Engine)
 add_subdirectory(RayTracer)
