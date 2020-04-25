@@ -34,6 +34,10 @@ void RayTracerApp::init()
     auto scene = Scene::fromFile(m_settings.filePath.c_str());
 
     m_list = scene.getObjectList();
+    m_camera = scene.getCamera();
+
+    m_camera.setAspectRatio((float) m_settings.width / (float) m_settings.height);
+    m_camera.compute();
 
     m_pixelCount = m_settings.width * m_settings.height;
     m_frameBuffer.width = m_settings.width;
@@ -75,8 +79,7 @@ raymath::Vector3 colorize(const raylib::Ray &ray, const std::shared_ptr<ObjectLi
     if (depth <= 0)
         return raymath::Vector3();
 
-    if (!list->isHit(ray, 0.001f, std::numeric_limits<float>::max(), info, currentMaterial))
-    {
+    if (!list->isHit(ray, 0.001f, std::numeric_limits<float>::max(), info, currentMaterial)) {
         return raymath::Vector3(0, 0, 0);
         raymath::Vector3 unit = normalize(ray.getDirection());
         float t = 0.5f * (unit.y() + 1.0f);
@@ -101,18 +104,6 @@ raymath::Vector3 colorize(const raylib::Ray &ray, const std::shared_ptr<ObjectLi
 
 void RayTracerApp::computePixelColor(RayTracerApp::Pixel &pixel)
 {
-    static RCamera cam;
-
-    cam.setOrigin({0, 0, 2});
-    cam.setLookAt({0, 0, -1});
-    cam.setVUp({0,1,0});
-
-    cam.setFov(90);
-    cam.setAperture(0);
-    cam.setFocusDistance(3);
-    cam.setAspectRatio(800/600);
-    cam.compute();
-
     raymath::Vector3 col;
 
     //Begin AntiAliasing
@@ -121,7 +112,7 @@ void RayTracerApp::computePixelColor(RayTracerApp::Pixel &pixel)
         float Vv = (float) (pixel.y + std::generate_canonical<double, 10>(Random::getGenerator())) / (float) (m_frameBuffer.height);
 
         //Projection of the ray depending of the size of the screen
-        raylib::Ray ray = cam.getRay(Vu, Vv);
+        raylib::Ray ray = m_camera.getRay(Vu, Vv);
         col += colorize(ray, m_list, 50);
     }
     col /= (float) m_anti_aliasing;
