@@ -1,4 +1,12 @@
 {
+  "camera": {
+    "origin": "0 0 2",
+    "look_at": "0 0 -1",
+    "v_up": "0 0 -1",
+    "field_of_view": 90,
+    "aperture": 0,
+    "focus_distance": 3
+  },
   "objects": [
     {
       "type": "sphere",

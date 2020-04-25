@@ -66,6 +66,19 @@ std::shared_ptr<AMaterial> Scene::getMaterial(const Json &json)
     return mat;
 }
 
+RCamera Scene::getCamera(const Json &json)
+{
+    RCamera cam;
+
+    cam.setOrigin(raymath::Vector3::fromString(json["origin"].get<std::string>().c_str()));
+    cam.setLookAt(raymath::Vector3::fromString(json["look_at"].get<std::string>().c_str()));
+    cam.setVUp(raymath::Vector3::fromString(json["v_up"].get<std::string>().c_str()));
+    cam.setFov(json["field_of_view"].get<float>());
+    cam.setAperture(json["aperture"].get<float>());
+    cam.setFocusDistance(json["focus_distance"].get<float>());
+    return cam;
+}
+
 Scene Scene::fromFile(const char *filepath)
 {
     Scene scene;
@@ -88,11 +101,17 @@ Scene Scene::fromFile(const char *filepath)
         vec.push_back(std::move(obj));
     }
     scene.m_objectList = std::make_shared<ObjectList>(vec);
+    scene.m_camera = getCamera(json["camera"]);
     return scene;
 }
 
 const std::shared_ptr<ObjectList> &Scene::getObjectList() const noexcept
 {
     return m_objectList;
+}
+
+const RCamera &Scene::getCamera() const noexcept
+{
+    return m_camera;
 }
 
