@@ -11,4 +11,5 @@ namespace raymath {
     }
 
     raymath::Vector3 refract(const raymath::Vector3 &vec, const raymath::Vector3 &norm, float n1, float n2);
+    float fresnel(const raymath::Vector3 &vec, const raymath::Vector3 &norm, const float &refractionFactor);
 } // namespace raymath

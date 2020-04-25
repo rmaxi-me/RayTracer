@@ -17,6 +17,7 @@
 #include "Engine/Assets/Model.hpp"
 #include "Engine/Assets/Texture.hpp"
 
+#include "Camera/Camera.hpp"
 #include "Objects/ObjectList.hpp"
 
 class RayTracerApp : public Application {
@@ -46,6 +47,7 @@ public:
     };
 private:
     int m_anti_aliasing{};
+    RCamera m_camera{};
 
     std::shared_ptr<ObjectList> m_list{};
     FrameBuffer m_frameBuffer{};

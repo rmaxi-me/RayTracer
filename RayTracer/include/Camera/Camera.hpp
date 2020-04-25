@@ -10,20 +10,19 @@
 #include "Engine/Vector/Vector3.hpp"
 #include "Engine/Ray/Ray.hpp"
 
-class RCamera
-{
+class RCamera {
 public:
     RCamera() = default;
     ~RCamera() = default;
 
-    void setOrigin(raymath::Vector3 o) { m_origin = o; };
-    void setLookAt(raymath::Vector3 lookAt) { m_lookAt = lookAt; };
-    void setVUp(raymath::Vector3 vUp) { m_vUp = vUp; };
+    void setOrigin(const raymath::Vector3 &o);
+    void setLookAt(const raymath::Vector3 &lookAt);
+    void setVUp(const raymath::Vector3 &vUp);
 
-    void setFov(float fov) { m_fov = fov; };
-    void setAperture(float aperture) { m_lensRadius = aperture / 2; }
-    void setFocusDistance(float focusDistance) { m_focusDistance = focusDistance; };
-    void setAspectRatio(float aspect) { m_aspectRatio = aspect; };
+    void setFov(float fov);
+    void setAperture(float aperture);
+    void setFocusDistance(float focusDistance);
+    void setAspectRatio(float aspect);
 
     void compute();
     raylib::Ray getRay(float i, float j);
