@@ -21,11 +21,12 @@ protected:
     float m_reflectionFactor{};
     float m_refractionFactor{};
 public:
+    AMaterial() = default;
     AMaterial(const raymath::Vector3 &attenuation, bool opaque, float gammaCorrection, float reflectionFactor, float refractionFactor);
     virtual ~AMaterial();
 
     [[nodiscard]] virtual std::optional<std::pair<const raylib::Ray, raymath::Vector3>> compute(const raylib::Ray &ray, raylib::RayHitInfo &info) const noexcept = 0;
-
+    [[nodiscard]] virtual raymath::Vector3 emitt() { return raymath::Vector3(); };
     virtual void setOpaque(bool opaque) noexcept final;
     virtual void setGammaCorrection(float gammaCorrection) noexcept final;
     virtual void setReflectionFactor(float reflectionFactor) noexcept final;
