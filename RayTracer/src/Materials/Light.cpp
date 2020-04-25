@@ -7,5 +7,5 @@ std::optional<std::pair<const raylib::Ray, raymath::Vector3>> Light::compute(con
 
 raymath::Vector3 Light::emitt()
 {
-    return raymath::Vector3(1,1,1);
+    return m_light;
 }
