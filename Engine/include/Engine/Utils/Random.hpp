@@ -13,8 +13,8 @@ class Random final {
 private:
     static std::random_device m_randomDevice;
     static std::mt19937 m_generator;
-
     Random() = default;
+
 public:
     static std::random_device &getRandomDevice() noexcept;
     static std::mt19937 &getGenerator() noexcept;

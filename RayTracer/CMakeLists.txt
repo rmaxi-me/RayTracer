@@ -14,6 +14,8 @@ add_executable(
         src/Materials/VentaBlack.cpp include/Materials/VentaBlack.hpp
         src/Materials/Normal.cpp include/Materials/Normal.hpp
         src/Materials/Metal.cpp include/Materials/Metal.hpp
+        src/Materials/Light.cpp include/Materials/Light.hpp
+        src/Camera/Camera.cpp include/Camera/Camera.hpp
 )
 
 if (UNIX)

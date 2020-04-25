@@ -15,6 +15,7 @@
 #include "Materials/AMaterial.hpp"
 #include "Objects/ObjectList.hpp"
 #include "Scene/Scene.hpp"
+#include "Camera/Camera.hpp"
 
 RayTracerApp::RayTracerApp(int ac, char **av)
         : Application(ac, av, 800, 600)
@@ -74,43 +75,44 @@ raymath::Vector3 colorize(const raylib::Ray &ray, const std::shared_ptr<ObjectLi
     if (depth <= 0)
         return raymath::Vector3();
 
-    //check if any ray hit an object 0 and MAXFLOAT are value to stop the operation if no object is found or an object is too close
-    //When an obj is hit, RayHitInfo is Fill and the fct return True
-
-    if (list->isHit(ray, 0.001f, std::numeric_limits<float>::max(), info, currentMaterial)) {
-        auto reflectedRay = currentMaterial->reflect(ray, info);
-        raymath::Vector3 reflectedVec;
-
-        if (reflectedRay.has_value())
-            reflectedVec = reflectedRay->second * colorize(reflectedRay->first, list, depth - 1);
-        else
-            reflectedVec = raymath::Vector3();
-
-        if (!currentMaterial->isOpaque()) {
-            auto refractedRay = currentMaterial->refract(ray, info);
-            raymath::Vector3 refractedVec;
-
-            if (refractedRay.has_value())
-                refractedVec = refractedRay->second * colorize(refractedRay->first, list, depth - 1);
-            else
-                refractedVec = raymath::Vector3();
-
-            return reflectedVec * refractedVec;
-        }
-
-        return reflectedVec;
+    if (!list->isHit(ray, 0.001f, std::numeric_limits<float>::max(), info, currentMaterial))
+    {
+        return raymath::Vector3(0, 0, 0);
+        raymath::Vector3 unit = normalize(ray.getDirection());
+        float t = 0.5f * (unit.y() + 1.0f);
+        return (1.0f - t) * raymath::Vector3(1.0, 1.0, 1.0) + t * raymath::Vector3(0.5, 0.7, 1.0);
     }
-    raymath::Vector3 unit = normalize(ray.getDirection());
-    float t = 0.5f * (unit.y() + 1.0f);
-    return (1.0f - t) * raymath::Vector3(1.0, 1.0, 1.0) + t * raymath::Vector3(0.5, 0.7, 1.0);
+
+    auto emitted = currentMaterial->emitt();
+    auto reflectedRay = currentMaterial->compute(ray, info);
+    if (!reflectedRay.has_value())
+        return emitted;
+
+    return emitted + reflectedRay->second * colorize(reflectedRay->first, list, depth - 1);
+
+    //     else
+    //         return raymath::Vector3(1,1,1);
+    // else {
+    // raymath::Vector3 unit = normalize(ray.getDirection());
+    // float t = 0.5f * (unit.y() + 1.0f);
+    // return (1.0f - t) * raymath::Vector3(1.0, 1.0, 1.0) + t * raymath::Vector3(0.5, 0.7, 1.0);
+    // }
 }
 
 void RayTracerApp::computePixelColor(RayTracerApp::Pixel &pixel)
 {
-    static const raymath::Vector3 l(-2, -1, -1);
-    static const raymath::Vector3 h(4, 0, 0);
-    static const raymath::Vector3 v(0, 3, 0);
-    static const raymath::Vector3 o(0, 0, 0);
+    static RCamera cam;
+
+    cam.setOrigin({0, 0, 2});
+    cam.setLookAt({0, 0, -1});
+    cam.setVUp({0,1,0});
+
+    cam.setFov(90);
+    cam.setAperture(0);
+    cam.setFocusDistance(3);
+    cam.setAspectRatio(800/600);
+    cam.compute();
+
     raymath::Vector3 col;
 
     //Begin AntiAliasing
@@ -119,7 +121,7 @@ void RayTracerApp::computePixelColor(RayTracerApp::Pixel &pixel)
         float Vv = (float) (pixel.y + std::generate_canonical<double, 10>(Random::getGenerator())) / (float) (m_frameBuffer.height);
 
         //Projection of the ray depending of the size of the screen
-        raylib::Ray ray(o, l + Vu * h + Vv * v);
+        raylib::Ray ray = cam.getRay(Vu, Vv);
         col += colorize(ray, m_list, 50);
     }
     col /= (float) m_anti_aliasing;
