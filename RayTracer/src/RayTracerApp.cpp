@@ -28,13 +28,13 @@ RayTracerApp::RayTracerApp(int ac, char **av)
     }
     TraceLog(LOG_DEBUG, "Anti Aliasing: x%d", m_anti_aliasing);
 
-    m_camera.setOrigin({0, 0, 2});
+    m_camera.setOrigin({0, 0, 1});
     m_camera.setLookAt({0, 0, -1});
     m_camera.setVUp({0, 1, 0});
-
     m_camera.setFov(90);
     m_camera.setAperture(0);
     m_camera.setFocusDistance(3);
+
     m_camera.setAspectRatio((float) m_settings.width / (float) m_settings.height);
     m_camera.compute();
 }
@@ -87,7 +87,7 @@ raymath::Vector3 colorize(const raylib::Ray &ray, const std::shared_ptr<ObjectLi
     if (!list->isHit(ray, 0.001f, std::numeric_limits<float>::max(), info, currentMaterial))
         return raymath::Vector3(0, 0, 0);
 
-    auto emitted = currentMaterial->emitt();
+    auto emitted = currentMaterial->emit();
     auto reflectedRay = currentMaterial->reflect(ray, info);
     if (!reflectedRay.has_value())
         return emitted;

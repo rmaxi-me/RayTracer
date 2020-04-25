@@ -40,6 +40,11 @@ RayTraceOpt AMaterial::refract(const raylib::Ray &ray, raylib::RayHitInfo &info)
     return std::pair{scattered, m_attenuation};
 }
 
+raymath::Vector3 AMaterial::emit()
+{
+    return raymath::Vector3();
+}
+
 bool AMaterial::isOpaque() const noexcept
 {
     return m_opaque;

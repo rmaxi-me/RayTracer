@@ -29,7 +29,7 @@ public:
 
     [[nodiscard]] virtual RayTraceOpt reflect(const raylib::Ray &ray, raylib::RayHitInfo &info) const noexcept;
     [[nodiscard]] virtual RayTraceOpt refract(const raylib::Ray &ray, raylib::RayHitInfo &info) const noexcept;
-    [[nodiscard]] virtual raymath::Vector3 emitt() { return raymath::Vector3(); };
+    [[nodiscard]] virtual raymath::Vector3 emit();
 
     virtual void setOpaque(bool opaque) noexcept final;
     virtual void setGammaCorrection(float gammaCorrection) noexcept final;
