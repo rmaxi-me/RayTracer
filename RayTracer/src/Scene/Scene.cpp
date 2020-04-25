@@ -17,6 +17,7 @@
 #include "Materials/Normal.hpp"
 #include "Materials/VentaBlack.hpp"
 #include "Materials/Metal.hpp"
+#include "Materials/Light.hpp"
 
 Scene::Scene()
 = default;
@@ -49,6 +50,8 @@ std::shared_ptr<AMaterial> Scene::getMaterial(const Json &json)
         mat = std::make_shared<VentaBlack>();
     else if (type == "metal")
         mat = std::make_shared<Metal>(colorVec);
+    else if (type == "light")
+        mat = std::make_shared<Light>(colorVec);
     else {
         TraceLog(LOG_ERROR, "%s: unknown material", type.c_str());
         throw std::runtime_error("unknown material");

@@ -75,33 +75,41 @@ raymath::Vector3 colorize(const raylib::Ray &ray, const std::shared_ptr<ObjectLi
     if (depth <= 0)
         return raymath::Vector3();
 
-    //check if any ray hit an object 0 and MAXFLOAT are value to stop the calcul if no object is found or an object is too close
-    //When an obj is hit, RayHitInfo is Fill and the fct return True
-
-    if (list->isHit(ray, 0.001f, std::numeric_limits<float>::max(), info, currentMaterial)) {
-        auto reflectedRay = currentMaterial->compute(ray, info);
-        if (reflectedRay.has_value())
-            return reflectedRay->second * colorize(reflectedRay->first, list, depth - 1);
-        else
-            return raymath::Vector3();
-    } else {
+    if (!list->isHit(ray, 0.001f, std::numeric_limits<float>::max(), info, currentMaterial))
+    {
+        return raymath::Vector3(0, 0, 0);
         raymath::Vector3 unit = normalize(ray.getDirection());
         float t = 0.5f * (unit.y() + 1.0f);
         return (1.0f - t) * raymath::Vector3(1.0, 1.0, 1.0) + t * raymath::Vector3(0.5, 0.7, 1.0);
     }
+
+    auto emitted = currentMaterial->emitt();
+    auto reflectedRay = currentMaterial->compute(ray, info);
+    if (!reflectedRay.has_value())
+        return emitted;
+
+    return emitted + reflectedRay->second * colorize(reflectedRay->first, list, depth - 1);
+
+    //     else
+    //         return raymath::Vector3(1,1,1);
+    // else {
+    // raymath::Vector3 unit = normalize(ray.getDirection());
+    // float t = 0.5f * (unit.y() + 1.0f);
+    // return (1.0f - t) * raymath::Vector3(1.0, 1.0, 1.0) + t * raymath::Vector3(0.5, 0.7, 1.0);
+    // }
 }
 
 void RayTracerApp::computePixelColor(RayTracerApp::Pixel &pixel)
 {
     static RCamera cam;
 
-    cam.setOrigin({10, 10, 10});
-    cam.setLookAt({0, 0, 0});
+    cam.setOrigin({0, 0, 2});
+    cam.setLookAt({0, 0, -1});
     cam.setVUp({0,1,0});
 
-    cam.setFov(45);
-    cam.setAperture(0.1);
-    cam.setFocusDistance(10.0);
+    cam.setFov(90);
+    cam.setAperture(0);
+    cam.setFocusDistance(3);
     cam.setAspectRatio(800/600);
     cam.compute();
 
