@@ -2,7 +2,7 @@
   "camera": {
     "origin": "0 0 2",
     "look_at": "0 0 -1",
-    "v_up": "0 0 -1",
+    "v_up": "0 1 0",
     "field_of_view": 90,
     "aperture": 0,
     "focus_distance": 3
@@ -54,10 +54,21 @@
     },
     {
       "type": "sphere",
-      "position": "0 -100.5 -1",
+      "position": "0 -100.5 0",
       "material": {
         "type": "normal",
         "color": "0.0 0.0 0.9"
+      },
+      "params": {
+        "radius": 100
+      }
+    },
+    {
+      "type": "sphere",
+      "position": "0 110 0",
+      "material": {
+        "type": "light",
+        "color": "1 1 1"
       },
       "params": {
         "radius": 100

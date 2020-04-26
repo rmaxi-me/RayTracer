@@ -70,6 +70,8 @@ private:
     void computePixelRange();
 
     void multithreadTask(void (RayTracerApp::*func)(), bool join);
+
+    void exportImage(double genTime);
 public:
     RayTracerApp(int ac, char **av);
 
