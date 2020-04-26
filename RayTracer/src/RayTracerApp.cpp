@@ -27,16 +27,6 @@ RayTracerApp::RayTracerApp(int ac, char **av)
         throw std::runtime_error("Anti aliasing must be higher than 0.");
     }
     TraceLog(LOG_DEBUG, "Anti Aliasing: x%d", m_anti_aliasing);
-
-    m_camera.setOrigin({0, 0, 1});
-    m_camera.setLookAt({0, 0, -1});
-    m_camera.setVUp({0, 1, 0});
-    m_camera.setFov(90);
-    m_camera.setAperture(0);
-    m_camera.setFocusDistance(3);
-
-    m_camera.setAspectRatio((float) m_settings.width / (float) m_settings.height);
-    m_camera.compute();
 }
 
 void RayTracerApp::init()
@@ -44,6 +34,10 @@ void RayTracerApp::init()
     auto scene = Scene::fromFile(m_settings.filePath.c_str());
 
     m_list = scene.getObjectList();
+    m_camera = scene.getCamera();
+
+    m_camera.setAspectRatio((float) m_settings.width / (float) m_settings.height);
+    m_camera.compute();
 
     m_pixelCount = m_settings.width * m_settings.height;
     m_frameBuffer.width = m_settings.width;
@@ -84,8 +78,14 @@ raymath::Vector3 colorize(const raylib::Ray &ray, const std::shared_ptr<ObjectLi
 
     if (depth <= 0)
         return raymath::Vector3();
+
     if (!list->isHit(ray, 0.001f, std::numeric_limits<float>::max(), info, currentMaterial))
+    {
         return raymath::Vector3(0, 0, 0);
+        raymath::Vector3 unit = normalize(ray.getDirection());
+        float t = 0.5f * (unit.y() + 1.0f);
+        return (1.0f - t) * raymath::Vector3(1.0, 1.0, 1.0) + t * raymath::Vector3(0.5, 0.7, 1.0);
+    }
 
     auto emitted = currentMaterial->emit();
     auto reflectedRay = currentMaterial->reflect(ray, info);
@@ -93,14 +93,18 @@ raymath::Vector3 colorize(const raylib::Ray &ray, const std::shared_ptr<ObjectLi
         return emitted;
 
     return emitted + reflectedRay->second * colorize(reflectedRay->first, list, depth - 1);
+
+    //     else
+    //         return raymath::Vector3(1,1,1);
+    // else {
+    // raymath::Vector3 unit = normalize(ray.getDirection());
+    // float t = 0.5f * (unit.y() + 1.0f);
+    // return (1.0f - t) * raymath::Vector3(1.0, 1.0, 1.0) + t * raymath::Vector3(0.5, 0.7, 1.0);
+    // }
 }
 
 void RayTracerApp::computePixelColor(RayTracerApp::Pixel &pixel)
 {
-    static const raymath::Vector3 l(-2, -1, -1);
-    static const raymath::Vector3 h(4, 0, 0);
-    static const raymath::Vector3 v(0, 3, 0);
-    static const raymath::Vector3 o(0, 0, 0);
     raymath::Vector3 col;
 
     //Begin AntiAliasing

@@ -60,12 +60,11 @@ private:
     Texture m_texture{};
     bool m_loaded{false};
     bool m_abort{false};
+    decltype(std::chrono::high_resolution_clock::now()) m_tpBegin{};
 
     using Range = std::pair<size_t, size_t>;
     std::queue<Range> m_tasks{};
     std::mutex m_taskMutex{};
-
-    decltype(std::chrono::high_resolution_clock::now()) m_tpBegin{};
 
     void computePixelColor(Pixel &pixel);
     void computePixelRange();
