@@ -1,0 +1,119 @@
+{
+  "camera": {
+    "origin": "3 1 0",
+    "look_at": "0 1 0",
+    "v_up": "0 1 0",
+    "field_of_view": 90,
+    "aperture": 0,
+    "focus_distance": 3
+  },
+  "objects": [
+    {
+      "type": "sphere",
+      "position": "0 -500 0",
+      "material": {
+        "type": "normal",
+        "color": "0.2 0.2 0.2",
+        "reflection_factor": 0.5
+      },
+      "params": {
+        "radius": 500
+      }
+    },
+    {
+      "type": "sphere",
+      "position": "3 3 3",
+      "material": {
+        "type": "light",
+        "color": "1 1 1"
+      },
+      "params": {
+        "radius": 1.25
+      }
+    },
+    {
+      "type": "sphere",
+      "position": "0 1 0",
+      "material": {
+        "type": "metal",
+        "color": "0.7 0.7 0.7",
+        "reflection_factor": 0.33
+      },
+      "params": {
+        "radius": 1
+      }
+    },
+    {
+      "type": "sphere",
+      "position": "-2 1.5 -2",
+      "material": {
+        "type": "metal",
+        "color": "0.8 0.1 0.1",
+        "reflection_factor": 0.25
+      },
+      "params": {
+        "radius": 1.5
+      }
+    },
+    {
+      "type": "sphere",
+      "position": "1 0.33 -2",
+      "material": {
+        "type": "normal",
+        "color": "0.1 0.8 0.1",
+        "reflection_factor": 0.25
+      },
+      "params": {
+        "radius": 0.33
+      }
+    },
+    {
+      "type": "sphere",
+      "position": "1 0.33 -1",
+      "material": {
+        "type": "normal",
+        "color": "0.3 0.1 0.7",
+        "reflection_factor": 0.25
+      },
+      "params": {
+        "radius": 0.33
+      }
+    },
+    {
+      "type": "sphere",
+      "position": "1 0.5 1.25",
+      "material": {
+        "type": "metal",
+        "color": "0.1 0.1 0.8",
+        "reflection_factor": 0.25
+      },
+      "params": {
+        "radius": 0.5
+      }
+    },
+    {
+      "type": "sphere",
+      "position": "-2 0.75 1.25",
+      "material": {
+        "type": "normal",
+        "color": "0.1 0.1 0.8",
+        "reflection_factor": 0.25
+      },
+      "params": {
+        "radius": 0.75
+      }
+    },
+    {
+      "type": "sphere",
+      "position": "0 0.33 1.25",
+      "material": {
+        "type": "normal",
+        "color": "0.8 0.1 0.1",
+        "reflection_factor": 0.25
+      },
+      "params": {
+        "radius": 0.33
+      }
+    }
+  ]
+}

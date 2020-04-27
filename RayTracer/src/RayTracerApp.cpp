@@ -81,13 +81,11 @@ raymath::Vector3 colorize(const raylib::Ray &ray, const std::shared_ptr<ObjectLi
 
     if (depth <= 0)
         return raymath::Vector3();
-
-    if (!list->isHit(ray, 0.001f, std::numeric_limits<float>::max(), info, currentMaterial))
-    {
-        return raymath::Vector3(0, 0, 0);
+    if (!list->isHit(ray, 0.001f, std::numeric_limits<float>::max(), info, currentMaterial)) {
         raymath::Vector3 unit = normalize(ray.getDirection());
         float t = 0.5f * (unit.y() + 1.0f);
         return (1.0f - t) * raymath::Vector3(1.0, 1.0, 1.0) + t * raymath::Vector3(0.5, 0.7, 1.0);
+        return raymath::Vector3(0, 0, 0);
     }
 
     auto emitted = currentMaterial->emit();
@@ -122,8 +120,9 @@ void RayTracerApp::computePixelColor(RayTracerApp::Pixel &pixel)
     col /= (float) m_anti_aliasing;
     //End AntiAliasing
 
-    pixel.color = col;
-    pixel.raw = col.toColor();
+    raymath::Vector3 clampedColor(Clamp(col.x(), 0.0f, 1.0f), Clamp(col.y(), 0.0f, 1.0f), Clamp(col.z(), 0.0f, 1.0f));
+    pixel.color = clampedColor;
+    pixel.raw = clampedColor.toColor();
 
     ++m_progress;
 }
@@ -206,7 +205,7 @@ void RayTracerApp::draw()
 {
     if (m_progress < m_pixelCount) {
         for (const auto &pixel : m_frameBuffer.pixels) {
-            DrawPixel(pixel.x, m_frameBuffer.height - pixel.y, pixel.raw);
+            DrawPixel(pixel.x, m_frameBuffer.height - pixel.y - 1, pixel.raw);
         }
     } else {
         if (m_loaded)
