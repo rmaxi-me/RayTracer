@@ -1,7 +1,7 @@
 {
   "camera": {
-    "origin": "0 1 2",
-    "look_at": "0 0 0",
+    "origin": "0 0 2",
+    "look_at": "0 0 -1",
     "v_up": "0 1 0",
     "field_of_view": 90,
     "aperture": 0,
@@ -76,14 +76,13 @@
       }
     },
     {
-      "type": "sphere",
-      "position": "0 0 0",
+      "position": "0 110 0",
       "material": {
         "type": "light",
         "color": "1 1 1"
       },
       "params": {
-        "radius": 200
+        "radius": 100
       }
     }
   ]

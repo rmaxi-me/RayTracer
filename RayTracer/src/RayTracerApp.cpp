@@ -6,6 +6,7 @@
 */
 
 #include <thread>
+#include <filesystem>
 
 #include "Engine/Raylib.hpp"
 #include "Engine/Ray/Ray.hpp"
@@ -32,6 +33,8 @@ RayTracerApp::RayTracerApp(int ac, char **av)
 void RayTracerApp::init()
 {
     auto scene = Scene::fromFile(m_settings.filePath.c_str());
+
+    m_window->setClearColor(RAYWHITE);
 
     m_list = scene.getObjectList();
     m_camera = scene.getCamera();
@@ -174,6 +177,16 @@ void RayTracerApp::multithreadTask(void (RayTracerApp::*func)(), bool join)
     }
 }
 
+void RayTracerApp::exportImage(double genTime)
+{
+    const auto time = std::chrono::system_clock::now();
+    const auto time_id = time.time_since_epoch().count();
+
+    if (!std::filesystem::exists("Exports"))
+        std::filesystem::create_directory("Exports");
+    ExportImage(m_image, TextFormat("Exports/%ld_%.3fs.png", time_id, genTime));
+}
+
 void RayTracerApp::tick(float)
 {
     if (!m_loaded && m_progress == m_pixelCount) {
@@ -184,6 +197,8 @@ void RayTracerApp::tick(float)
         m_image = LoadImageEx(m_frameBuffer.raw.data(), m_settings.width, m_settings.height);
         m_texture = LoadTextureFromImage(m_image);
         m_loaded = true;
+
+        exportImage(duration.count());
     }
 }
 
