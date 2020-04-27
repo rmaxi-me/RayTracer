@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.14)
 add_executable(
         ${PROJECT_NAME}
         src/Scene/Scene.cpp include/Scene/Scene.hpp
-        src/Main.cpp include/Main.hpp
+        src/Main.cpp
         src/RayTracerApp.cpp include/RayTracerApp.hpp
         include/Objects/ObjectList.hpp
         src/Objects/Object.cpp include/Objects/Object.hpp

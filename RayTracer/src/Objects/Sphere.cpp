@@ -1,3 +1,10 @@
+/*
+** RayTracer Copyright (C) 2020 Maxime Houis, Pierre Langlois
+** This program comes with ABSOLUTELY NO WARRANTY.
+** This is free software, and you are welcome to redistribute it
+** under certain conditions; see LICENSE for details.
+*/
+
 #include "Objects/Sphere.hpp"
 
 Sphere::Sphere(const raymath::Vector3 &c, float r) : center(c), radius(r)
