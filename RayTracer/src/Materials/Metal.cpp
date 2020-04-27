@@ -6,7 +6,6 @@
 */
 
 #include "Materials/Metal.hpp"
-#include "Objects/Sphere.hpp"
 #include "Engine/Utils/Operations.hpp"
 
 Metal::Metal(const raymath::Vector3 &attenuation)

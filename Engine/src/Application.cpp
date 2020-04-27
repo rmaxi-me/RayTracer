@@ -12,8 +12,6 @@
 #include <chrono>
 
 #include "Engine/Application.hpp"
-#include "Engine/Utils/ArgumentParser.hpp"
-#include "Engine/Window/Window.hpp"
 
 using namespace std::chrono_literals;
 

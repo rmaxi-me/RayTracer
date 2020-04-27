@@ -26,7 +26,7 @@ raymath::Vector3 randomUnitDisk()
     // while (true)
     // {
     //     auto point = raymath::Vector3(dis(gen), dis(gen), 0.0f);
-    //     if (point.lenght() * point.lenght() >= 1)
+    //     if (point.length() * point.length() >= 1)
     //         continue;
     //     return point;
     // }

@@ -8,7 +8,6 @@
 #include "Engine/Utils/Operations.hpp"
 
 #include "Objects/Sphere.hpp"
-#include "Materials/AMaterial.hpp"
 
 AMaterial::AMaterial(const raymath::Vector3 &attenuation, bool opaque, float gammaCorrection, float reflectionFactor, float refractionFactor)
         : m_attenuation(attenuation), m_opaque(opaque),

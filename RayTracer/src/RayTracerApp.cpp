@@ -13,10 +13,7 @@
 #include "Engine/Utils/Random.hpp"
 
 #include "RayTracerApp.hpp"
-#include "Materials/AMaterial.hpp"
-#include "Objects/ObjectList.hpp"
 #include "Scene/Scene.hpp"
-#include "Camera/Camera.hpp"
 
 RayTracerApp::RayTracerApp(int ac, char **av)
         : Application(ac, av, 800, 600)

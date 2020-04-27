@@ -11,7 +11,6 @@
 
 #include "Scene/Scene.hpp"
 #include "Objects/Sphere.hpp"
-#include "Engine/Raylib.hpp"
 
 #include "Materials/Glass.hpp"
 #include "Materials/Normal.hpp"
