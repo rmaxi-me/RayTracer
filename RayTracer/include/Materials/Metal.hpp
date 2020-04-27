@@ -9,8 +9,7 @@
 
 #include "AMaterial.hpp"
 
-class Metal : public AMaterial
-{
+class Metal : public AMaterial {
 public:
     explicit Metal(const raymath::Vector3 &attenuation);
 };

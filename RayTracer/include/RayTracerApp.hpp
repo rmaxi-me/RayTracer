@@ -45,6 +45,7 @@ public:
             return pixels[index];
         }
     };
+
 private:
     int m_anti_aliasing{};
     RCamera m_camera{};

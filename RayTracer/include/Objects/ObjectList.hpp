@@ -43,10 +43,8 @@ public:
         bool hasHit = false;
         float closestObj = t_max;
 
-        for (auto &i : list)
-        {
-            if (i->isHit(r, t_min, closestObj, tmpInfo, material))
-            {
+        for (auto &i : list) {
+            if (i->isHit(r, t_min, closestObj, tmpInfo, material)) {
                 hasHit = true;
                 closestObj = tmpInfo.distance;
                 info = tmpInfo;

@@ -3,19 +3,16 @@
 #include "Engine/Raymath.hpp"
 #include <iostream>
 
-
 #ifndef RAYLIB_H
 #define RAYMATH_STANDALONE
 #endif
 
-namespace raymath
-{
+namespace raymath {
 
     //--------------------------
     //Class Vector2 declaration
 
-    class Vector2
-    {
+    class Vector2 {
     private:
         ::Vector2 Vector{};
 
@@ -29,11 +26,17 @@ namespace raymath
         ~Vector2() = default;
 
     public:
-        inline float x() const { return Vector.x; };
-        inline float y() const { return Vector.y; };
+        inline float x() const
+        { return Vector.x; };
 
-        inline const Vector2 &operator+() const { return *this; };
-        inline const Vector2 operator-() const { return Vector2(-Vector.x, -Vector.y); }
+        inline float y() const
+        { return Vector.y; };
+
+        inline const Vector2 &operator+() const
+        { return *this; };
+
+        inline const Vector2 operator-() const
+        { return Vector2(-Vector.x, -Vector.y); }
 
         inline Vector2 &operator+=(const Vector2 &Vx);
         inline Vector2 &operator-=(const Vector2 &Vx);
@@ -42,8 +45,11 @@ namespace raymath
         inline Vector2 &operator/=(const Vector2 &Vx);
         inline Vector2 &operator/=(const float div);
 
-        inline float lenght() const { return ::Vector2Length({Vector.x, Vector.y}); };
-        inline ::Vector2 getRawVector() const { return Vector; }
+        inline float lenght() const
+        { return ::Vector2Length({Vector.x, Vector.y}); };
+
+        inline ::Vector2 getRawVector() const
+        { return Vector; }
 
         friend std::ostream &operator<<(std::ostream &os, const raymath::Vector2 &v)
         {

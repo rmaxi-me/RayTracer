@@ -8,6 +8,6 @@
 #include "Materials/VentaBlack.hpp"
 
 VentaBlack::VentaBlack()
-    : AMaterial({0, 0, 0}, true, 0.f, (1.0f - 0.99965f), 0.f)
+        : AMaterial({0, 0, 0}, true, 0.f, (1.0f - 0.99965f), 0.f)
 {
 }
