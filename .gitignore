@@ -32,10 +32,11 @@
 *.app
 
 # Custom
+unit_tests
+.vs/
+.vscode/
+.idea/
 build/
 cmake-build-*
-.vs
-.vscode
-.idea
-unit_tests
 Dependencies/json
+Exports/
