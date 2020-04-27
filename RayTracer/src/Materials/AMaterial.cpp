@@ -7,6 +7,7 @@
 
 #include "Engine/Utils/Operations.hpp"
 
+#include "Objects/Sphere.hpp"
 #include "Materials/AMaterial.hpp"
 
 AMaterial::AMaterial(const raymath::Vector3 &attenuation, bool opaque, float gammaCorrection, float reflectionFactor, float refractionFactor)
@@ -22,7 +23,7 @@ AMaterial::~AMaterial()
 RayTraceOpt AMaterial::reflect(const raylib::Ray &ray, raylib::RayHitInfo &info) const noexcept
 {
     raymath::Vector3 reflected = raymath::reflect(raymath::normalize(ray.getDirection()), info.normal);
-    raylib::Ray scattered(info.position, reflected);
+    raylib::Ray scattered(info.position, reflected + (1.f - m_reflectionFactor) * Sphere::getRandomPoint());
 
     if (raymath::dotProduct(scattered.getDirection(), info.normal) > 0)
         return std::pair{scattered, m_attenuation};

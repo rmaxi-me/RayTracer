@@ -11,13 +11,3 @@ VentaBlack::VentaBlack()
     : AMaterial({0, 0, 0}, true, 0.f, (1.0f - 0.99965f), 0.f)
 {
 }
-
-RayTraceOpt VentaBlack::reflect(const raylib::Ray &, raylib::RayHitInfo &) const noexcept
-{
-    return std::nullopt;
-}
-
-RayTraceOpt VentaBlack::refract(const raylib::Ray &, raylib::RayHitInfo &) const noexcept
-{
-    return std::nullopt;
-}

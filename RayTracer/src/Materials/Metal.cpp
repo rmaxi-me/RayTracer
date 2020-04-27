@@ -13,4 +13,3 @@ Metal::Metal(const raymath::Vector3 &attenuation)
         : AMaterial(attenuation, true, 0, 0.25f, 0.f)
 {
 }
-
