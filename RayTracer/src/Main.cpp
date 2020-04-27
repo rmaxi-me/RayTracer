@@ -15,13 +15,14 @@ static void show_help(const char *bin)
     std::cout << "OPTIONS\n"
                  "\t--file, -f    * Open scene file (json format)\n"
                  "\t--fullscreen    Run app in fullscreen\n"
+                 "\t--dark          Enable dark mode\n"
                  "\t--width, -w   X Set window's width in pixels\n"
                  "\t--height, -h  X Set window's height in pixels\n"
                  "\t--fps         X Set application max FPS\n"
                  "\t--aa, -a      X Set the anti-aliasing level\n"
                  "\n"
                  "* Mandatory\n"
-                 "X Optional, requires value (e.g.: --fps 144)\n"
+                 "X Optional, requires a value (e.g.: --fps 144)\n"
 
               << std::flush;
 }

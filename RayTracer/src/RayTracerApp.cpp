@@ -19,6 +19,7 @@ RayTracerApp::RayTracerApp(int ac, char **av)
         : Application(ac, av, 800, 600)
 {
     m_anti_aliasing = m_parser.getOrDefault<int>("aa", "a", 128, APFuncs::toInt<int>);
+    m_darkMode = m_parser.getOrDefault<bool>("dark", "", false, APFuncs::toBool);
 
     if (m_anti_aliasing <= 0) {
         TraceLog(LOG_ERROR, "Anti aliasing must be higher than 0. (Got %d)", m_anti_aliasing);
@@ -71,7 +72,7 @@ void RayTracerApp::deinit()
     }
 }
 
-raymath::Vector3 colorize(const raylib::Ray &ray, const std::shared_ptr<ObjectList> &list, int depth)
+raymath::Vector3 RayTracerApp::colorize(const raylib::Ray &ray, const std::shared_ptr<ObjectList> &list, int depth)
 {
     raylib::RayHitInfo info;
     std::shared_ptr<AMaterial> currentMaterial{nullptr};
@@ -79,10 +80,13 @@ raymath::Vector3 colorize(const raylib::Ray &ray, const std::shared_ptr<ObjectLi
     if (depth <= 0)
         return raymath::Vector3();
     if (!list->isHit(ray, 0.001f, std::numeric_limits<float>::max(), info, currentMaterial)) {
-        raymath::Vector3 unit = normalize(ray.getDirection());
-        float t = 0.5f * (unit.y() + 1.0f);
-        return (1.0f - t) * raymath::Vector3(1.0, 1.0, 1.0) + t * raymath::Vector3(0.5, 0.7, 1.0);
-        return raymath::Vector3(0, 0, 0);
+        if (m_darkMode) {
+            return raymath::Vector3(0, 0, 0);
+        } else {
+            raymath::Vector3 unit = normalize(ray.getDirection());
+            float t = 0.5f * (unit.y() + 1.0f);
+            return (1.0f - t) * raymath::Vector3(1.0, 1.0, 1.0) + t * raymath::Vector3(0.5, 0.7, 1.0);
+        }
     }
 
     auto emitted = currentMaterial->emit();

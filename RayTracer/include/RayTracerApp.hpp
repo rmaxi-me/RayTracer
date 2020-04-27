@@ -48,6 +48,7 @@ public:
 
 private:
     int m_anti_aliasing{};
+    bool m_darkMode{};
     RCamera m_camera{};
 
     std::shared_ptr<ObjectList> m_list{};
@@ -67,6 +68,8 @@ private:
     std::queue<Range> m_tasks{};
     std::mutex m_taskMutex{};
 
+
+    raymath::Vector3 colorize(const raylib::Ray &ray, const std::shared_ptr<ObjectList> &list, int depth);
     void computePixelColor(Pixel &pixel);
     void computePixelRange();
 
