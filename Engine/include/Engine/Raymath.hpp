@@ -9,14 +9,21 @@
 
 #include "Engine/Utils/OS.hpp"
 
-#if defined(OS_LINUX)
+#if defined(COMPILER_GCC)
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 
   #include <raymath.h>
 
   #pragma GCC diagnostic pop
-#elif defined(OS_WINDOWS)
+#elif defined(COMPILER_CLANG)
+  #pragma clang diagnostic push
+  #pragma clang diagnostic ignored "-Wmissing-field-initializers"
+
+  #include <raymath.h>
+
+  #pragma clang diagnostic pop
+#elif defined(COMPILER_MSC)
   #pragma warning (push)
   #pragma warning (disable : 4244 4267)
 

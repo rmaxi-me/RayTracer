@@ -81,7 +81,6 @@ raymath::Vector3 colorize(const raylib::Ray &ray, const std::shared_ptr<ObjectLi
 
     if (depth <= 0)
         return raymath::Vector3();
-
     if (!list->isHit(ray, 0.001f, std::numeric_limits<float>::max(), info, currentMaterial)) {
         raymath::Vector3 unit = normalize(ray.getDirection());
         float t = 0.5f * (unit.y() + 1.0f);
@@ -89,8 +88,8 @@ raymath::Vector3 colorize(const raylib::Ray &ray, const std::shared_ptr<ObjectLi
         return raymath::Vector3(0, 0, 0);
     }
 
-    auto emitted = currentMaterial->emitt();
-    auto reflectedRay = currentMaterial->compute(ray, info);
+    auto emitted = currentMaterial->emit();
+    auto reflectedRay = currentMaterial->reflect(ray, info);
     if (!reflectedRay.has_value())
         return emitted;
 

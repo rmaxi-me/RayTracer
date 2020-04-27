@@ -13,5 +13,6 @@ class VentaBlack : public AMaterial {
 public:
     VentaBlack();
 
-    [[nodiscard]] std::optional<std::pair<const raylib::Ray, raymath::Vector3>> compute(const raylib::Ray &ray, raylib::RayHitInfo &info) const noexcept override;
+    [[nodiscard]] RayTraceOpt reflect(const raylib::Ray &ray, raylib::RayHitInfo &info) const noexcept override;
+    [[nodiscard]] RayTraceOpt refract(const raylib::Ray &ray, raylib::RayHitInfo &info) const noexcept override;
 };

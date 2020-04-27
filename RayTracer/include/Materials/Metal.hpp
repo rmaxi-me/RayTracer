@@ -13,6 +13,4 @@ class Metal : public AMaterial
 {
 public:
     explicit Metal(const raymath::Vector3 &attenuation);
-
-    [[nodiscard]] std::optional<std::pair<const raylib::Ray, raymath::Vector3>> compute(const raylib::Ray &ray, raylib::RayHitInfo &info) const noexcept override;
 };

@@ -31,8 +31,7 @@ raymath::Vector3 randomUnitDisk()
     //     return point;
     // }
     raymath::Vector3 p;
-    do
-    {
+    do {
         p = 2.0 * raymath::Vector3(dis(gen), dis(gen), 0) - raymath::Vector3(1, 1, 0);
     } while (raymath::dotProduct(p, p) >= 1.0);
     return p;
@@ -44,3 +43,24 @@ raylib::Ray RCamera::getRay(float s, float t)
     raymath::Vector3 offset = m_u * rd.x() + m_v * rd.y();
     return raylib::Ray(m_origin + offset, m_lower_left_corner + s * m_horizontal + t * m_vertical - m_origin - offset);
 }
+
+void RCamera::setOrigin(const raymath::Vector3 &o)
+{ m_origin = o; }
+
+void RCamera::setLookAt(const raymath::Vector3 &lookAt)
+{ m_lookAt = lookAt; }
+
+void RCamera::setVUp(const raymath::Vector3 &vUp)
+{ m_vUp = vUp; }
+
+void RCamera::setFov(float fov)
+{ m_fov = fov; }
+
+void RCamera::setAperture(float aperture)
+{ m_lensRadius = aperture / 2; }
+
+void RCamera::setFocusDistance(float focusDistance)
+{ m_focusDistance = focusDistance; }
+
+void RCamera::setAspectRatio(float aspect)
+{ m_aspectRatio = aspect; }

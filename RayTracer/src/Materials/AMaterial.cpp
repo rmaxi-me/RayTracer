@@ -5,6 +5,8 @@
 ** under certain conditions; see LICENSE for details.
 */
 
+#include "Engine/Utils/Operations.hpp"
+
 #include "Materials/AMaterial.hpp"
 
 AMaterial::AMaterial(const raymath::Vector3 &attenuation, bool opaque, float gammaCorrection, float reflectionFactor, float refractionFactor)
@@ -16,6 +18,32 @@ AMaterial::AMaterial(const raymath::Vector3 &attenuation, bool opaque, float gam
 
 AMaterial::~AMaterial()
 = default;
+
+RayTraceOpt AMaterial::reflect(const raylib::Ray &ray, raylib::RayHitInfo &info) const noexcept
+{
+    raymath::Vector3 reflected = raymath::reflect(raymath::normalize(ray.getDirection()), info.normal);
+    raylib::Ray scattered(info.position, reflected);
+
+    if (raymath::dotProduct(scattered.getDirection(), info.normal) > 0)
+        return std::pair{scattered, m_attenuation};
+    return std::nullopt;
+}
+
+RayTraceOpt AMaterial::refract(const raylib::Ray &ray, raylib::RayHitInfo &info) const noexcept
+{
+    if (isOpaque())
+        return std::nullopt;
+
+    raymath::Vector3 refracted = raymath::refract(raymath::normalize(ray.getDirection()), info.normal, getRefractionFactor(), 1.f);
+    raylib::Ray scattered(info.position, refracted);
+
+    return std::pair{scattered, m_attenuation};
+}
+
+raymath::Vector3 AMaterial::emit()
+{
+    return raymath::Vector3();
+}
 
 bool AMaterial::isOpaque() const noexcept
 {

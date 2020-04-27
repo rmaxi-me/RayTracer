@@ -13,10 +13,11 @@ Normal::Normal(const raymath::Vector3 &attenuation)
 {
 }
 
-std::optional<std::pair<const raylib::Ray, raymath::Vector3>> Normal::compute(const raylib::Ray &, raylib::RayHitInfo &info) const noexcept
+RayTraceOpt Normal::reflect(const raylib::Ray &, raylib::RayHitInfo &info) const noexcept
 {
     raymath::Vector3 color = info.position + info.normal + Sphere::getRandomPoint();
     raylib::Ray reflection{info.position, color - info.position};
 
     return std::pair{reflection, m_attenuation};
 }
+

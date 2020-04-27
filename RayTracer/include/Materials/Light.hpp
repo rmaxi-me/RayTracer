@@ -2,15 +2,15 @@
 
 #include "AMaterial.hpp"
 
-class Light : public AMaterial
-{
+class Light : public AMaterial {
 private:
-    raymath::Vector3 m_light{1,1,1};
+    raymath::Vector3 m_light{1, 1, 1};
 public:
-    Light(const raymath::Vector3 &light) : m_light(light) {};
+    explicit Light(const raymath::Vector3 &light) : m_light(light)
+    {};
 
     [[nodiscard]] virtual std::optional<std::pair<const raylib::Ray, raymath::Vector3>> compute(const raylib::Ray &ray, raylib::RayHitInfo &info) const noexcept;
-    [[nodiscard]] virtual raymath::Vector3 emitt();
+    [[nodiscard]] raymath::Vector3 emit() override;
 
-    virtual ~Light() = default;
+    ~Light() override = default;
 };
