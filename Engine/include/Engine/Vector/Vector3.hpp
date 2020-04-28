@@ -1,3 +1,10 @@
+/*
+** RayTracer Copyright (C) 2020 Maxime Houis, Pierre Langlois
+** This program comes with ABSOLUTELY NO WARRANTY.
+** This is free software, and you are welcome to redistribute it
+** under certain conditions; see LICENSE for details.
+*/
+
 #pragma once
 
 #include <iostream>
@@ -8,34 +15,39 @@
 #define RAYMATH_STANDALONE
 #endif
 
-
-namespace raymath
-{
+namespace raymath {
 
     //--------------------------
     //Class Vector3 declaration
 
-    class Vector3
-    {
+    class Vector3 {
     private:
         ::Vector3 Vector{};
     public:
         Vector3() = default;
         Vector3(float x, float y, float z);
         Vector3(const Vector3 &);               // Copie Constructor
-        Vector3(const ::Vector3  &);               // Constructor from RayMath vector
+        Vector3(const ::Vector3 &);               // Constructor from RayMath vector
         Vector3 &operator=(const Vector3 &);    // Operator d'affectation
         Vector3 &operator=(const ::Vector3 &);     // Operator d'affectation depuis RayMath vector
         ~Vector3() = default;
     public:
         static Vector3 fromString(const char *source);
 
-        inline float x() const { return Vector.x; };
-        inline float y() const { return Vector.y; };
-        inline float z() const { return Vector.z; };
+        inline float x() const
+        { return Vector.x; };
 
-        inline const Vector3 &operator+() const { return *this; };
-        inline const Vector3  operator-() const { return Vector3(-Vector.x, -Vector.y, -Vector.z); }
+        inline float y() const
+        { return Vector.y; };
+
+        inline float z() const
+        { return Vector.z; };
+
+        inline const Vector3 &operator+() const
+        { return *this; };
+
+        inline const Vector3 operator-() const
+        { return Vector3(-Vector.x, -Vector.y, -Vector.z); }
 
         inline Vector3 &operator+=(const Vector3 &Vx);
         inline Vector3 &operator-=(const Vector3 &Vx);
@@ -44,8 +56,11 @@ namespace raymath
         inline Vector3 &operator/=(const Vector3 &Vx);
         inline Vector3 &operator/=(const float div);
 
-        inline float length() const { return ::Vector3Length({Vector.x, Vector.y, Vector.z}); };
-        inline ::Vector3 getRawVector() const { return Vector; }
+        inline float length() const
+        { return ::Vector3Length({Vector.x, Vector.y, Vector.z}); };
+
+        inline ::Vector3 getRawVector() const
+        { return Vector; }
 
         friend std::ostream &operator<<(std::ostream &os, const raymath::Vector3 &v)
         {

@@ -1,5 +1,5 @@
 /*
-** RayTracer Copyright (C) 2020 Maxime Houis
+** RayTracer Copyright (C) 2020 Maxime Houis, Pierre Langlois
 ** This program comes with ABSOLUTELY NO WARRANTY.
 ** This is free software, and you are welcome to redistribute it
 ** under certain conditions; see LICENSE for details.
@@ -7,7 +7,7 @@
 
 #include "Engine/Utils/Operations.hpp"
 
-#include "Materials/AMaterial.hpp"
+#include "Objects/Sphere.hpp"
 
 AMaterial::AMaterial(const raymath::Vector3 &attenuation, bool opaque, float gammaCorrection, float reflectionFactor, float refractionFactor)
         : m_attenuation(attenuation), m_opaque(opaque),
@@ -22,7 +22,7 @@ AMaterial::~AMaterial()
 RayTraceOpt AMaterial::reflect(const raylib::Ray &ray, raylib::RayHitInfo &info) const noexcept
 {
     raymath::Vector3 reflected = raymath::reflect(raymath::normalize(ray.getDirection()), info.normal);
-    raylib::Ray scattered(info.position, reflected);
+    raylib::Ray scattered(info.position, reflected + (1.f - m_reflectionFactor) * Sphere::getRandomPoint());
 
     if (raymath::dotProduct(scattered.getDirection(), info.normal) > 0)
         return std::pair{scattered, m_attenuation};

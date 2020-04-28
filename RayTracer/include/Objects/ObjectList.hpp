@@ -1,3 +1,10 @@
+/*
+** RayTracer Copyright (C) 2020 Maxime Houis, Pierre Langlois
+** This program comes with ABSOLUTELY NO WARRANTY.
+** This is free software, and you are welcome to redistribute it
+** under certain conditions; see LICENSE for details.
+*/
+
 #pragma once
 
 #include <utility>
@@ -43,10 +50,8 @@ public:
         bool hasHit = false;
         float closestObj = t_max;
 
-        for (auto &i : list)
-        {
-            if (i->isHit(r, t_min, closestObj, tmpInfo, material))
-            {
+        for (auto &i : list) {
+            if (i->isHit(r, t_min, closestObj, tmpInfo, material)) {
                 hasHit = true;
                 closestObj = tmpInfo.distance;
                 info = tmpInfo;

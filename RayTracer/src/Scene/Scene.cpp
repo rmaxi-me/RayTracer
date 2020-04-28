@@ -1,5 +1,5 @@
 /*
-** RayTracer Copyright (C) 2020 Maxime Houis
+** RayTracer Copyright (C) 2020 Maxime Houis, Pierre Langlois
 ** This program comes with ABSOLUTELY NO WARRANTY.
 ** This is free software, and you are welcome to redistribute it
 ** under certain conditions; see LICENSE for details.
@@ -11,7 +11,6 @@
 
 #include "Scene/Scene.hpp"
 #include "Objects/Sphere.hpp"
-#include "Engine/Raylib.hpp"
 
 #include "Materials/Glass.hpp"
 #include "Materials/Normal.hpp"

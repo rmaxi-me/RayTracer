@@ -12,7 +12,7 @@
       "type": "sphere",
       "position": "0 0 -1",
       "material": {
-        "type": "glass",
+        "type": "metal",
         "color": "0.8 0.8 0.8"
       },
       "params": {
@@ -76,7 +76,8 @@
       }
     },
     {
-      "position": "0 110 0",
+      "type": "sphere",
+      "position": "0 125 0",
       "material": {
         "type": "light",
         "color": "1 1 1"

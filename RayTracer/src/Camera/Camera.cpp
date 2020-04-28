@@ -1,3 +1,10 @@
+/*
+** RayTracer Copyright (C) 2020 Maxime Houis, Pierre Langlois
+** This program comes with ABSOLUTELY NO WARRANTY.
+** This is free software, and you are welcome to redistribute it
+** under certain conditions; see LICENSE for details.
+*/
+
 #include "Camera/Camera.hpp"
 #include "Engine/Utils/Random.hpp"
 
@@ -26,7 +33,7 @@ raymath::Vector3 randomUnitDisk()
     // while (true)
     // {
     //     auto point = raymath::Vector3(dis(gen), dis(gen), 0.0f);
-    //     if (point.lenght() * point.lenght() >= 1)
+    //     if (point.length() * point.length() >= 1)
     //         continue;
     //     return point;
     // }

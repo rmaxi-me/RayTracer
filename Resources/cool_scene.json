@@ -14,7 +14,7 @@
       "material": {
         "type": "normal",
         "color": "0.2 0.2 0.2",
-        "reflection_factor": 0.5
+        "reflection_factor": 1
       },
       "params": {
         "radius": 500
@@ -37,7 +37,7 @@
       "material": {
         "type": "metal",
         "color": "0.7 0.7 0.7",
-        "reflection_factor": 0.33
+        "reflection_factor": 1
       },
       "params": {
         "radius": 1
@@ -48,8 +48,8 @@
       "position": "-2 1.5 -2",
       "material": {
         "type": "metal",
-        "color": "0.8 0.1 0.1",
-        "reflection_factor": 0.25
+        "color": "0.9 0.25 0.25",
+        "reflection_factor": 1
       },
       "params": {
         "radius": 1.5
@@ -61,7 +61,7 @@
       "material": {
         "type": "normal",
         "color": "0.1 0.8 0.1",
-        "reflection_factor": 0.25
+        "reflection_factor": 1
       },
       "params": {
         "radius": 0.33
@@ -73,7 +73,7 @@
       "material": {
         "type": "normal",
         "color": "0.3 0.1 0.7",
-        "reflection_factor": 0.25
+        "reflection_factor": 1
       },
       "params": {
         "radius": 0.33
@@ -85,7 +85,7 @@
       "material": {
         "type": "metal",
         "color": "0.1 0.1 0.8",
-        "reflection_factor": 0.25
+        "reflection_factor": 1
       },
       "params": {
         "radius": 0.5
@@ -97,7 +97,7 @@
       "material": {
         "type": "normal",
         "color": "0.1 0.1 0.8",
-        "reflection_factor": 0.25
+        "reflection_factor": 1
       },
       "params": {
         "radius": 0.75
@@ -109,7 +109,7 @@
       "material": {
         "type": "normal",
         "color": "0.8 0.1 0.1",
-        "reflection_factor": 0.25
+        "reflection_factor": 1
       },
       "params": {
         "radius": 0.33

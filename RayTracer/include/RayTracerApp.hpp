@@ -1,5 +1,5 @@
 /*
-** RayTracer Copyright (C) 2020 Maxime Houis
+** RayTracer Copyright (C) 2020 Maxime Houis, Pierre Langlois
 ** This program comes with ABSOLUTELY NO WARRANTY.
 ** This is free software, and you are welcome to redistribute it
 ** under certain conditions; see LICENSE for details.
@@ -45,8 +45,10 @@ public:
             return pixels[index];
         }
     };
+
 private:
     int m_anti_aliasing{};
+    bool m_darkMode{};
     RCamera m_camera{};
 
     std::shared_ptr<ObjectList> m_list{};
@@ -66,6 +68,8 @@ private:
     std::queue<Range> m_tasks{};
     std::mutex m_taskMutex{};
 
+
+    raymath::Vector3 colorize(const raylib::Ray &ray, const std::shared_ptr<ObjectList> &list, int depth);
     void computePixelColor(Pixel &pixel);
     void computePixelRange();
 
